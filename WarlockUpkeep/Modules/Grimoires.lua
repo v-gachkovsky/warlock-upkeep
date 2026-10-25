@@ -43,23 +43,43 @@ for _, d in ipairs(D.demons) do
     end
 end
 
--- The summoned demon's spellbook: { name, sub (rank text), id }.
+-- The summoned demon's spellbook: { name, sub (rank text), id }. Clients mix the old and the new
+-- spellbook API (Forever has C_SpellBook.HasPetSpells but not C_SpellBook.GetSpellBookItemInfo),
+-- so each call takes whichever exists, and the old ones get the pet bank as a string if needed.
+local function PetBanks()
+    local banks = {}
+    if Enum and Enum.SpellBookSpellBank then banks[#banks + 1] = Enum.SpellBookSpellBank.Pet end
+    banks[#banks + 1] = BOOKTYPE_PET or "pet"
+    return banks
+end
+
+local function PetSpellCount()
+    local fn = (C_SpellBook and C_SpellBook.HasPetSpells) or HasPetSpells
+    return fn and fn() or 0
+end
+
+local function PetSpell(i, bank)
+    if C_SpellBook and C_SpellBook.GetSpellBookItemInfo then
+        local info = C_SpellBook.GetSpellBookItemInfo(i, bank)
+        if info and info.name then return info.name, info.subName, info.spellID or info.actionID end
+    end
+    local getName = (C_SpellBook and C_SpellBook.GetSpellBookItemName) or GetSpellBookItemName
+    if not getName then return nil end
+    local name, sub = getName(i, bank)
+    local id
+    if GetSpellBookItemInfo then id = select(2, GetSpellBookItemInfo(i, bank)) end
+    return name, sub, id
+end
+
 function M.PetSpells()
     local list = {}
-    if C_SpellBook and C_SpellBook.HasPetSpells and Enum and Enum.SpellBookSpellBank then
-        local n = C_SpellBook.HasPetSpells()
-        for i = 1, n or 0 do
-            local info = C_SpellBook.GetSpellBookItemInfo(i, Enum.SpellBookSpellBank.Pet)
-            if info then list[#list + 1] = { name = info.name, sub = info.subName, id = info.spellID or info.actionID } end
+    local n = PetSpellCount()
+    for _, bank in ipairs(PetBanks()) do
+        for i = 1, n do
+            local ok, name, sub, id = pcall(PetSpell, i, bank)
+            if ok and name then list[#list + 1] = { name = name, sub = sub, id = id } end
         end
-        return list
-    end
-    if not (HasPetSpells and GetSpellBookItemName) then return list end
-    local book = BOOKTYPE_PET or "pet"
-    for i = 1, HasPetSpells() or 0 do
-        local name, sub = GetSpellBookItemName(i, book)
-        local _, id = GetSpellBookItemInfo(i, book)
-        if name then list[#list + 1] = { name = name, sub = sub, id = id } end
+        if #list > 0 then break end
     end
     return list
 end
@@ -262,12 +282,10 @@ function ns.DebugGrimoires()
     local n = 0
     for _ in pairs(DemonByName()) do n = n + 1 end
     ns.Print("spell names loaded: %d; Firebolt = %s", n, tostring(ns.SpellName(7799)))
-    local modern = C_SpellBook and C_SpellBook.HasPetSpells and Enum and Enum.SpellBookSpellBank
-    local ok, count = pcall(function()
-        if modern then return C_SpellBook.HasPetSpells() end
-        return HasPetSpells and HasPetSpells()
-    end)
-    ns.Print("pet spellbook API: %s; spells: %s", modern and "C_SpellBook" or "legacy", tostring(ok and count or count))
+    local ok, count = pcall(PetSpellCount)
+    ns.Print("pet spellbook: %s spells; C_SpellBook item info %s, item name %s; old item name %s",
+        tostring(count), tostring(C_SpellBook and C_SpellBook.GetSpellBookItemInfo ~= nil),
+        tostring(C_SpellBook and C_SpellBook.GetSpellBookItemName ~= nil), tostring(GetSpellBookItemName ~= nil))
     if not ns.Bool(UnitExists, "pet") then ns.Print("no demon out."); return end
     local okList, list = pcall(M.PetSpells)
     if not okList then ns.Print("reading the spellbook failed: %s", tostring(list)); return end
