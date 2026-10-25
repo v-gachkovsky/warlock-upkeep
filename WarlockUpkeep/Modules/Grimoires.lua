@@ -259,8 +259,20 @@ function ns.DebugGrimoires()
         ns.Print("%s: %s", M.DEMON_NAMES[demon] or demon, table.concat(parts, ", "))
     end
     ns.Print("last summon: %s", tostring(Store().lastSummon))
+    local n = 0
+    for _ in pairs(DemonByName()) do n = n + 1 end
+    ns.Print("spell names loaded: %d; Firebolt = %s", n, tostring(ns.SpellName(7799)))
+    local modern = C_SpellBook and C_SpellBook.HasPetSpells and Enum and Enum.SpellBookSpellBank
+    local ok, count = pcall(function()
+        if modern then return C_SpellBook.HasPetSpells() end
+        return HasPetSpells and HasPetSpells()
+    end)
+    ns.Print("pet spellbook API: %s; spells: %s", modern and "C_SpellBook" or "legacy", tostring(ok and count or count))
     if not ns.Bool(UnitExists, "pet") then ns.Print("no demon out."); return end
-    for _, s in ipairs(M.PetSpells()) do
+    local okList, list = pcall(M.PetSpells)
+    if not okList then ns.Print("reading the spellbook failed: %s", tostring(list)); return end
+    for _, s in ipairs(list) do
         ns.Print("  pet spell: %s / %s / id %s", tostring(s.name), tostring(s.sub), tostring(s.id))
     end
+    M:ScanPet()
 end
