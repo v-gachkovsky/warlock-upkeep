@@ -69,6 +69,8 @@ local function PetSpell(i)
     end
     local id
     if GetSpellBookItemInfo then id = select(2, GetSpellBookItemInfo(i, OLD_PET_BANK)) end
+    -- Pet entries carry flags in the high byte (0xC10018A3 is spell 6307, 0x18A3): keep the spell ID.
+    if type(id) == "number" then id = id % 0x1000000 end
     return name, sub, id
 end
 
