@@ -24,6 +24,7 @@
   - [Healthstone](#3-healthstone)
   - [Soulstone](#4-soulstone)
   - [Demon](#5-demon)
+  - [Grimoires](#6-grimoires)
 - [Look and behavior](#look-and-behavior)
   - [Highlight](#highlight)
   - [Opacity and combat](#opacity-and-combat)
@@ -67,8 +68,8 @@ One addon folder works on every client: the TOC lists all interface versions
 | WoW Forever | 16001 | Everything as described below |
 | Classic Era | 11509 | Everything as described below |
 | TBC Anniversary | 20506 | Fel Armor is cast instead of Demon Armor once learned; Master stones; Felguard |
-| Mists of Pandaria Classic | 50504 | No armor icon. No shard counter: Soul Shards are a resource with the game's own UI. Soulstone is cast directly on the target. Grimoire of Supremacy demons replace the regular ones |
-| Retail (Midnight) | 120105 | No armor icon. No shard counter: Soul Shards are a resource with the game's own UI. Soulstone is cast directly on the target (15 min). Succubus becomes Sayaad. No demon reminder under Grimoire of Sacrifice |
+| Mists of Pandaria Classic | 50504 | No armor icon. No grimoires (demons learn their spells themselves). No shard counter: Soul Shards are a resource with the game's own UI. Soulstone is cast directly on the target. Grimoire of Supremacy demons replace the regular ones |
+| Retail (Midnight) | 120105 | No armor icon. No grimoires. No shard counter: Soul Shards are a resource with the game's own UI. Soulstone is cast directly on the target (15 min). Succubus becomes Sayaad. No demon reminder under Grimoire of Sacrifice |
 
 ## Installation
 
@@ -102,6 +103,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | 3 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
 | 4 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 5 | **Demon** | No pet out | Summons the assigned demon |
+| 6 | **Grimoires** | At vendors and in tooltips | — |
 
 ### 1. Armor
 
@@ -182,6 +184,22 @@ The demon icon appears when you have no pet. Each click variant can be bound to 
 | Cmd + Click (Mac) | your choice |
 
 Available demons: Imp, Voidwalker, Succubus, Incubus, Felhunter, Felguard.
+
+### 6. Grimoires
+
+On clients with grimoires (WoW Forever, Classic Era, TBC) the addon remembers which spells and ranks each of
+your demons knows, and marks the grimoires at vendors for all demons at once, whichever one is out:
+
+- ✅ a check mark and a grey icon: the demon already knows this rank or a higher one;
+- ⏳ a question mark: that demon hasn't been checked yet;
+- no mark: the demon doesn't know it yet.
+
+The grimoire's tooltip says the same per demon (e.g. *Imp: already knows Firebolt (Rank 7)*), also in your bags.
+
+The game shows a demon's spells only while it's summoned, so **summon each demon once**: from then on the addon
+remembers its spells (per character) and updates them whenever that demon is out, e.g. after reading a new
+grimoire. The settings list the demons checked so far. Both the vendor marks and the tooltip lines can be
+turned off.
 
 ## Look and behavior
 
@@ -271,6 +289,7 @@ The shard counter and the Soulstone label have a background opacity setting from
 | `/wu combat` | Toggles combat simulation |
 | `/wu reset` | Resets the settings |
 | `/wu auras` | Prints diagnostics of your buffs and recent aura events (useful for bug reports) |
+| `/wu grimoires` | Prints what each demon is remembered to know and the summoned demon's spellbook (for bug reports) |
 
 **Combat simulation** lets you see out of combat exactly how everything behaves in a fight: opacity,
 highlight, hidden icons and click-through. Icons that aren't needed stay in place invisible, as in combat.
@@ -347,7 +366,8 @@ WarlockUpkeep/
     ├── Shards.lua
     ├── Healthstone.lua
     ├── Soulstone.lua
-    └── Pet.lua
+    ├── Pet.lua
+    └── Grimoires.lua
 ```
 
 ## Releasing

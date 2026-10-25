@@ -1,6 +1,6 @@
 ## Interface: 120105, 50504, 20506, 11509, 16001
 ## Title: WarlockUpkeep!
-## Notes: Keeps a Warlock ready: reminders with one-click fixes for armor, Healthstone, Soulstone, Soul Shards and your demon.
+## Notes: Keeps a Warlock ready: reminders with one-click fixes for armor, Healthstone, Soulstone, Soul Shards and your demon. Marks the grimoires your demons already know.
 ## Author: Volodymyr Hachkovsky
 ## Version: @project-version@
 ## SavedVariables: WarlockUpkeepDB
@@ -15,5 +15,6 @@ Modules\Shards.lua
 Modules\Healthstone.lua
 Modules\Soulstone.lua
 Modules\Pet.lua
+Modules\Grimoires.lua
 Minimap.lua
 Options.lua
