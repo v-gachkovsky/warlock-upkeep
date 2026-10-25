@@ -467,7 +467,8 @@ local function Build()
         y = y - 22
         Note("A demon's spells can only be read while it's summoned: summon each demon once, and from then on " ..
             "the addon remembers what it knows and keeps it up to date. At a vendor, learned grimoires get a " ..
-            "check mark and turn grey; a question mark means that demon hasn't been checked yet.")
+            "check mark and turn grey; a question mark means that demon hasn't been checked yet. Grimoires for " ..
+            "demons you can't summon yet are grey, without a mark.")
     end
 
     content:SetHeight(-y + 20)

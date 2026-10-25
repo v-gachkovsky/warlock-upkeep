@@ -132,15 +132,15 @@ function M:Status(itemID)
     return out
 end
 
--- All of them known: "known"; any of them missing: "missing"; any unchecked: "unknown".
+-- Any of them missing: "missing"; any unchecked: "unknown"; then any known: "known";
+-- none of them summonable yet: "unlearned".
 local function Overall(list)
-    local all, unknown = true, false
-    for _, s in ipairs(list) do
-        if s.state == "missing" then return "missing" end
-        if s.state ~= "known" then all = false end
-        if s.state == "unknown" then unknown = true end
-    end
-    return all and "known" or unknown and "unknown" or nil
+    local seen = {}
+    for _, s in ipairs(list) do seen[s.state] = true end
+    if seen.missing then return "missing" end
+    if seen.unknown then return "unknown" end
+    if seen.known then return "known" end
+    return "unlearned"
 end
 
 local function ItemIDFromLink(link)
@@ -149,7 +149,8 @@ local function ItemIDFromLink(link)
 end
 
 ------------------------------------------------------------------------
--- Vendor window: a check on grimoires already learned, a question mark where it's unknown.
+-- Vendor window: a check on grimoires already learned, a question mark where it's unknown;
+-- learned ones and those for demons you can't summon yet turn grey.
 ------------------------------------------------------------------------
 local MARKS = { known = "Interface\\RaidFrame\\ReadyCheck-Ready", unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting" }
 
@@ -168,10 +169,11 @@ local function SetMark(b, state)
     local icon = b.icon or _G[b:GetName() .. "IconTexture"]
     b.wuMark:SetTexture(state and MARKS[state])
     b.wuMark:SetShown(state ~= nil and MARKS[state] ~= nil)
-    -- Learned ones fade to grey; restore only what this addon greyed out.
-    if icon and (state == "known" or b.wuGrey) then
-        icon:SetDesaturated(state == "known")
-        b.wuGrey = state == "known" or nil
+    -- Restore only what this addon greyed out.
+    local grey = state == "known" or state == "unlearned"
+    if icon and (grey or b.wuGrey) then
+        icon:SetDesaturated(grey)
+        b.wuGrey = grey or nil
     end
 end
 
