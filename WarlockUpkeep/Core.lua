@@ -35,6 +35,7 @@ ns.defaults = {
     combat = { clickThrough = false, alpha = 1, idleAlpha = 1, glow = true, hide = false },
     minimap = { hide = false, locked = false, angle = 215 },
     hideOnTaxi = false, -- hide all icons during a flight path
+    grimoires = { merchant = true, tooltip = true }, -- mark grimoires the demons already know
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
     healthstone = Icon(-90, 160),
@@ -725,6 +726,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
             local ok, err = pcall(ns.DebugAuras)
             if not ok then ns.Print("auras debug failed: %s", tostring(err)) end
         end
+    elseif msg == "grimoires" and ns.DebugGrimoires then
+        ns.DebugGrimoires()
     elseif msg == "reset" then
         if InCombatLockdown() then ns.Print("cannot reset in combat."); return end
         ns:ResetDB(); ns.Print("settings reset.")

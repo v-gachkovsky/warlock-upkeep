@@ -23,6 +23,7 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
+| **Grimoires** | At vendors and in tooltips | — |
 
 ### Armor
 
@@ -63,6 +64,13 @@ opacity are all configurable.
 
 Appears when you have no pet. Bind a different demon to **Click, Shift, Ctrl, Alt and Cmd (Mac)**: Imp,
 Voidwalker, Succubus, Incubus, Felhunter or Felguard.
+
+### Grimoires
+
+At a grimoire vendor, see **which books your demons already know, for all of them at once**, without summoning
+each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are grey too), books already in your bags get a bag icon, and the tooltip tells per demon what it knows
+(also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
+keeps them up to date. WoW Forever, Classic Era and TBC.
 
 ---
 

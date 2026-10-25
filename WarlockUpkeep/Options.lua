@@ -451,6 +451,27 @@ local function Build()
         end
     end)
 
+    -- 6. Grimoires
+    if ns.modules.grimoires then
+        local gr = T("grimoires")
+        Header("Grimoires", ns.ItemIcon(16302) or "Interface\\Icons\\INV_Misc_Book_06")
+        Check("Mark grimoires your demons already know at vendors", function() return gr().merchant end, function(v) gr().merchant = v end)
+        Check("Show what your demons know in grimoire tooltips", function() return gr().tooltip end, function(v) gr().tooltip = v end)
+        local checked = Label("")
+        checked:SetWidth(440)
+        checked:SetJustifyH("LEFT")
+        refreshers[#refreshers + 1] = function()
+            local list = ns.modules.grimoires:CheckedDemons()
+            checked:SetText("Demons checked: |cffffd100" .. (#list > 0 and table.concat(list, ", ") or "none yet") .. "|r")
+        end
+        y = y - 22
+        Note("A demon's spells can only be read while it's summoned: summon each demon once, and from then on " ..
+            "the addon remembers what it knows and keeps it up to date. At a vendor, learned grimoires get a " ..
+            "check mark and turn grey; a question mark means that demon hasn't been checked yet. Grimoires for " ..
+            "demons you can't summon yet are grey, without a mark. A bag icon means you already have that grimoire " ..
+            "in your bags.")
+    end
+
     content:SetHeight(-y + 20)
     f:SetScript("OnShow", function() for _, r in ipairs(refreshers) do r() end end)
 end
