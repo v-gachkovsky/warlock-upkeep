@@ -45,41 +45,38 @@ end
 
 -- The summoned demon's spellbook: { name, sub (rank text), id }. Clients mix the old and the new
 -- spellbook API (Classic Era has C_SpellBook.HasPetSpells but not C_SpellBook.GetSpellBookItemInfo),
--- so each call takes whichever exists, and the old ones get the pet bank as a string if needed.
-local function PetBanks()
-    local banks = {}
-    if Enum and Enum.SpellBookSpellBank then banks[#banks + 1] = Enum.SpellBookSpellBank.Pet end
-    banks[#banks + 1] = BOOKTYPE_PET or "pet"
-    return banks
-end
+-- so each call takes whichever exists. The new calls name the pet bank by Enum, the old ones by
+-- "pet" (given a number, the old ones read the player's own spellbook).
+local function NewPetBank() return Enum and Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Pet end
+local OLD_PET_BANK = BOOKTYPE_PET or "pet"
 
 local function PetSpellCount()
     local fn = (C_SpellBook and C_SpellBook.HasPetSpells) or HasPetSpells
     return fn and fn() or 0
 end
 
-local function PetSpell(i, bank)
-    if C_SpellBook and C_SpellBook.GetSpellBookItemInfo then
+local function PetSpell(i)
+    local bank = NewPetBank()
+    if bank and C_SpellBook and C_SpellBook.GetSpellBookItemInfo then
         local info = C_SpellBook.GetSpellBookItemInfo(i, bank)
         if info and info.name then return info.name, info.subName, info.spellID or info.actionID end
     end
-    local getName = (C_SpellBook and C_SpellBook.GetSpellBookItemName) or GetSpellBookItemName
-    if not getName then return nil end
-    local name, sub = getName(i, bank)
+    local name, sub
+    if bank and C_SpellBook and C_SpellBook.GetSpellBookItemName then
+        name, sub = C_SpellBook.GetSpellBookItemName(i, bank)
+    elseif GetSpellBookItemName then
+        name, sub = GetSpellBookItemName(i, OLD_PET_BANK)
+    end
     local id
-    if GetSpellBookItemInfo then id = select(2, GetSpellBookItemInfo(i, bank)) end
+    if GetSpellBookItemInfo then id = select(2, GetSpellBookItemInfo(i, OLD_PET_BANK)) end
     return name, sub, id
 end
 
 function M.PetSpells()
     local list = {}
-    local n = PetSpellCount()
-    for _, bank in ipairs(PetBanks()) do
-        for i = 1, n do
-            local ok, name, sub, id = pcall(PetSpell, i, bank)
-            if ok and name then list[#list + 1] = { name = name, sub = sub, id = id } end
-        end
-        if #list > 0 then break end
+    for i = 1, PetSpellCount() do
+        local ok, name, sub, id = pcall(PetSpell, i)
+        if ok and name then list[#list + 1] = { name = name, sub = sub, id = id } end
     end
     return list
 end
