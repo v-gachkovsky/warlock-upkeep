@@ -10,7 +10,7 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **Grimoires** (WoW Forever, Classic Era, TBC): the addon remembers which spells and ranks each demon knows
   (read while it's summoned, so summon each one once) and marks grimoires at vendors for all demons at once:
   a check mark and grey icon for learned ones, a question mark for demons not checked yet, a grey icon for
-  demons you can't summon yet. Grimoire tooltips
+  demons you can't summon yet, and a bag icon on grimoires already in your bags. Grimoire tooltips
   say what each demon knows. New *Grimoires* section in the options and a `/wu grimoires` diagnostic command.
 
 ## [1.4.0] - 2026-10-23

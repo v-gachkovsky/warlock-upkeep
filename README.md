@@ -193,7 +193,8 @@ your demons knows, and marks the grimoires at vendors for all demons at once, wh
 - ✅ a check mark and a grey icon: the demon already knows this rank or a higher one;
 - ⏳ a question mark: that demon hasn't been checked yet;
 - a grey icon without a mark: you can't summon that demon yet;
-- no mark: the demon doesn't know it yet.
+- no mark: the demon doesn't know it yet;
+- 🎒 a bag in the other corner: you already have this grimoire in your bags.
 
 The grimoire's tooltip says the same per demon (e.g. *Imp: already knows Firebolt (Rank 7)*), also in your bags.
 

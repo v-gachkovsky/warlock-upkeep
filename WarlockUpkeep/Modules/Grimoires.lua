@@ -150,7 +150,7 @@ end
 
 ------------------------------------------------------------------------
 -- Vendor window: a check on grimoires already learned, a question mark where it's unknown;
--- learned ones and those for demons you can't summon yet turn grey.
+-- learned ones and those for demons you can't summon yet turn grey; a bag on the ones in your bags.
 ------------------------------------------------------------------------
 local MARKS = { known = "Interface\\RaidFrame\\ReadyCheck-Ready", unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting" }
 
@@ -161,6 +161,11 @@ local function MerchantButton(i)
         b.wuMark = b:CreateTexture(nil, "OVERLAY", nil, 7)
         b.wuMark:SetSize(18, 18)
         b.wuMark:SetPoint("TOPRIGHT", 4, 4)
+        -- A bag in the other corner: you already have this grimoire with you.
+        b.wuBag = b:CreateTexture(nil, "OVERLAY", nil, 7)
+        b.wuBag:SetSize(16, 16)
+        b.wuBag:SetPoint("TOPLEFT", -4, 4)
+        b.wuBag:SetTexture("Interface\\Buttons\\Button-Backpack-Up")
     end
     return b
 end
@@ -183,14 +188,17 @@ function M:MarkMerchant()
     for i = 1, perPage do
         local b = MerchantButton(i)
         if b then
-            local state
+            local state, inBags
             if Cfg().merchant and not buyback then
                 local index = ((MerchantFrame.page or 1) - 1) * perPage + i
-                local list = self:Status(ItemIDFromLink(GetMerchantItemLink(index)))
+                local id = ItemIDFromLink(GetMerchantItemLink(index))
+                local list = self:Status(id)
                 state = list and Overall(list) or nil
                 if state == "missing" then state = nil end
+                inBags = list and (ns.ItemCount(id) or 0) > 0
             end
             SetMark(b, state)
+            b.wuBag:SetShown(inBags and true or false)
         end
     end
 end
@@ -247,6 +255,10 @@ function M:Init()
     ns:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", function(_, unit, _, spellID)
         if unit ~= "player" or ns.IsSecret(spellID) or not summonKey[spellID] then return end
         Store().lastSummon = summonKey[spellID]
+    end)
+    -- A grimoire bought, read or sold changes the bag marks.
+    ns:RegisterEvent("BAG_UPDATE_DELAYED", function()
+        if MerchantFrame and MerchantFrame:IsShown() then M:MarkMerchant() end
     end)
     if MerchantFrame_UpdateMerchantInfo then
         hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function() M:MarkMerchant() end)
