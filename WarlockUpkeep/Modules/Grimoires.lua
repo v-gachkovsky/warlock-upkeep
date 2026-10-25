@@ -44,7 +44,7 @@ for _, d in ipairs(D.demons) do
 end
 
 -- The summoned demon's spellbook: { name, sub (rank text), id }. Clients mix the old and the new
--- spellbook API (Forever has C_SpellBook.HasPetSpells but not C_SpellBook.GetSpellBookItemInfo),
+-- spellbook API (Classic Era has C_SpellBook.HasPetSpells but not C_SpellBook.GetSpellBookItemInfo),
 -- so each call takes whichever exists, and the old ones get the pet bank as a string if needed.
 local function PetBanks()
     local banks = {}
