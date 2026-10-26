@@ -36,8 +36,8 @@ haven't learned Demon Armor yet.
 
 ### Soul Shard counter
 
-Shows your shards (optionally as **have / threshold**) and lights up when you fall below the threshold, which
-equals the recommended amount by default. The recommended amount is calculated from what you actually know:
+Shows your shards (optionally as **have / threshold**), turns yellow at the threshold and red when you fall
+below it, with a highlight in the same color. The threshold equals the recommended amount by default. The recommended amount is calculated from what you actually know:
 
 - 1 shard for summoning a demon (once Voidwalker, Succubus or Felhunter is learned)
 - 1 shard for each learned stone: Healthstone, Soulstone, Firestone, Spellstone
