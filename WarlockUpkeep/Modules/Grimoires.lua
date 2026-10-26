@@ -209,7 +209,7 @@ end
 local STATE_TEXT = {
     known   = { "already knows %s", 0.3, 1, 0.3 },
     missing = { "doesn't know it yet", 1, 0.82, 0 },
-    unknown = { "summon it once to check", 0.6, 0.6, 0.6 },
+    unknown = { "not checked yet: summon this demon once", 0.6, 0.6, 0.6 },
     unlearned = { "you can't summon it yet", 0.6, 0.6, 0.6 },
 }
 
@@ -274,13 +274,18 @@ function M:ApplySettings()
     if MerchantFrame and MerchantFrame:IsShown() then self:MarkMerchant() end
 end
 
--- Demons whose spells are remembered, in the usual order.
+-- Demons whose spells are remembered, and learned ones not summoned since, in the usual order.
 function M:CheckedDemons()
-    local out = {}
+    local checked, unchecked = {}, {}
     for _, d in ipairs(D.demons) do
-        if Store().known[d.key] then out[#out + 1] = ns.L[M.DEMON_NAMES[d.key] or d.key] end
+        local name = ns.L[M.DEMON_NAMES[d.key] or d.key]
+        if Store().known[d.key] then
+            checked[#checked + 1] = name
+        elseif ns.DemonSpell(d) then
+            unchecked[#unchecked + 1] = name
+        end
     end
-    return out
+    return checked, unchecked
 end
 
 -- /wu grimoires: what's remembered, and the summoned demon's raw spellbook.

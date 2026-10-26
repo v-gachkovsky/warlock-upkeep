@@ -481,15 +481,18 @@ local function BuildContent()
         checked:SetWidth(440)
         checked:SetJustifyH("LEFT")
         refreshers[#refreshers + 1] = function()
-            local list = ns.modules.grimoires:CheckedDemons()
-            checked:SetText(L["Demons checked: "] .. "|cffffd100" .. (#list > 0 and table.concat(list, ", ") or L["none yet"]) .. "|r")
+            local list, rest = ns.modules.grimoires:CheckedDemons()
+            checked:SetText(L["Demons checked: "] .. "|cffffd100" .. (#list > 0 and table.concat(list, ", ") or L["none yet"]) .. "|r\n" ..
+                (#rest > 0 and L["Not checked yet: "] .. "|cffff8040" .. table.concat(rest, ", ") .. "|r" .. L[" (summon each one once)"]
+                    or L["All your demons are checked."]))
         end
-        y = y - 22
+        y = y - 36
         Note("A demon's spells can only be read while it's summoned: summon each demon once, and from then on " ..
-            "the addon remembers what it knows and keeps it up to date. At a vendor, learned grimoires get a " ..
-            "check mark and turn grey; a question mark means that demon hasn't been checked yet. Grimoires for " ..
-            "demons you can't summon yet are grey, without a mark. A bag icon means you already have that grimoire " ..
-            "in your bags.")
+            "the addon remembers what it knows and keeps it up to date. To check a demon, just summon it anywhere: " ..
+            "its spells are read in a moment, and you can summon another one right after. At a vendor, learned " ..
+            "grimoires get a check mark and turn grey; a question mark means that demon hasn't been checked yet. " ..
+            "Grimoires for demons you can't summon yet are grey, without a mark. A bag icon means you already have " ..
+            "that grimoire in your bags.")
     end
 
     content:SetHeight(-y + 20)

@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- **Grimoires**: the settings list the learned demons that aren't checked yet, and the help text and grimoire
+  tooltips explain how to check one (summon it once, anywhere).
+
+### Fixed
+- Clearer Ukrainian texts for click-through and hiding icons in combat.
+
 ## [1.6.0] - 2026-10-26
 
 ### Added

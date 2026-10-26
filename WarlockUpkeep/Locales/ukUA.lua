@@ -56,7 +56,7 @@ ns.LOCALES.ukUA = {
     ["%s (Rank %d)"] = "%s (ранг %d)",
     ["doesn't know it yet"] = "ще не знає",
     ["knows Rank %d, not this one"] = "знає ранг %d, а не цей",
-    ["summon it once to check"] = "призвіть його раз, щоб перевірити",
+    ["not checked yet: summon this demon once"] = "ще не перевірено: призвіть цього демона один раз",
     ["you can't summon it yet"] = "ви ще не можете його призвати",
 
     -- Lists
@@ -104,7 +104,7 @@ ns.LOCALES.ukUA = {
     ["General"] = "Загальне",
     ["Language"] = "Мова",
     ["Preview mode (show all icons for positioning)"] = "Попередній перегляд (показати всі іконки для розміщення)",
-    ["Simulate combat (opacity, highlight, hiding, click-through)"] = "Імітація бою (прозорість, підсвітка, приховування, прозорість для кліків)",
+    ["Simulate combat (opacity, highlight, hiding, click-through)"] = "Імітація бою (непрозорість, підсвітка, приховування, кліки крізь іконки)",
     ["Show minimap button"] = "Показувати кнопку біля мінімапи",
     ["Lock minimap button position"] = "Закріпити кнопку біля мінімапи",
     ["Move icons with"] = "Пересування іконок",
@@ -114,16 +114,17 @@ ns.LOCALES.ukUA = {
     ["Gap between snapped frames"] = "Проміжок між рамками",
     ["Combat"] = "Бій",
     ["Highlight in combat"] = "Підсвічувати в бою",
-    ["Click-through in combat (target / turn the camera through icons)"] = "Прозорість для кліків у бою (ціль / камера крізь іконки)",
+    ["Click-through in combat (target / turn the camera through icons)"] = "Кліки крізь іконки в бою (вибір цілі та поворот камери просто крізь них)",
     ["Hide icons in combat"] = "Ховати іконки в бою",
     ["Opacity in combat, %"] = "Непрозорість у бою, %",
     ["Opacity out of combat, %"] = "Непрозорість поза боєм, %",
     ["Click-through can't change during a fight (the game locks mouse input in combat): it applies after combat. " ..
         "Hiding applies at once, but icons hidden when the fight started stay hidden until it ends. " ..
         "Without click-through, icons are clickable in combat, and a faded-out icon still takes clicks at its spot."] =
-        "Прозорість для кліків не змінюється під час бою (гра блокує мишу в бою): вона застосується після бою. " ..
-        "Приховування діє одразу, але іконки, приховані на початку бою, лишаються прихованими до його кінця. " ..
-        "Без прозорості для кліків іконки клікабельні в бою, і навіть прозора іконка ловить кліки на своєму місці.",
+        "Опцію \"Кліки крізь іконки\" не можна змінити посеред бою: гра забороняє аддонам міняти реакцію на мишу в бою, " ..
+        "тому зміна спрацює, коли бій закінчиться. \"Ховати іконки в бою\" спрацьовує одразу, але іконка, яку сховано " ..
+        "на початку бою, не з'явиться до його кінця. Якщо кліки крізь іконки вимкнено, іконки в бою натискаються, " ..
+        "навіть ледь помітні чи сховані: клік на тому місці, де стоїть іконка, потрапить в неї, а не в ціль чи камеру.",
     ["Appearance"] = "Вигляд",
     ["Highlight type"] = "Тип підсвітки",
     ["Outline style"] = "Стиль контуру",
@@ -219,16 +220,21 @@ ns.LOCALES.ukUA = {
     ["Grimoires"] = "Гримуари",
     ["Mark grimoires your demons already know at vendors"] = "Позначати в торговців гримуари, які ваші демони вже знають",
     ["Show what your demons know in grimoire tooltips"] = "Показувати в підказках гримуарів, що знають ваші демони",
-    ["Demons checked: "] = "Перевірено демонів: ",
+    ["Demons checked: "] = "Перевірені демони: ",
+    ["Not checked yet: "] = "Ще не перевірені: ",
+    [" (summon each one once)"] = " (призвіть кожного один раз)",
+    ["All your demons are checked."] = "Усіх ваших демонів перевірено.",
     ["none yet"] = "поки жодного",
     ["A demon's spells can only be read while it's summoned: summon each demon once, and from then on " ..
-        "the addon remembers what it knows and keeps it up to date. At a vendor, learned grimoires get a " ..
-        "check mark and turn grey; a question mark means that demon hasn't been checked yet. Grimoires for " ..
-        "demons you can't summon yet are grey, without a mark. A bag icon means you already have that grimoire " ..
-        "in your bags."] =
-        "Заклинання демона можна прочитати, лише поки він призваний: призвіть кожного демона раз, і далі " ..
-        "аддон пам'ятає, що він знає, і оновлює це. У торговця вивчені гримуари отримують галочку " ..
-        "і стають сірими; знак питання означає, що цього демона ще не перевірено. Гримуари для демонів, " ..
+        "the addon remembers what it knows and keeps it up to date. To check a demon, just summon it anywhere: " ..
+        "its spells are read in a moment, and you can summon another one right after. At a vendor, learned " ..
+        "grimoires get a check mark and turn grey; a question mark means that demon hasn't been checked yet. " ..
+        "Grimoires for demons you can't summon yet are grey, without a mark. A bag icon means you already have " ..
+        "that grimoire in your bags."] =
+        "Заклинання демона аддон може прочитати, лише поки демон призваний: призвіть кожного демона один раз, і далі " ..
+        "аддон пам'ятає, що він знає, і сам оновлює ці дані. Щоб перевірити демона, просто призвіть його будь-де: " ..
+        "заклинання зчитаються за мить, і одразу можна призивати наступного. У торговця вивчені гримуари мають " ..
+        "галочку і сіру іконку; знак питання означає, що цього демона ще не перевірено. Гримуари для демонів, " ..
         "яких ви ще не можете призвати, сірі й без позначки. Іконка сумки означає, що цей гримуар уже " ..
         "лежить у ваших сумках.",
 }
