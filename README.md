@@ -186,6 +186,9 @@ The demon icon appears when you have no pet. Each click variant can be bound to 
 
 Available demons: Imp, Voidwalker, Succubus, Incubus, Felhunter, Felguard.
 
+While you ride, fly or take a flight path, the game may dismiss the demon for a while. If it was out when you
+set off, the icon stays hidden until a few seconds after you land or dismount, so the demon has time to come back.
+
 ### 6. Grimoires
 
 On clients with grimoires (WoW Forever, Classic Era, TBC) the addon remembers which spells and ranks each of

@@ -63,7 +63,8 @@ opacity are all configurable.
 ### Demon
 
 Appears when you have no pet. Bind a different demon to **Click, Shift, Ctrl, Alt and Cmd (Mac)**: Imp,
-Voidwalker, Succubus, Incubus, Felhunter or Felguard.
+Voidwalker, Succubus, Incubus, Felhunter or Felguard. It stays hidden while you ride, fly or take a flight path
+if your demon was out when you set off, since the game dismisses it for a while.
 
 ### Grimoires
 

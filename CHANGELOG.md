@@ -12,6 +12,10 @@ and the project uses [Semantic Versioning](https://semver.org/).
   Soulstone for a used one. A Soulstone now stays tracked through the fight until it runs out, and the addon
   checks it again right after combat, as the README describes. The same check could also bring back the demon
   icon in combat under Grimoire of Sacrifice.
+- **Demon icon on flying mounts**: it lit up when you took off, since the game dismisses the demon in the air.
+  Now, as on flight paths, the demon counts as there while you're mounted or flying if it was out when you set
+  off, and after you land or dismount it gets a few seconds to come back before the icon shows (also after
+  a flight path).
 
 ## [1.7.0] - 2026-10-26
 
