@@ -118,7 +118,8 @@ and disappears when you recast it (see [Client limitations](#client-limitations)
 
 ### 2. Soul Shards
 
-A counter of the shards in your bags. It lights up when you have fewer than the low threshold (below). With
+A counter of the shards in your bags. It turns red and lights up when you have fewer than the low threshold
+(below), and turns yellow and lights up when the count equals it (one more shard used and it's low). With
 *Show the threshold next to the count* (off by default) it reads `have/threshold`. It isn't clickable,
 since a shard has no action.
 
