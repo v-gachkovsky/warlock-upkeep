@@ -6,6 +6,7 @@ ns.modules = {}
 ns.icons = {}
 ns.ready = false
 
+local L = ns.L
 local L_PREFIX = "|cff9482c9WarlockUpkeep!|r: "
 function ns.Print(...) print(L_PREFIX .. string.format(...)) end
 
@@ -24,6 +25,7 @@ local function Icon(x, y, extra)
 end
 
 ns.defaults = {
+    locale = "enUS", -- language of the addon's texts (see Locale.lua)
     preview = false,
     previewCombat = false, -- show the in-combat look (opacity, highlight, hiding) out of combat
     glowStyle = "proc",
@@ -93,8 +95,10 @@ local function CopyDefaults(src, dst)
 end
 
 function ns:ResetDB()
+    local locale = WarlockUpkeepDB.locale -- the language survives a reset
     wipe(WarlockUpkeepDB)
     CopyDefaults(self.defaults, WarlockUpkeepDB)
+    WarlockUpkeepDB.locale = locale
     self:ApplyAll()
 end
 
@@ -207,7 +211,7 @@ end
 function ns:TogglePreviewCombat()
     self.db.previewCombat = not self.db.previewCombat
     self:ApplyAll()
-    self.Print("simulated combat look %s.", self.db.previewCombat and "on" or "off")
+    self.Print(self.db.previewCombat and L["simulated combat look on."] or L["simulated combat look off."])
 end
 
 function ns:SetAllLocked(locked)
@@ -708,17 +712,17 @@ SLASH_WARLOCKUPKEEP1 = "/wu"
 SLASH_WARLOCKUPKEEP2 = "/warlockupkeep"
 SlashCmdList.WARLOCKUPKEEP = function(msg)
     if not ns.active then
-        ns.Print("disabled: this character is not a Warlock.")
+        ns.Print(L["disabled: this character is not a Warlock."])
         return
     end
     msg = (msg or ""):lower():match("^%s*(.-)%s*$")
     if msg == "lock" then
-        ns:SetAllLocked(true); ns.Print("all frames locked.")
+        ns:SetAllLocked(true); ns.Print(L["all frames locked."])
     elseif msg == "unlock" then
-        ns:SetAllLocked(false); ns.Print("all frames unlocked (%s icons to move).", ns.MoveModeText():lower())
+        ns:SetAllLocked(false); ns.Print(L["all frames unlocked (%s icons to move)."], ns.MoveModeText():lower())
     elseif msg == "preview" then
         ns.db.preview = not ns.db.preview; ns:ApplyAll()
-        ns.Print("preview %s.", ns.db.preview and "on" or "off")
+        ns.Print(ns.db.preview and L["preview on."] or L["preview off."])
     elseif msg == "combat" then
         ns:TogglePreviewCombat()
     elseif msg == "auras" then
@@ -729,8 +733,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then
-        if InCombatLockdown() then ns.Print("cannot reset in combat."); return end
-        ns:ResetDB(); ns.Print("settings reset.")
+        if InCombatLockdown() then ns.Print(L["cannot reset in combat."]); return end
+        ns:ResetDB(); ns.Print(L["settings reset."])
     else
         ns.ToggleOptions()
     end

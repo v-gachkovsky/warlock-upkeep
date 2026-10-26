@@ -4,6 +4,13 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Ukrainian translation**: the new *Language* option at the top of the settings switches the addon's texts
+  (settings, tooltips, chat messages) between English and Ukrainian right away, without a reload.
+  English stays the default, since there is no Ukrainian game client to follow.
+
 ## [1.5.0] - 2026-10-25
 
 ### Added

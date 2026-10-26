@@ -10,7 +10,7 @@ end
 
 function M:Init()
     self.button = ns.CreateActionIcon("healthstone", "Healthstone")
-    self.button.hint = function(tt) tt:AddLine("No Healthstone in bags. Click to create the strongest one.", 0, 1, 0) end
+    self.button.hint = function(tt) tt:AddLine(ns.L["No Healthstone in bags. Click to create the strongest one."], 0, 1, 0) end
 end
 
 function M:ApplySettings() end

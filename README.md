@@ -205,6 +205,12 @@ turned off.
 
 ## Look and behavior
 
+### Language
+
+The addon speaks English or Ukrainian: pick it with **Language** at the top of General. The texts switch right away
+(settings, tooltips, chat messages). English is the default: there is no Ukrainian game client, so the language
+doesn't follow the client's. Spell, item and demon summon names come from the game in the client's language.
+
 ### Highlight
 
 The **style** is set under General:
@@ -358,6 +364,8 @@ the spell by name. New stones or ranks can be added to `Data.lua`.
 WarlockUpkeep/
 ├── WarlockUpkeep.toc   # addon manifest
 ├── Data.lua             # spell and item IDs
+├── Locale.lua           # translation lookup and language list
+├── Locales/ukUA.lua     # Ukrainian texts
 ├── Core.lua             # core: modules, settings, events
 ├── Widgets.lua          # secure icons, highlight, moving, snapping
 ├── Minimap.lua          # minimap button

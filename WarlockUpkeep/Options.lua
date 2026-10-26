@@ -1,6 +1,7 @@
 local ADDON, ns = ...
+local L = ns.L
 
-local panel, content
+local panel, scroll, content, settingsButton
 local y = 0
 local refreshers = {}
 local LEFT, RIGHT = 20, 230
@@ -16,7 +17,7 @@ end
 local function Label(text, x, template)
     local fs = content:CreateFontString(nil, "ARTWORK", template or "GameFontHighlight")
     fs:SetPoint("TOPLEFT", x or LEFT, y)
-    fs:SetText(text)
+    fs:SetText(L[text])
     return fs
 end
 
@@ -50,10 +51,13 @@ local function Check(text, get, set)
     cb:SetPoint("TOPLEFT", LEFT - 4, y + 4)
     local fs = cb:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     fs:SetPoint("LEFT", cb, "RIGHT", 2, 0)
-    fs:SetText(text)
+    fs:SetWidth(440)
+    fs:SetJustifyH("LEFT")
+    fs:SetText(L[text])
     cb:SetScript("OnClick", function(self) set(self:GetChecked() and true or false); Changed() end)
     refreshers[#refreshers + 1] = function() cb:SetChecked(get() and true or false) end
-    y = y - 26
+    -- Long (translated) texts wrap onto more lines.
+    y = y - math.max(26, fs:GetStringHeight() + 12)
 end
 
 local function Slider(text, min, max, step, get, set)
@@ -98,7 +102,7 @@ local function Color(text, get, set)
     sw:SetPoint("BOTTOMRIGHT", -1, 1)
     local fs = b:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     fs:SetPoint("LEFT", b, "RIGHT", 6, 0)
-    fs:SetText(text)
+    fs:SetText(L[text])
 
     local function Paint() local c = get(); sw:SetColorTexture(c[1], c[2], c[3], 1) end
     b:SetScript("OnClick", function()
@@ -150,13 +154,13 @@ local function Cycle(text, values, get, set, extra)
     refreshers[#refreshers + 1] = function()
         local list = List()
         local item = list[Index()]
-        btn:SetText(item and item.text or tostring(get()))
+        btn:SetText(item and L[item.text] or tostring(get()))
     end
     if extra then
         local e = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
         e:SetSize(50, 22)
         e:SetPoint("LEFT", btn, "RIGHT", 4, 0)
-        e:SetText(extra.text)
+        e:SetText(L[extra.text])
         e:SetScript("OnClick", extra.onClick)
     end
     y = y - 28
@@ -166,7 +170,7 @@ local function Button(text, width, onClick, x)
     local b = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     b:SetSize(width, 22)
     b:SetPoint("TOPLEFT", x or LEFT, y + 4)
-    b:SetText(text)
+    b:SetText(L[text])
     b:SetScript("OnClick", onClick)
     return b
 end
@@ -185,7 +189,7 @@ local function T(key) return function() return ns.db[key] end end
 
 local function TestSound(value)
     if not ns.PlaySound(value) then
-        ns.Print("can't play %s. Custom files need a full game restart after adding them.", tostring(value))
+        ns.Print(L["can't play %s. Custom files need a full game restart after adding them."], tostring(value))
     end
 end
 
@@ -266,15 +270,31 @@ local function Build()
     logo:SetPoint("RIGHT", title, "LEFT", -4, 0)
     logo:SetTexture(ns.LOGO)
 
-    local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
+    scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
     scroll:SetPoint("TOPLEFT", 10, -30)
     scroll:SetPoint("BOTTOMRIGHT", -32, 10)
+    f:SetScript("OnShow", function() for _, r in ipairs(refreshers) do r() end end)
+end
+
+-- Settings rows. Built again in a new frame when the language changes.
+local function BuildContent()
+    if content then content:Hide() end
+    wipe(refreshers)
+    y = 0
     content = CreateFrame("Frame", nil, scroll)
     content:SetSize(490, 100)
     scroll:SetScrollChild(content)
 
     -- General
     Header("General", ns.LOGO)
+    Cycle("Language", ns.LANGUAGES, function() return ns.db.locale end, function(v)
+        ns.db.locale = v
+        C_Timer.After(0, function()
+            BuildContent()
+            if settingsButton then settingsButton:SetText(L["Open settings (/wu)"]) end
+            Changed()
+        end)
+    end)
     Check("Preview mode (show all icons for positioning)", function() return ns.db.preview end, function(v) ns.db.preview = v end)
     Check("Simulate combat (opacity, highlight, hiding, click-through)", function() return ns.db.previewCombat end, function(v) ns.db.previewCombat = v end)
     Check("Show minimap button", function() return not ns.db.minimap.hide end, function(v) ns.db.minimap.hide = not v end)
@@ -300,7 +320,7 @@ local function Build()
     Button("Lock all", 110, function() ns:SetAllLocked(true); Changed() end)
     Button("Unlock all", 110, function() ns:SetAllLocked(false); Changed() end, LEFT + 116)
     Button("Reset settings", 130, function()
-        if InCombatLockdown() then ns.Print("cannot reset in combat."); return end
+        if InCombatLockdown() then ns.Print(L["cannot reset in combat."]); return end
         ns:ResetDB(); Changed()
     end, LEFT + 232)
     y = y - 30
@@ -317,12 +337,12 @@ local function Build()
         local path = ns.NormalizeSoundPath(text)
         if not path then return end
         for _, c in ipairs(ns.db.customSounds) do
-            if c.path:lower() == path:lower() then ns.Print("already added: %s", path); return end
+            if c.path:lower() == path:lower() then ns.Print(L["already added: %s"], path); return end
         end
         local name = path:match("([^\\]+)$"):gsub("%.%w+$", "")
         table.insert(ns.db.customSounds, { name = name, path = path })
         if not ns.PlaySound(path) then
-            ns.Print("added %s, but it can't be played yet: check the name or restart the game.", path)
+            ns.Print(L["added %s, but it can't be played yet: check the name or restart the game."], path)
         end
         Changed()
     end
@@ -377,7 +397,7 @@ local function Build()
         refreshers[#refreshers + 1] = function()
             local n, parts = ns.modules.shards:Desired()
             local list = table.concat(parts, ", ")
-            recommended:SetText(string.format("Recommended now: |cffffd100%d|r  (%s%s+%d spare)", n, list, list ~= "" and " " or "", sh().spare))
+            recommended:SetText(string.format(L["Recommended now: |cffffd100%d|r  (%s%s+%d spare)"], n, list, list ~= "" and " " or "", sh().spare))
         end
         y = y - 22
         Check("Low threshold = recommended amount", function() return sh().autoThreshold end, function(v) sh().autoThreshold = v end)
@@ -442,7 +462,7 @@ local function Build()
                     local list = {}
                     if slot.key ~= "none" then list[1] = { value = "default", text = "Same as click" } end
                     for _, d in ipairs(ns.data.demons) do
-                        list[#list + 1] = { value = d.key, text = P.DemonName(d.key) .. (ns.DemonSpell(d) and "" or " (not learned)") }
+                        list[#list + 1] = { value = d.key, text = P.DemonName(d.key) .. (ns.DemonSpell(d) and "" or " " .. L["(not learned)"]) }
                     end
                     return list
                 end
@@ -462,7 +482,7 @@ local function Build()
         checked:SetJustifyH("LEFT")
         refreshers[#refreshers + 1] = function()
             local list = ns.modules.grimoires:CheckedDemons()
-            checked:SetText("Demons checked: |cffffd100" .. (#list > 0 and table.concat(list, ", ") or "none yet") .. "|r")
+            checked:SetText(L["Demons checked: "] .. "|cffffd100" .. (#list > 0 and table.concat(list, ", ") or L["none yet"]) .. "|r")
         end
         y = y - 22
         Note("A demon's spells can only be read while it's summoned: summon each demon once, and from then on " ..
@@ -473,11 +493,10 @@ local function Build()
     end
 
     content:SetHeight(-y + 20)
-    f:SetScript("OnShow", function() for _, r in ipairs(refreshers) do r() end end)
 end
 
 function ns.ToggleOptions()
-    if not panel then Build() end
+    if not panel then Build(); BuildContent() end
     panel:SetShown(not panel:IsShown())
 end
 
@@ -495,7 +514,8 @@ function ns.InitOptions()
     local b = CreateFrame("Button", nil, p, "UIPanelButtonTemplate")
     b:SetSize(200, 26)
     b:SetPoint("TOPLEFT", 16, -50)
-    b:SetText("Open settings (/wu)")
+    b:SetText(L["Open settings (/wu)"])
+    settingsButton = b
     b:SetScript("OnClick", function()
         if SettingsPanel then HideUIPanel(SettingsPanel) end
         if not panel or not panel:IsShown() then ns.ToggleOptions() end

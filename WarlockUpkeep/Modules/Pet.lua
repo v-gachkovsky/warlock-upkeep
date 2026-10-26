@@ -61,14 +61,14 @@ end
 function M:Init()
     self.button = ns.CreateActionIcon("pet", "Summon Demon")
     self.button.hint = function(tt)
-        tt:AddLine("No demon summoned.", 0, 1, 0)
+        tt:AddLine(ns.L["No demon summoned."], 0, 1, 0)
         local bindings = ns.db.pet.bindings
         for _, slot in ipairs(M.SLOTS) do
             if M.SlotAvailable(slot) then
                 local key = bindings[slot.key]
                 if key == "default" then key = bindings.none end
                 if DemonSpell(key) then
-                    tt:AddDoubleLine(slot.text, M.DemonName(key), 1, 1, 1, 1, 0.82, 0)
+                    tt:AddDoubleLine(ns.L[slot.text], M.DemonName(key), 1, 1, 1, 1, 0.82, 0)
                 end
             end
         end

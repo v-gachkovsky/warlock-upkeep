@@ -13,7 +13,7 @@ local buff = ns.NewBuffTracker(allIDs, D.armorDuration, "armor")
 
 function M:Init()
     self.button = ns.CreateActionIcon("armor", "Demon Armor")
-    self.button.hint = function(tt) tt:AddLine("Missing Demon Skin / Demon Armor / Fel Armor. Click to cast.", 0, 1, 0) end
+    self.button.hint = function(tt) tt:AddLine(ns.L["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."], 0, 1, 0) end
 
     ns:RegisterEvent("UNIT_AURA", function(event, unit, info)
         local ok, isPlayer = pcall(function() return not ns.IsSecret(unit) and unit == "player" end)

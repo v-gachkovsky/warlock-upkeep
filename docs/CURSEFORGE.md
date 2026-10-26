@@ -76,6 +76,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 
 ## Make it yours
 
+- **Language**: English or Ukrainian, switched in the settings.
 - **Every feature** can be turned on or off individually.
 - **Every icon** can be resized, moved, locked, and given its own highlight color and alert sound.
 - **Highlight styles**: *Proc* (the Cooldown Manager animation, default), *Running lines* or *Pulsing border*.
