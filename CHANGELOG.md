@@ -4,7 +4,7 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.7.1] - 2026-10-27
 
 ### Fixed
 - **Soulstone in combat on Retail**: the Soulstone icon showed up mid-fight although your Soulstone (or the one
