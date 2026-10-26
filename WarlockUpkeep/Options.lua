@@ -131,35 +131,52 @@ local function Color(text, get, set)
     y = y - 24
 end
 
--- Cycle selector: left click = next, right click = previous.
-local function Cycle(text, values, get, set, extra)
+-- Dropdown list. Clients with the new menu system get its dropdown (scrolls when the list is long),
+-- the others the old UIDropDownMenu.
+local selectCount = 0
+local function Select(text, values, get, set, extra)
     Label(text)
-    local btn = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
-    btn:SetSize(170, 22)
-    btn:SetPoint("TOPLEFT", RIGHT, y + 4)
-    btn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
     local function List() return type(values) == "function" and values() or values end
-    local function Index()
-        local list, cur = List(), get()
-        for i, v in ipairs(list) do if v.value == cur then return i end end
-        return 1
-    end
-    btn:SetScript("OnClick", function(_, mouse)
-        local list = List()
-        local i = Index() + (mouse == "RightButton" and -1 or 1)
-        if i > #list then i = 1 elseif i < 1 then i = #list end
-        set(list[i].value)
-        Changed()
-    end)
-    refreshers[#refreshers + 1] = function()
-        local list = List()
-        local item = list[Index()]
-        btn:SetText(item and L[item.text] or tostring(get()))
+    local function Pick(value) set(value); Changed() end
+    local ok, btn = pcall(CreateFrame, "DropdownButton", nil, content, "WowStyle1DropdownTemplate")
+    local gap = 4
+    if ok and btn and btn.SetupMenu then
+        btn:SetSize(170, 22)
+        btn:SetPoint("TOPLEFT", RIGHT, y + 4)
+        btn:SetupMenu(function(_, root)
+            if root.SetScrollMode then root:SetScrollMode(400) end
+            for _, item in ipairs(List()) do
+                root:CreateRadio(L[item.text], function() return get() == item.value end, function() Pick(item.value) end)
+            end
+        end)
+        refreshers[#refreshers + 1] = function() btn:GenerateMenu() end
+    else
+        selectCount = selectCount + 1 -- the old template needs a named frame
+        btn = CreateFrame("Frame", "WarlockUpkeepSelect" .. selectCount, content, "UIDropDownMenuTemplate")
+        btn:SetPoint("TOPLEFT", RIGHT - 16, y + 6)
+        UIDropDownMenu_SetWidth(btn, 150)
+        UIDropDownMenu_Initialize(btn, function(_, level)
+            for _, item in ipairs(List()) do
+                local info = UIDropDownMenu_CreateInfo()
+                info.text = L[item.text]
+                info.checked = get() == item.value
+                info.func = function() Pick(item.value) end
+                UIDropDownMenu_AddButton(info, level)
+            end
+        end)
+        refreshers[#refreshers + 1] = function()
+            local label = tostring(get())
+            for _, item in ipairs(List()) do
+                if item.value == get() then label = L[item.text] end
+            end
+            UIDropDownMenu_SetText(btn, label)
+        end
+        gap = -12 -- the old template has empty space on its right
     end
     if extra then
         local e = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
         e:SetSize(50, 22)
-        e:SetPoint("LEFT", btn, "RIGHT", 4, 0)
+        e:SetPoint("LEFT", btn, "RIGHT", gap, 0)
         e:SetText(L[extra.text])
         e:SetScript("OnClick", extra.onClick)
     end
@@ -195,7 +212,7 @@ end
 
 local function SoundRows(getTbl, soundText)
     Check(soundText or "Play sound", function() return getTbl().sound end, function(v) getTbl().sound = v end)
-    Cycle("Sound", ns.GetSoundList, function() return getTbl().soundName end, function(v) getTbl().soundName = v end,
+    Select("Sound", ns.GetSoundList, function() return getTbl().soundName end, function(v) getTbl().soundName = v end,
         { text = "Test", onClick = function() TestSound(getTbl().soundName) end })
 end
 
@@ -227,8 +244,8 @@ local function IconSection(title, key, icon, extra)
 end
 
 local function FontRows(get, sizes)
-    Cycle("Font", ns.GetFontList, function() return get().font end, function(v) get().font = v end)
-    Cycle("Outline", ns.OUTLINES, function() return get().outline end, function(v) get().outline = v end)
+    Select("Font", ns.GetFontList, function() return get().font end, function(v) get().font = v end)
+    Select("Outline", ns.OUTLINES, function() return get().outline end, function(v) get().outline = v end)
     for _, s in ipairs(sizes) do
         Slider(s[1], 8, 48, 1, function() return get()[s[2]] end, function(v) get()[s[2]] = v end)
     end
@@ -287,7 +304,7 @@ local function BuildContent()
 
     -- General
     Header("General", ns.LOGO)
-    Cycle("Language", ns.LANGUAGES, function() return ns.db.locale end, function(v)
+    Select("Language", ns.LANGUAGES, function() return ns.db.locale end, function(v)
         ns.db.locale = v
         C_Timer.After(0, function()
             BuildContent()
@@ -299,7 +316,7 @@ local function BuildContent()
     Check("Simulate combat (opacity, highlight, hiding, click-through)", function() return ns.db.previewCombat end, function(v) ns.db.previewCombat = v end)
     Check("Show minimap button", function() return not ns.db.minimap.hide end, function(v) ns.db.minimap.hide = not v end)
     Check("Lock minimap button position", function() return ns.db.minimap.locked end, function(v) ns.db.minimap.locked = v end)
-    Cycle("Move icons with", ns.GetMoveModes, function() return ns.db.moveWith end, function(v) ns.db.moveWith = v end)
+    Select("Move icons with", ns.GetMoveModes, function() return ns.db.moveWith end, function(v) ns.db.moveWith = v end)
     Check("Hide all icons while on a flight path", function() return ns.db.hideOnTaxi end, function(v) ns.db.hideOnTaxi = v end)
     Check("Snap frames to each other (top / bottom / center, side by side)", function() return ns.db.snap.enabled end, function(v) ns.db.snap.enabled = v end)
     Slider("Snap distance", 2, 30, 1, function() return ns.db.snap.distance end, function(v) ns.db.snap.distance = v end)
@@ -314,8 +331,8 @@ local function BuildContent()
         "Hiding applies at once, but icons hidden when the fight started stay hidden until it ends. " ..
         "Without click-through, icons are clickable in combat, and a faded-out icon still takes clicks at its spot.")
     SubHeader("Appearance")
-    Cycle("Highlight type", ns.GLOW_MODES, function() return ns.db.glowMode end, function(v) ns.db.glowMode = v end)
-    Cycle("Outline style", ns.GLOW_STYLES, function() return ns.db.glowStyle end, function(v) ns.db.glowStyle = v end)
+    Select("Highlight type", ns.GLOW_MODES, function() return ns.db.glowMode end, function(v) ns.db.glowMode = v end)
+    Select("Outline style", ns.GLOW_STYLES, function() return ns.db.glowStyle end, function(v) ns.db.glowStyle = v end)
     Slider("Fill opacity, %", 5, 100, 5, function() return math.floor(ns.db.fillAlpha * 100 + 0.5) end, function(v) ns.db.fillAlpha = v / 100 end)
     Button("Lock all", 110, function() ns:SetAllLocked(true); Changed() end)
     Button("Unlock all", 110, function() ns:SetAllLocked(false); Changed() end, LEFT + 116)
@@ -357,7 +374,7 @@ local function BuildContent()
         if #list == 0 then list[1] = { value = "", text = "(none)" } end
         return list
     end
-    Cycle("Added files", CustomList, function() return selected or CustomList()[1].value end, function(v) selected = v end,
+    Select("Added files", CustomList, function() return selected or CustomList()[1].value end, function(v) selected = v end,
         { text = "Test", onClick = function() local v = selected or CustomList()[1].value; if v ~= "" then TestSound(v) end end })
     Button("Remove selected", 130, function()
         local v = selected or CustomList()[1].value
@@ -466,7 +483,7 @@ local function BuildContent()
                     end
                     return list
                 end
-                Cycle(slot.text, values, function() return get().bindings[slot.key] end, function(v) get().bindings[slot.key] = v end)
+                Select(slot.text, values, function() return get().bindings[slot.key] end, function(v) get().bindings[slot.key] = v end)
             end
         end
     end)
