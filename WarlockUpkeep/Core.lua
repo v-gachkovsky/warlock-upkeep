@@ -364,17 +364,8 @@ function ns.PlayerHasAura(ids)
     return aura ~= false
 end
 
--- Whether an aura instance seen earlier is still on `unit`: true / false, or nil if unknown.
--- Works with secret auras: a removed instance reads as nil, a present one as (secret) data.
-function ns.AuraInstanceExists(unit, instanceID)
-    if not instanceID or not (C_UnitAuras and C_UnitAuras.GetAuraDataByAuraInstanceID) then return nil end
-    local ok, aura = pcall(C_UnitAuras.GetAuraDataByAuraInstanceID, unit, instanceID)
-    if not ok or ns.IsSecret(aura) then return nil end
-    return aura ~= nil
-end
-
 -- Follows a player buff through combat, where its aura is secret: out of combat it remembers
--- the aura instance and end time, in combat those tell whether it was removed or ran out.
+-- the aura instance (to find the buff in the buff frame) and its end time.
 -- In combat the aura API is closed to addons, but the game's buff frame keeps a readable list
 -- of the player's buffs (instance ID, icon, expiration). Returns that list, or nil.
 local function BuffFrameAuras()
@@ -578,12 +569,11 @@ function BuffTracker:ReadState()
         if Plain(tex) then self.icons[tex] = true end
     elseif aura == false then
         self.has, self.instance, self.expires = false, nil, nil
-    elseif self.has then
-        if ns.AuraInstanceExists("player", self.instance) == false
-            or (self.expires and GetTime() >= self.expires) then
-            self.has = false
-            self.src = "instance / end time"
-        end
+    elseif self.has and self.expires and GetTime() >= self.expires then
+        -- A hidden aura can't be looked up by its instance either (Forever refuses, Retail may report
+        -- a present one as missing), so only the end time tells that the buff is gone.
+        self.has = false
+        self.src = "end time"
     end
     return self.has
 end

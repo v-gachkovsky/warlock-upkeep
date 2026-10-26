@@ -11,6 +11,9 @@ M.SLOTS = {
     { key = "meta",  prefix = "meta-",  text = "Cmd + Click", mac = true },
 }
 
+-- Seconds the demon gets to come back after landing or dismounting.
+local PET_RETURN_DELAY = 3
+
 -- Grimoire of Sacrifice: no demon on purpose (followed through combat like the armor buff).
 local sacrifice = ns.NewBuffTracker(D.petSacrificeBuffs, nil, "sacrifice")
 local isSacrifice = {}
@@ -129,16 +132,22 @@ function M:Update()
     if self.lastHasPet and not hasPet then self.petLostAt = GetTime() end
     self.lastHasPet = hasPet
 
-    -- A flight path dismisses the demon until landing: while flying, the demon counts as there if it
-    -- was there at takeoff (gone just now, a moment before the player counts as on the taxi).
-    if ns.OnTaxi() then
-        if self.taxiHadPet == nil then
-            self.taxiHadPet = hasPet or (self.petLostAt ~= nil and GetTime() - self.petLostAt < 2)
+    -- Flight paths and flying mounts dismiss the demon for a while: while mounted, flying or on a taxi,
+    -- the demon counts as there if it was there when that started (or gone just now, a moment before
+    -- the player counts as mounted or flying). After landing or dismounting it gets a few seconds
+    -- to come back.
+    if ns.OnTaxi() or ns.Bool(IsMounted) or ns.Bool(IsFlying) then
+        if self.awayHadPet == nil then
+            self.awayHadPet = hasPet or (self.petLostAt ~= nil and GetTime() - self.petLostAt < 2)
         end
-        hasPet = self.taxiHadPet
-    else
-        self.taxiHadPet = nil
+        self.backAt = nil
+    elseif self.awayHadPet ~= nil then
+        self.backAt = self.backAt or GetTime()
+        if hasPet or GetTime() - self.backAt >= PET_RETURN_DELAY then
+            self.awayHadPet, self.backAt = nil, nil
+        end
     end
+    if self.awayHadPet then hasPet = true end
     if not hasPet then
         hasPet = sacrifice:Read() == true
     end
