@@ -196,7 +196,7 @@ local function Note(text)
     local fs = Label(text, LEFT, "GameFontDisableSmall")
     fs:SetWidth(440)
     fs:SetJustifyH("LEFT")
-    y = y - (fs:GetStringHeight() + 6)
+    y = y - (fs:GetStringHeight() + 12)
 end
 
 ------------------------------------------------------------------------
@@ -390,7 +390,7 @@ local function BuildContent()
     if ns.modules.armor then
         IconSection("Demon Armor / Demon Skin", "armor", "Interface\\Icons\\Spell_Shadow_RagingScream", function(get)
             -- Clients that hide auras from addons in combat (Forever).
-            if C_Secrets then
+            if ns.SECRET_AURAS then
                 Note("Important: add Demon Skin and Demon Armor to the Cooldown Manager's Tracked Buffs. " ..
                     "In combat the game hides your buffs from addons, and the Cooldown Manager is what lets " ..
                     "this icon notice the armor being removed or recast during a fight.")
