@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- **Soulstone in combat on Retail**: the Soulstone icon showed up mid-fight although your Soulstone (or the one
+  on another player) was still on. The game hides auras from addons in combat, and the addon took the hidden
+  Soulstone for a used one. A Soulstone now stays tracked through the fight until it runs out, and the addon
+  checks it again right after combat, as the README describes. The same check could also bring back the demon
+  icon in combat under Grimoire of Sacrifice.
+
 ## [1.7.0] - 2026-10-26
 
 ### Added

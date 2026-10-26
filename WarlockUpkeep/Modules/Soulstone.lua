@@ -107,9 +107,9 @@ local function ScanUnits()
     return units
 end
 
-local function UnitByGUID(guid, units)
+local function UnitByGUID(guid)
     if not guid then return nil end
-    for _, u in ipairs(units or GroupUnits()) do
+    for _, u in ipairs(GroupUnits()) do
         if GUIDOf(u) == guid then return u end
     end
 end
@@ -143,20 +143,11 @@ function M:GetTracked()
 end
 
 -- full: "Name" / "Name-Realm", kept only as a fallback when the GUID is unknown.
--- instance: the aura instance ID once seen, so its removal can be noticed in combat.
-function M:SetTracked(guid, name, class, expires, full, instance)
+-- In combat (hidden auras) a tracked Soulstone is kept until it runs out: a used or removed one
+-- is noticed by the scan right after the fight.
+function M:SetTracked(guid, name, class, expires, full)
     if not guid and not name then ns.cdb.soulstone = nil; return end
-    ns.cdb.soulstone = { guid = guid, name = name, full = full, class = class, expires = expires, instance = instance }
-end
-
--- In combat the Soulstone aura is secret, but its remembered instance still shows whether
--- it's gone (used or removed). Only for a visible unit: hidden ones read as "no aura" too.
-function M:CheckInstance()
-    local t = self:GetTracked()
-    if not t or not t.instance then return end
-    local u = UnitByGUID(t.guid, ScanUnits())
-    if not u or not ns.Bool(UnitIsVisible, u) or not ns.Bool(UnitIsConnected, u) then return end
-    if ns.AuraInstanceExists(u, t.instance) == false then self:SetTracked(nil) end
+    ns.cdb.soulstone = { guid = guid, name = name, full = full, class = class, expires = expires }
 end
 
 local function IsSelf(t)
@@ -224,9 +215,7 @@ function M:Scan()
             local t = self:GetTracked()
             expires = t and t.expires or GetServerTime() + Duration()
         end
-        local id = a.auraInstanceID
-        self:SetTracked(GUIDOf(found.unit), ShortName(UnitName(found.unit)), ClassOf(found.unit), expires, nil,
-            not ns.IsSecret(id) and id or nil)
+        self:SetTracked(GUIDOf(found.unit), ShortName(UnitName(found.unit)), ClassOf(found.unit), expires)
         return
     end
 
@@ -418,8 +407,6 @@ function M:Update()
         self.needScan = false
         self.lastScan = GetTime()
         self:Scan()
-    elseif ns.AurasSecret() then
-        self:CheckInstance()
     end
     -- On the caster the game's buff frame shows the Soulstone in combat too: gone means used.
     local wasOn = selfStone.has
