@@ -61,11 +61,11 @@ ns.LOCALES.ukUA = {
 
     -- Lists
     ["English"] = "English",
-    ["Right-drag"] = "Перетягування правою кнопкою",
-    ["Shift + left-drag"] = "Shift + перетягування лівою",
-    ["Ctrl + left-drag"] = "Ctrl + перетягування лівою",
-    ["Alt + left-drag"] = "Alt + перетягування лівою",
-    ["Cmd + left-drag"] = "Cmd + перетягування лівою",
+    ["Right-drag"] = "Права кнопка миші",
+    ["Shift + left-drag"] = "Shift + ліва кнопка миші",
+    ["Ctrl + left-drag"] = "Ctrl + ліва кнопка миші",
+    ["Alt + left-drag"] = "Alt + ліва кнопка миші",
+    ["Cmd + left-drag"] = "Cmd + ліва кнопка миші",
     ["Click"] = "Клік",
     ["Shift + Click"] = "Shift + клік",
     ["Ctrl + Click"] = "Ctrl + клік",
@@ -75,7 +75,7 @@ ns.LOCALES.ukUA = {
     ["None"] = "Немає",
     ["Outline"] = "Контур",
     ["Thick outline"] = "Товстий контур",
-    ["Proc (Cooldown Manager)"] = "Прок (як у Менеджері перезарядок)",
+    ["Proc (Cooldown Manager)"] = "Прок",
     ["Running lines"] = "Біжучі лінії",
     ["Pulsing border"] = "Пульсуюча рамка",
     ["Fill icon"] = "Заливка іконки",
@@ -208,7 +208,7 @@ ns.LOCALES.ukUA = {
     ["Preview timer speed, x"] = "Швидкість у перегляді, x",
     ["The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
         "(300x: a second per 5 minutes) and the sounds play on every cycle."] =
-        "Там, де зони перетинаються, діє критична. У попередньому перегляді таймер іде швидше на вказану вище швидкість " ..
+        "Там, де зони перетинаються, діє критична зона. У попередньому перегляді таймер іде швидше на вказану вище швидкість " ..
         "(300x: секунда за 5 хвилин), а звуки грають на кожному колі.",
 
     -- Settings: demon
