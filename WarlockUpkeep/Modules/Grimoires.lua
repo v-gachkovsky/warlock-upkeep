@@ -219,10 +219,10 @@ local function AddTooltipLines(tt, itemID)
     if not list then return end
     for _, s in ipairs(list) do
         local t = STATE_TEXT[s.state]
-        local have = s.have > 0 and string.format("%s (Rank %d)", s.spell or "", s.have) or (s.spell or "")
-        local text = s.state == "known" and string.format(t[1], have) or t[1]
-        if s.state == "missing" and s.have > 0 then text = string.format("knows Rank %d, not this one", s.have) end
-        tt:AddLine("|cff9482c9" .. M.DEMON_NAMES[s.demon] .. ":|r " .. text, t[2], t[3], t[4])
+        local have = s.have > 0 and string.format(ns.L["%s (Rank %d)"], s.spell or "", s.have) or (s.spell or "")
+        local text = s.state == "known" and string.format(ns.L[t[1]], have) or ns.L[t[1]]
+        if s.state == "missing" and s.have > 0 then text = string.format(ns.L["knows Rank %d, not this one"], s.have) end
+        tt:AddLine("|cff9482c9" .. ns.L[M.DEMON_NAMES[s.demon]] .. ":|r " .. text, t[2], t[3], t[4])
     end
     tt:Show()
 end
@@ -278,7 +278,7 @@ end
 function M:CheckedDemons()
     local out = {}
     for _, d in ipairs(D.demons) do
-        if Store().known[d.key] then out[#out + 1] = M.DEMON_NAMES[d.key] or d.key end
+        if Store().known[d.key] then out[#out + 1] = ns.L[M.DEMON_NAMES[d.key] or d.key] end
     end
     return out
 end

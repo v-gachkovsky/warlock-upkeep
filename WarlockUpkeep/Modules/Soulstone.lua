@@ -337,10 +337,10 @@ function M:Init()
     self.button.previewState = "use"
     self.button.hint = function(tt)
         if M.button.state == "create" then
-            tt:AddLine("No Soulstone in bags. Click to create the strongest one.", 1, 0.3, 0.3)
+            tt:AddLine(ns.L["No Soulstone in bags. Click to create the strongest one."], 1, 0.3, 0.3)
         else
-            tt:AddLine("Soulstone is not applied. Click to use it on your", 1, 0.82, 0)
-            tt:AddLine("friendly target (or yourself if none).", 1, 0.82, 0)
+            tt:AddLine(ns.L["Soulstone is not applied. Click to use it on your"], 1, 0.82, 0)
+            tt:AddLine(ns.L["friendly target (or yourself if none)."], 1, 0.82, 0)
         end
     end
     self:CreateLabel()
@@ -453,7 +453,7 @@ function M:Update()
         local expires = GetServerTime() + Duration()
         if Check(UnitExists, "target") and not Check(UnitIsUnit, "target", "player") then
             local s = Snapshot("target")
-            self:ShowLabel(s.name or "Soulstone target", s.class, expires, true)
+            self:ShowLabel(s.name or ns.L["Soulstone target"], s.class, expires, true)
         else
             self:ShowLabel(nil, nil, LabelCfg().showSelf and expires or nil, true)
         end

@@ -1,5 +1,6 @@
 local _, ns = ...
 local M = ns:NewModule("minimap")
+local L = ns.L
 
 local function Cfg() return ns.db.minimap end
 
@@ -49,7 +50,7 @@ function M:Init()
         elseif mouse == "RightButton" then
             ns.db.preview = not ns.db.preview
             ns:ApplyAll()
-            ns.Print("preview %s.", ns.db.preview and "on" or "off")
+            ns.Print(ns.db.preview and L["preview on."] or L["preview off."])
         else
             ns.ToggleOptions()
         end
@@ -62,11 +63,11 @@ function M:Init()
     b:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:AddLine("|cff9482c9WarlockUpkeep!|r")
-        GameTooltip:AddLine("Left click: settings", 1, 1, 1)
-        GameTooltip:AddLine("Right click: toggle preview", 1, 1, 1)
-        GameTooltip:AddLine("Shift + right click: simulate combat", 1, 1, 1)
-        if ns.db.previewCombat then GameTooltip:AddLine("Simulated combat look is ON", 1, 0.3, 0.3) end
-        if not Cfg().locked then GameTooltip:AddLine("Drag to move around the minimap", 0.6, 0.6, 0.6) end
+        GameTooltip:AddLine(L["Left click: settings"], 1, 1, 1)
+        GameTooltip:AddLine(L["Right click: toggle preview"], 1, 1, 1)
+        GameTooltip:AddLine(L["Shift + right click: simulate combat"], 1, 1, 1)
+        if ns.db.previewCombat then GameTooltip:AddLine(L["Simulated combat look is ON"], 1, 0.3, 0.3) end
+        if not Cfg().locked then GameTooltip:AddLine(L["Drag to move around the minimap"], 0.6, 0.6, 0.6) end
         GameTooltip:Show()
     end)
     b:SetScript("OnLeave", GameTooltip_Hide)

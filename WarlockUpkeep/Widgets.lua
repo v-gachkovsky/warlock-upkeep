@@ -1,4 +1,5 @@
 local _, ns = ...
+local L = ns.L
 
 ns.QUESTION_ICON = "Interface\\Icons\\INV_Misc_QuestionMark"
 ns.LOGO = "Interface\\AddOns\\WarlockUpkeep\\Media\\logo"
@@ -95,7 +96,7 @@ function ns.ApplyNameFont(fs, path, size, outline)
         end
         nameFamilyCount = nameFamilyCount + 1
         local ok, f = pcall(CreateFontFamily, "WarlockUpkeepNameFont" .. nameFamilyCount, members)
-        if not ok then ns.Print("can't create the name font: %s", tostring(f)) end
+        if not ok then ns.Print(L["can't create the name font: %s"], tostring(f)) end
         family = ok and f or false
         nameFamilies[key] = family
     end
@@ -108,7 +109,7 @@ function ns.GetSoundList()
     for _, s in ipairs(ns.SOUNDS) do list[#list + 1] = s; seen[s.value] = true end
     for _, c in ipairs(ns.db and ns.db.customSounds or {}) do
         if not seen[c.path] then
-            list[#list + 1] = { value = c.path, text = c.name .. " (custom)" }
+            list[#list + 1] = { value = c.path, text = string.format(L["%s (custom)"], c.name) }
             seen[c.path] = true
         end
     end
@@ -377,9 +378,9 @@ end
 
 function ns.MoveModeText()
     for _, m in ipairs(ns.MOVE_MODES) do
-        if m.value == ns.db.moveWith then return m.text end
+        if m.value == ns.db.moveWith then return L[m.text] end
     end
-    return "Right-drag"
+    return L["Right-drag"]
 end
 
 local modifierDown = {
@@ -638,17 +639,17 @@ local function Icon_OnEnter(self)
     elseif self.tipSpell then
         GameTooltip:SetSpellByID(self.tipSpell)
     else
-        GameTooltip:AddLine(self.title)
+        GameTooltip:AddLine(L[self.title])
     end
     if self.unlearned then
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine("Not learned yet (shown in preview only).", 1, 0.3, 0.3)
+        GameTooltip:AddLine(L["Not learned yet (shown in preview only)."], 1, 0.3, 0.3)
     elseif self.hint then
         GameTooltip:AddLine(" ")
         self.hint(GameTooltip)
     end
     if not self:Cfg().locked then
-        GameTooltip:AddLine(ns.MoveModeText() .. " to move", 0.6, 0.6, 0.6)
+        GameTooltip:AddLine(string.format(L["%s to move"], ns.MoveModeText()), 0.6, 0.6, 0.6)
     end
     GameTooltip:Show()
 end

@@ -12,7 +12,7 @@ function M:Desired()
     local parts = {}
     for _, d in ipairs(D.demons) do
         if d.shard and ns.DemonSpell(d) then
-            parts[#parts + 1] = "Demon summon"
+            parts[#parts + 1] = ns.L["Demon summon"]
             break
         end
     end
@@ -57,13 +57,13 @@ function M:Init()
         local count = ns.ItemCount(D.SOUL_SHARD) or M.lastCount or 0
         local desired, parts = M:Desired()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:AddLine("Soul Shards", 0.58, 0.51, 0.79)
-        GameTooltip:AddDoubleLine("In bags", count, 1, 1, 1, 1, 1, 1)
-        GameTooltip:AddDoubleLine("Recommended", desired, 1, 1, 1, 1, 0.82, 0)
+        GameTooltip:AddLine(ns.L["Soul Shards"], 0.58, 0.51, 0.79)
+        GameTooltip:AddDoubleLine(ns.L["In bags"], count, 1, 1, 1, 1, 1, 1)
+        GameTooltip:AddDoubleLine(ns.L["Recommended"], desired, 1, 1, 1, 1, 0.82, 0)
         for _, p in ipairs(parts) do GameTooltip:AddDoubleLine("  " .. p, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8) end
-        if Cfg().spare > 0 then GameTooltip:AddDoubleLine("  Spare", Cfg().spare, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8) end
-        GameTooltip:AddDoubleLine("Low threshold", M:Threshold(), 1, 1, 1, 1, 0.3, 0.3)
-        if not Cfg().locked then GameTooltip:AddLine("Drag to move", 0.6, 0.6, 0.6) end
+        if Cfg().spare > 0 then GameTooltip:AddDoubleLine("  " .. ns.L["Spare"], Cfg().spare, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8) end
+        GameTooltip:AddDoubleLine(ns.L["Low threshold"], M:Threshold(), 1, 1, 1, 1, 0.3, 0.3)
+        if not Cfg().locked then GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6) end
         GameTooltip:Show()
     end)
     f:SetScript("OnLeave", GameTooltip_Hide)
