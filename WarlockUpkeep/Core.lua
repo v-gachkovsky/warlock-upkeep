@@ -73,11 +73,11 @@ ns.defaults = {
         point = { "CENTER", "CENTER", 60, 160 },
         showIcon = true, iconSize = 32, bgAlpha = 0.3,
         font = "Fonts\\FRIZQT__.TTF", fontSize = 20, outline = "OUTLINE",
-        color = { 1, 1, 1, 1 }, lowColor = { 1, 0.25, 0.25, 1 },
+        color = { 1, 1, 1, 1 }, lowColor = { 1, 0.25, 0.25, 1 }, edgeColor = { 1, 0.82, 0, 1 },
         showThreshold = false, -- "have/threshold" instead of just "have"
         autoThreshold = true, threshold = 3,
         spare = 1, includeRitual = false,
-        glow = true, glowColor = { 1, 0.2, 0.2, 1 },
+        glow = true, glowColor = { 1, 0.2, 0.2, 1 }, edgeGlowColor = { 1, 0.82, 0, 1 },
         sound = false, soundName = "RAID_WARNING",
     },
 }

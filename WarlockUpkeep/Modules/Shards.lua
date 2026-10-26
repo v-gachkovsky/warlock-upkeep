@@ -104,9 +104,11 @@ function M:Update()
     local low = count < threshold
 
     f.text:SetText(cfg.showThreshold and string.format("%d/%d", count, threshold) or tostring(count))
-    local c = low and cfg.lowColor or cfg.color
+    -- Exactly at the threshold (one shard more used and it's low): text and highlight in their own color.
+    local edge = not low and threshold > 0 and count == threshold
+    local c = low and cfg.lowColor or edge and cfg.edgeColor or cfg.color
     f.text:SetTextColor(c[1], c[2], c[3], c[4] or 1)
-    f.glow:SetGlow(low and cfg.glow and cfg.showIcon, cfg.glowColor, cfg.iconSize)
+    f.glow:SetGlow((low or edge) and cfg.glow and cfg.showIcon, edge and cfg.edgeGlowColor or cfg.glowColor, cfg.iconSize)
 
     if low and not self.low and ns.ready and cfg.sound then ns.PlaySound(cfg.soundName) end
     self.low = low

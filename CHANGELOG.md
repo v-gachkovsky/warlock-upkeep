@@ -4,6 +4,13 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Soul Shard counter**: when the count equals the low threshold (one more shard used and it's low), the text
+  and the icon highlight turn yellow by default (new *Text color at the threshold* and *Highlight color at the
+  threshold* options). Below the threshold they stay red, and the sound plays only then.
+
 ## [1.6.0] - 2026-10-26
 
 ### Added

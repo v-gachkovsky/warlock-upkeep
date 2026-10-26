@@ -406,9 +406,11 @@ local function BuildContent()
         SubHeader("Text")
         FontRows(sh, { { "Font size", "fontSize" } })
         Color("Text color", function() return sh().color end, function(v) sh().color = v end)
+        Color("Text color at the threshold", function() return sh().edgeColor end, function(v) sh().edgeColor = v end)
         Color("Text color when low", function() return sh().lowColor end, function(v) sh().lowColor = v end)
         SubHeader("Low shards alert")
         GlowAndSound(sh)
+        Color("Highlight color at the threshold", function() return sh().edgeGlowColor end, function(v) sh().edgeGlowColor = v end)
     end
 
     -- 3. Healthstone

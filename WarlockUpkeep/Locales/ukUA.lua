@@ -182,6 +182,8 @@ ns.LOCALES.ukUA = {
     ["Text"] = "Текст",
     ["Font size"] = "Розмір шрифту",
     ["Text color"] = "Колір тексту",
+    ["Highlight color at the threshold"] = "Колір підсвітки на порозі",
+    ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
 
