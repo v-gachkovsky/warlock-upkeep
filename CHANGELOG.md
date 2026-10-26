@@ -4,6 +4,14 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- **Demon icon on flying mounts**: it lit up when you took off, since the game dismisses the demon in the air.
+  Now, as on flight paths, the demon counts as there while you're mounted or flying if it was out when you set
+  off, and after you land or dismount it gets a few seconds to come back before the icon shows (also after
+  a flight path).
+
 ## [1.7.0] - 2026-10-26
 
 ### Added
