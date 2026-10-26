@@ -228,6 +228,9 @@ local TOC = select(4, GetBuildInfo())
 ns.SHARD_ITEMS = TOC < 40000
 -- Demon Skin / Demon Armor / Fel Armor were removed in Mists.
 ns.HAS_ARMOR = TOC < 50000
+-- Forever (1.6x) and Retail hide auras from addons in combat; there the Cooldown Manager tells
+-- when a tracked buff changes. Classic Era, TBC and Mists read auras in combat as usual.
+ns.SECRET_AURAS = (TOC >= 16000 and TOC < 20000) or TOC >= 120000
 
 ------------------------------------------------------------------------
 -- Helpers: spells, items, auras, secrets
