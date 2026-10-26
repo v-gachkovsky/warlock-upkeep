@@ -6,9 +6,22 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Soul Shard counter**: when the count equals the low threshold (one more shard used and it's low), the text
+  and the icon highlight turn yellow by default (new *Text color at the threshold* and *Highlight color at the
+  threshold* options). Below the threshold they stay red, and the sound plays only then.
+
 ### Changed
 - **Dropdown lists** in the settings instead of buttons that cycled through the values (language, sounds,
   fonts, highlight, move mode, demons per click). Long lists, like sounds, scroll.
+- **Grimoires**: the settings list the learned demons that aren't checked yet, and the help text and grimoire
+  tooltips explain how to check one (summon it once, anywhere).
+
+### Fixed
+- The Cooldown Manager note in the armor settings showed on Classic Era and TBC, which have no Cooldown Manager
+  and read buffs in combat; it now shows only on WoW Forever.
+- Help notes in the settings no longer touch the row below them.
+- Clearer Ukrainian texts for click-through and hiding icons in combat.
 
 ## [1.6.0] - 2026-10-26
 
