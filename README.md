@@ -38,6 +38,7 @@
 - [Client limitations](#client-limitations)
 - [Project structure](#project-structure)
 - [Releasing](#releasing)
+- [Support](#support)
 - [License](#license)
 - [Changelog](CHANGELOG.md)
 
@@ -415,6 +416,13 @@ For CurseForge uploads, set in the repository settings:
 
 Without them only the GitHub Release is created. CurseForge game versions are taken from `## Interface`;
 versions CurseForge doesn't know are skipped.
+
+## Support
+
+WarlockUpkeep! is free. If it helps you, you can support its development:
+
+- [Ko-fi](https://ko-fi.com/mortivux)
+- [monobank jar](https://send.monobank.ua/jar/2GZjyGouqJ)
 
 ## License
 

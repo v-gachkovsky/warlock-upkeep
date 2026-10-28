@@ -141,6 +141,13 @@ button in the settings. The shard counter and the Soulstone label are dragged wi
 
 Found a bug or have an idea? Open an issue on [GitHub](https://github.com/v-gachkovsky/warlock-upkeep/issues).
 
+## Support
+
+WarlockUpkeep! is free. If it helps you, you can support its development:
+
+- [Ko-fi](https://ko-fi.com/mortivux)
+- [monobank jar](https://send.monobank.ua/jar/2GZjyGouqJ)
+
 ---
 
 With ❤️ from 🇺🇦
