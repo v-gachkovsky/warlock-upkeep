@@ -4,7 +4,7 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.8.1] - 2026-10-29
 
 ### Added
 - Links to support the project on Ko-fi and through a monobank jar: in the README, on the CurseForge page and
