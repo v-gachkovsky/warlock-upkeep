@@ -220,6 +220,10 @@ ns.LOCALES.ukUA = {
         "(300x: a second per 5 minutes) and the sounds play on every cycle."] =
         "Там, де зони перетинаються, діє критична зона. У попередньому перегляді таймер іде швидше на вказану вище швидкість " ..
         "(300x: секунда за 5 хвилин), а звуки грають на кожному колі.",
+    ["Hardcore realm: nobody can be brought back to life here, so the Soulstone icon and label are off " ..
+        "and the Soulstone isn't counted in the recommended shards."] =
+        "Хардкор-реалм: тут нікого не можна воскресити, тому іконку й лейбу Каменя душі вимкнено, " ..
+        "а Камінь душі не входить у рекомендовану кількість осколків.",
 
     -- Settings: demon
     ["Demon (pet)"] = "Демон (пет)",

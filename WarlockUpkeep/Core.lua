@@ -233,6 +233,11 @@ ns.HAS_ARMOR = TOC < 50000
 -- Forever (1.6x) and Retail hide auras from addons in combat; there the Cooldown Manager tells
 -- when a tracked buff changes. Classic Era, TBC and Mists read auras in combat as usual.
 ns.SECRET_AURAS = (TOC >= 16000 and TOC < 20000) or TOC >= 120000
+-- Hardcore realms (Classic Era, Anniversary, Forever): nobody can be brought back to life there, so the
+-- Soulstone is no use, although trainers still teach it. Clients without the function have no such realms.
+function ns.Hardcore()
+    return C_GameRules and C_GameRules.IsHardcoreActive and ns.Bool(C_GameRules.IsHardcoreActive) or false
+end
 
 ------------------------------------------------------------------------
 -- Helpers: spells, items, auras, secrets

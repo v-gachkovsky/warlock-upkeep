@@ -128,7 +128,7 @@ when the General options hide everything else there.
 **The recommended amount** is made up of:
 
 - **1** for summoning a demon, if Voidwalker, Succubus or Felhunter is learned;
-- **1 per** learned stone: Healthstone, Soulstone, Firestone, Spellstone;
+- **1 per** learned stone: Healthstone, Soulstone (except on Hardcore realms), Firestone, Spellstone;
 - **spare** shards (configurable, 1 by default);
 - optionally **Ritual of Summoning**.
 
@@ -173,6 +173,9 @@ running timer, so you can see and place it.
 
 The critical zone wins where the zones overlap. Sounds are off by default. In preview mode the timer runs faster (300x by default, adjustable from 1x to 600x)
 and the sounds play on every cycle, so you can hear them.
+
+**Hardcore realms.** Nobody can be brought back to life there, so the addon has no Soulstone icon or label on
+them and replaces the Soulstone settings with a note, although trainers still teach the spell.
 
 ### 5. Demon
 

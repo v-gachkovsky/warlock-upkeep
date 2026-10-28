@@ -4,13 +4,16 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.8.1] - 2026-10-29
 
 ### Added
 - Links to support the project on Ko-fi and through a monobank jar: in the README, on the CurseForge page and
   behind GitHub's *Sponsor* button.
 
 ### Fixed
+- **Hardcore realms**: the addon no longer reminds you to create and apply a Soulstone, which can't bring anyone
+  back there (trainers still teach it), and doesn't count it in the recommended shards. The Soulstone settings
+  are replaced by a note.
 - The addon list showed `@project-version@` instead of the version when the addon ran straight from the
   repository (the released zip always had the right one). The TOC now holds the version number itself.
 
