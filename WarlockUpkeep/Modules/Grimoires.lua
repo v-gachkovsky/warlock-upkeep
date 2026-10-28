@@ -166,11 +166,12 @@ local function MerchantButton(i)
         b.wuMark = b:CreateTexture(nil, "OVERLAY", nil, 7)
         b.wuMark:SetSize(18, 18)
         b.wuMark:SetPoint("TOPRIGHT", 4, 4)
-        -- A bag in the other corner: you already have this grimoire with you.
+        -- A bag in the other corner: you already have this grimoire with you. The vendor's sack
+        -- from the gossip menu: its own shape, so it doesn't look like a square button.
         b.wuBag = b:CreateTexture(nil, "OVERLAY", nil, 7)
-        b.wuBag:SetSize(16, 16)
+        b.wuBag:SetSize(18, 18)
         b.wuBag:SetPoint("TOPLEFT", -4, 4)
-        b.wuBag:SetTexture("Interface\\Buttons\\Button-Backpack-Up")
+        b.wuBag:SetTexture("Interface\\GossipFrame\\VendorGossipIcon")
     end
     return b
 end
