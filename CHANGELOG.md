@@ -4,6 +4,12 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- The addon list showed `@project-version@` instead of the version when the addon ran straight from the
+  repository (the released zip always had the right one). The TOC now holds the version number itself.
+
 ## [1.8.0] - 2026-10-28
 
 ### Added

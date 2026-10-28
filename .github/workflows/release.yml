@@ -1,7 +1,8 @@
 # Release on a version tag (v1.2.3, or v1.2.3-beta1 for a pre-release):
 #   git tag v1.2.3 && git push origin v1.2.3
-# The tag is the single source of the version: it goes into the TOC, the zip name,
-# the GitHub Release and the CurseForge file. Release notes come from CHANGELOG.md.
+# The tag must match "## Version:" in the TOC, or the release stops before anything is published.
+# The version goes into the zip name, the GitHub Release and the CurseForge file.
+# Release notes come from CHANGELOG.md.
 #
 # CurseForge needs a repository secret CF_API_KEY (https://legacy.curseforge.com/account/api-tokens)
 # and a repository variable CURSEFORGE_PROJECT_ID. Without them only the GitHub Release is made.
@@ -25,6 +26,11 @@ jobs:
       - name: Read version
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
+          TOC_VERSION=$(sed -n 's/^## Version: *//p' "$ADDON/$ADDON.toc" | tr -d ' \r')
+          if [ "$TOC_VERSION" != "$VERSION" ]; then
+            echo "::error::The tag is $VERSION but $ADDON.toc has version $TOC_VERSION"
+            exit 1
+          fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           case "$VERSION" in
             *alpha*) echo "RELEASE_TYPE=alpha" >> "$GITHUB_ENV" ;;
@@ -49,8 +55,6 @@ jobs:
           mkdir -p "dist/$ADDON"
           cp -R "$ADDON/." "dist/$ADDON/"
           cp LICENSE "dist/$ADDON/"
-          sed -i "s/@project-version@/$VERSION/" "dist/$ADDON/$ADDON.toc"
-          grep -q "^## Version: $VERSION\$" "dist/$ADDON/$ADDON.toc"
           (cd dist && zip -qr "../$ADDON-$VERSION.zip" "$ADDON")
 
       - name: GitHub Release

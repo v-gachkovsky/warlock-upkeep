@@ -393,10 +393,12 @@ WarlockUpkeep/
 ## Релізи
 
 Релізи збирає [`.github/workflows/release.yml`](.github/workflows/release.yml) з тегу версії.
-Версія задається лише тегом: вона потрапляє в TOC (`## Version: @project-version@`), у назву zip,
-у GitHub Release і у файл на CurseForge, тож вони завжди однакові.
+Версія записана в TOC (`## Version: x.y.z`), тож список аддонів показує її, навіть коли аддон запущено
+прямо з репозиторію. Тег має з нею збігатися: якщо ні, workflow зупиняється, нічого не опублікувавши.
+Версія потрапляє в назву zip, у GitHub Release і у файл на CurseForge, тож вони завжди однакові.
 
-1. Додай у [CHANGELOG.md](CHANGELOG.md) розділ `## [x.y.z] - YYYY-MM-DD`. Він стане описом релізу.
+1. Вкажи версію у [`WarlockUpkeep.toc`](WarlockUpkeep/WarlockUpkeep.toc) і додай у [CHANGELOG.md](CHANGELOG.md)
+   розділ `## [x.y.z] - YYYY-MM-DD`. Розділ стане описом релізу.
 2. Створи й запуш тег:
 
    ```sh
@@ -404,7 +406,7 @@ WarlockUpkeep/
    git push origin v1.0.0
    ```
 
-Теги із суфіксом (`v1.1.0-beta1`) стають пре-релізами (*beta* на CurseForge, *alpha*, якщо в суфіксі є `alpha`).
+Теги із суфіксом (`v1.1.0-beta1`, з тією ж версією в TOC) стають пре-релізами (*beta* на CurseForge, *alpha*, якщо в суфіксі є `alpha`).
 
 Для завантаження на CurseForge задай у налаштуваннях репозиторію:
 
