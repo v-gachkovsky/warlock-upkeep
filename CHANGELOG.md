@@ -16,6 +16,10 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - *Hide all icons while on a flight path* (and the new mount option) also hide the Soulstone label, and the
   shard counter unless it's kept on screen.
 - The Ukrainian name of the flight path option now says it's about flight paths (*під час польоту на таксі*).
+- **Grimoires**: at vendors, grimoires for demons you can't summon yet get a red cross and turn dark grey instead
+  of plain grey, so they no longer look like learned ones (or like the game's red for books you can't use yet).
+- **Grimoires**: the mark on grimoires already in your bags is the vendor's sack icon instead of the square
+  backpack button.
 
 ## [1.7.1] - 2026-10-27
 

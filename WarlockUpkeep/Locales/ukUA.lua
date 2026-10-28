@@ -238,12 +238,12 @@ ns.LOCALES.ukUA = {
         "the addon remembers what it knows and keeps it up to date. To check a demon, just summon it anywhere: " ..
         "its spells are read in a moment, and you can summon another one right after. At a vendor, learned " ..
         "grimoires get a check mark and turn grey; a question mark means that demon hasn't been checked yet. " ..
-        "Grimoires for demons you can't summon yet are grey, without a mark. A bag icon means you already have " ..
+        "Grimoires for demons you can't summon yet are dark grey with a red cross. A bag icon means you already have " ..
         "that grimoire in your bags."] =
         "Заклинання демона аддон може прочитати, лише поки демон призваний: призвіть кожного демона один раз, і далі " ..
         "аддон пам'ятає, що він знає, і сам оновлює ці дані. Щоб перевірити демона, просто призвіть його будь-де: " ..
         "заклинання зчитаються за мить, і одразу можна призивати наступного. У торговця вивчені гримуари мають " ..
         "галочку і сіру іконку; знак питання означає, що цього демона ще не перевірено. Гримуари для демонів, " ..
-        "яких ви ще не можете призвати, сірі й без позначки. Іконка сумки означає, що цей гримуар уже " ..
+        "яких ви ще не можете призвати, темно-сірі з червоним хрестиком. Іконка сумки означає, що цей гримуар уже " ..
         "лежить у ваших сумках.",
 }
