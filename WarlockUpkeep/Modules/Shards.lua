@@ -18,7 +18,8 @@ function M:Desired()
     end
     for _, key in ipairs(D.stoneOrder) do
         local spell = ns.HighestKnown(D.stones[key])
-        if spell then parts[#parts + 1] = ns.SpellName(spell) or key end
+        -- Hardcore realms: trainers teach the Soulstone, but it can't bring anyone back there.
+        if spell and not (key == "soulstone" and ns.Hardcore()) then parts[#parts + 1] = ns.SpellName(spell) or key end
     end
     if cfg.includeRitual and ns.IsKnown(D.ritualOfSummoning) then
         parts[#parts + 1] = ns.SpellName(D.ritualOfSummoning) or "Ritual of Summoning"

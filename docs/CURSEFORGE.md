@@ -40,7 +40,7 @@ Shows your shards (optionally as **have / threshold**), turns yellow at the thre
 below it, with a highlight in the same color. The threshold equals the recommended amount by default. The recommended amount is calculated from what you actually know:
 
 - 1 shard for summoning a demon (once Voidwalker, Succubus or Felhunter is learned)
-- 1 shard for each learned stone: Healthstone, Soulstone, Firestone, Spellstone
+- 1 shard for each learned stone: Healthstone, Soulstone (except on Hardcore realms), Firestone, Spellstone
 - spare shards (1 by default, configurable)
 - optionally, Ritual of Summoning
 
@@ -59,6 +59,9 @@ When your Soulstone is on another player, a movable label shows **their name in 
 time**. When it's on yourself, or another warlock's Soulstone is on you, only the timer is shown (optional).
 Another warlock's Soulstone on you can also hide the icon (an option, off by default). Font, size, outline, icon and background
 opacity are all configurable.
+
+On Hardcore realms nobody can be brought back to life, so there's no Soulstone icon or label there, although
+trainers still teach the spell.
 
 ### Demon
 

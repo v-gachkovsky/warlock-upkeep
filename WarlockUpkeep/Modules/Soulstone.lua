@@ -398,6 +398,13 @@ function M:Update()
         self.label:Hide()
         return
     end
+    -- Hardcore realm: a Soulstone can't bring anyone back, so no icon or label, not even in preview.
+    if ns.Hardcore() then
+        b:SetAction(nil)
+        b:SetState(nil)
+        self.label:Hide()
+        return
+    end
 
     if not ns.AurasSecret() and IsInRaid() and self:GetTracked()
         and GetTime() - (self.lastScan or 0) >= RAID_SCAN_PERIOD then

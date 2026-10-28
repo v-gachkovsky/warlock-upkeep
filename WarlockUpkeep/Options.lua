@@ -442,41 +442,47 @@ local function BuildContent()
     IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04")
 
     -- 4. Soulstone
-    IconSection("Soulstone", "soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem", function(get)
-        Check("Hide while another warlock's Soulstone is on you", function() return get().hideWhenOthers end, function(v) get().hideWhenOthers = v end)
-        if not ns.SHARD_ITEMS then
-            -- Cast directly on the target: there's only the "not applied" state.
+    if ns.Hardcore() then
+        Header("Soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem")
+        Note("Hardcore realm: nobody can be brought back to life here, so the Soulstone icon and label are off " ..
+            "and the Soulstone isn't counted in the recommended shards.")
+    else
+        IconSection("Soulstone", "soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem", function(get)
+            Check("Hide while another warlock's Soulstone is on you", function() return get().hideWhenOthers end, function(v) get().hideWhenOthers = v end)
+            if not ns.SHARD_ITEMS then
+                -- Cast directly on the target: there's only the "not applied" state.
+                GlowAndSound(function() return get().states.use end)
+                return
+            end
+            Check("Remind to create a new Soulstone while one is applied", function() return get().createWhileApplied end, function(v) get().createWhileApplied = v end)
+            SubHeader("State: Soulstone in bags but not applied")
             GlowAndSound(function() return get().states.use end)
-            return
+            SubHeader("State: no Soulstone in bags")
+            GlowAndSound(function() return get().states.create end)
+        end)
+        local lb = T("soulstoneLabel")
+        SubHeader("Soulstone target label")
+        Check("Show label (name + timer) when used on another player", function() return lb().enabled end, function(v) lb().enabled = v end)
+        Check("Show timer (without name) when Soulstone is on yourself (yours or another warlock's)", function() return lb().showSelf end, function(v) lb().showSelf = v end)
+        Check("Lock label position", function() return lb().locked end, function(v) lb().locked = v end)
+        Check("Show Soulstone icon left of the timer", function() return lb().showIcon end, function(v) lb().showIcon = v end)
+        Slider("Background opacity, %", 0, 100, 5, function() return math.floor(lb().bgAlpha * 100 + 0.5) end, function(v) lb().bgAlpha = v / 100 end)
+        FontRows(lb, { { "Name size", "nameSize" }, { "Timer size", "timerSize" } })
+        Color("Timer color", function() return lb().timerColor end, function(v) lb().timerColor = v end)
+        for _, z in ipairs({ { "warn", "Timer: warning zone" }, { "crit", "Timer: critical zone" } }) do
+            local get = function() return lb().zones[z[1]] end
+            SubHeader(z[2])
+            Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
+            Slider("Starts at, seconds left", 5, 1800, 5, function() return get().seconds end, function(v) get().seconds = v end)
+            Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
+            SoundRows(get, "Play sound when the zone starts")
         end
-        Check("Remind to create a new Soulstone while one is applied", function() return get().createWhileApplied end, function(v) get().createWhileApplied = v end)
-        SubHeader("State: Soulstone in bags but not applied")
-        GlowAndSound(function() return get().states.use end)
-        SubHeader("State: no Soulstone in bags")
-        GlowAndSound(function() return get().states.create end)
-    end)
-    local lb = T("soulstoneLabel")
-    SubHeader("Soulstone target label")
-    Check("Show label (name + timer) when used on another player", function() return lb().enabled end, function(v) lb().enabled = v end)
-    Check("Show timer (without name) when Soulstone is on yourself (yours or another warlock's)", function() return lb().showSelf end, function(v) lb().showSelf = v end)
-    Check("Lock label position", function() return lb().locked end, function(v) lb().locked = v end)
-    Check("Show Soulstone icon left of the timer", function() return lb().showIcon end, function(v) lb().showIcon = v end)
-    Slider("Background opacity, %", 0, 100, 5, function() return math.floor(lb().bgAlpha * 100 + 0.5) end, function(v) lb().bgAlpha = v / 100 end)
-    FontRows(lb, { { "Name size", "nameSize" }, { "Timer size", "timerSize" } })
-    Color("Timer color", function() return lb().timerColor end, function(v) lb().timerColor = v end)
-    for _, z in ipairs({ { "warn", "Timer: warning zone" }, { "crit", "Timer: critical zone" } }) do
-        local get = function() return lb().zones[z[1]] end
-        SubHeader(z[2])
-        Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
-        Slider("Starts at, seconds left", 5, 1800, 5, function() return get().seconds end, function(v) get().seconds = v end)
-        Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
-        SoundRows(get, "Play sound when the zone starts")
+        SubHeader("Timer: Soulstone ran out")
+        SoundRows(function() return lb().expired end, "Play sound when the timer runs out")
+        Slider("Preview timer speed, x", 1, 600, 1, function() return lb().previewSpeed end, function(v) lb().previewSpeed = v end)
+        Note("The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
+            "(300x: a second per 5 minutes) and the sounds play on every cycle.")
     end
-    SubHeader("Timer: Soulstone ran out")
-    SoundRows(function() return lb().expired end, "Play sound when the timer runs out")
-    Slider("Preview timer speed, x", 1, 600, 1, function() return lb().previewSpeed end, function(v) lb().previewSpeed = v end)
-    Note("The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
-        "(300x: a second per 5 minutes) and the sounds play on every cycle.")
 
     -- 5. Demon
     IconSection("Demon (pet)", "pet", "Interface\\Icons\\Spell_Shadow_SummonImp", function(get)
