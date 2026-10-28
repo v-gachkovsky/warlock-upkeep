@@ -149,11 +149,15 @@ local function ItemIDFromLink(link)
 end
 
 ------------------------------------------------------------------------
--- Vendor window: a check on grimoires already learned, a question mark where it's unknown;
--- learned ones turn light green, those for demons you can't summon yet dark grey; a bag on the ones
+-- Vendor window: a check on grimoires already learned, a question mark where it's unknown, a cross
+-- for demons you can't summon yet; learned ones turn grey, the cross ones dark grey; a bag on the ones
 -- in your bags.
 ------------------------------------------------------------------------
-local MARKS = { known = "Interface\\RaidFrame\\ReadyCheck-Ready", unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting" }
+local MARKS = {
+    known = "Interface\\RaidFrame\\ReadyCheck-Ready",
+    unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting",
+    unlearned = "Interface\\RaidFrame\\ReadyCheck-NotReady",
+}
 
 local function MerchantButton(i)
     local b = _G["MerchantItem" .. i .. "ItemButton"]
@@ -171,18 +175,9 @@ local function MerchantButton(i)
     return b
 end
 
--- Icon colors over the greyed icon: learned grimoires light green, those for demons you can't
--- summon yet dark grey, apart from the game's own red for books you can't use yet.
-local TINTS = { known = { 0.55, 1, 0.55 }, unlearned = { 0.4, 0.4, 0.4 } }
-
-local function IsTint(r, g, b)
-    for _, c in pairs(TINTS) do
-        if math.abs(r - c[1]) < 0.01 and math.abs(g - c[2]) < 0.01 and math.abs(b - c[3]) < 0.01 then
-            return true
-        end
-    end
-    return false
-end
+-- Grimoires for demons you can't summon yet: dark grey, apart from learned (grey) and
+-- unusable (the game's red) ones.
+local UNLEARNED_TINT = { 0.4, 0.4, 0.4 }
 
 local function SetMark(b, state)
     local icon = b.icon or _G[b:GetName() .. "IconTexture"]
@@ -190,17 +185,18 @@ local function SetMark(b, state)
     b.wuMark:SetShown(state ~= nil and MARKS[state] ~= nil)
     if not icon then return end
     -- Restore only what this addon changed: the game's own color (red when unusable) is kept aside.
-    local tint = TINTS[state]
-    if tint or b.wuGrey then
-        icon:SetDesaturated(tint ~= nil)
-        b.wuGrey = tint and true or nil
+    local grey = state == "known" or state == "unlearned"
+    if grey or b.wuGrey then
+        icon:SetDesaturated(grey)
+        b.wuGrey = grey or nil
     end
     -- The vendor window repaints the colors on every page, so the tint is checked each time.
     local r, g, bl = icon:GetVertexColor()
-    local tinted = IsTint(r, g, bl)
-    if tint then
+    local tinted = math.abs(r - UNLEARNED_TINT[1]) < 0.01 and math.abs(g - UNLEARNED_TINT[2]) < 0.01
+        and math.abs(bl - UNLEARNED_TINT[3]) < 0.01
+    if state == "unlearned" then
         if not tinted then b.wuColor = { r, g, bl } end
-        icon:SetVertexColor(unpack(tint))
+        icon:SetVertexColor(unpack(UNLEARNED_TINT))
     elseif b.wuColor then
         if tinted then icon:SetVertexColor(unpack(b.wuColor)) end
         b.wuColor = nil

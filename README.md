@@ -194,9 +194,9 @@ set off, the icon stays hidden until a few seconds after you land or dismount, s
 On clients with grimoires (WoW Forever, Classic Era, TBC) the addon remembers which spells and ranks each of
 your demons knows, and marks the grimoires at vendors for all demons at once, whichever one is out:
 
-- ✅ a check mark and a light green icon: the demon already knows this rank or a higher one;
+- ✅ a check mark and a grey icon: the demon already knows this rank or a higher one;
 - ⏳ a question mark: that demon hasn't been checked yet;
-- a dark grey icon without a mark: you can't summon that demon yet;
+- ❌ a red cross and a dark grey icon: you can't summon that demon yet;
 - no mark: the demon doesn't know it yet;
 - 🎒 a bag in the other corner: you already have this grimoire in your bags.
 
