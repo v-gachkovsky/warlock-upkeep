@@ -6,6 +6,10 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Links to support the project on Ko-fi and through a monobank jar: in the README, on the CurseForge page and
+  behind GitHub's *Sponsor* button.
+
 ### Fixed
 - The addon list showed `@project-version@` instead of the version when the addon ran straight from the
   repository (the released zip always had the right one). The TOC now holds the version number itself.
