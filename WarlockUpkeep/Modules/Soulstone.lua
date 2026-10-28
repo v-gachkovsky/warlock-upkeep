@@ -290,7 +290,7 @@ end
 -- preview: a sample with a fast running timer instead of a real one.
 function M:ShowLabel(name, class, expires, preview)
     local f, cfg = self.label, LabelCfg()
-    if not expires or not cfg.enabled then f:Hide(); f.previewStart = nil; return end
+    if not expires or not cfg.enabled or ns.HiddenForTravel() then f:Hide(); f.previewStart = nil; return end
     if preview then
         f.previewDuration = Duration()
         f.previewStart = f.previewStart or GetTime()

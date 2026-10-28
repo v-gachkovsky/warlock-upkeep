@@ -318,6 +318,13 @@ local function BuildContent()
     Check("Lock minimap button position", function() return ns.db.minimap.locked end, function(v) ns.db.minimap.locked = v end)
     Select("Move icons with", ns.GetMoveModes, function() return ns.db.moveWith end, function(v) ns.db.moveWith = v end)
     Check("Hide all icons while on a flight path", function() return ns.db.hideOnTaxi end, function(v) ns.db.hideOnTaxi = v end)
+    Check("Hide all icons while mounted", function() return ns.db.hideOnMount end, function(v) ns.db.hideOnMount = v end)
+    if ns.modules.shards then
+        Note("These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
+            "see \"Keep showing on a mount or flight path\" in its section.")
+    else
+        Note("These also hide the Soulstone label.")
+    end
     Check("Snap frames to each other (top / bottom / center, side by side)", function() return ns.db.snap.enabled end, function(v) ns.db.snap.enabled = v end)
     Slider("Snap distance", 2, 30, 1, function() return ns.db.snap.distance end, function(v) ns.db.snap.distance = v end)
     Slider("Gap between snapped frames", 0, 20, 1, function() return ns.db.snap.gap end, function(v) ns.db.snap.gap = v end)
@@ -405,6 +412,7 @@ local function BuildContent()
         Header("Soul Shard counter", "Interface\\Icons\\INV_Misc_Gem_Amethyst_02")
         Check("Enable", function() return sh().enabled end, function(v) sh().enabled = v end)
         Check("Lock position", function() return sh().locked end, function(v) sh().locked = v end)
+        Check("Keep showing on a mount or flight path", function() return sh().keepOnTravel end, function(v) sh().keepOnTravel = v end)
         Check("Show shard icon", function() return sh().showIcon end, function(v) sh().showIcon = v end)
         Slider("Icon size", 12, 96, 1, function() return sh().iconSize end, function(v) sh().iconSize = v end)
         Slider("Background opacity, %", 0, 100, 5, function() return math.floor(sh().bgAlpha * 100 + 0.5) end, function(v) sh().bgAlpha = v / 100 end)

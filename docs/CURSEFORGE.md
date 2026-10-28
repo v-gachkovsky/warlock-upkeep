@@ -91,7 +91,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 
 - Separate **in-combat and out-of-combat opacity**.
 - **Hide icons in combat** if you only want reminders between fights.
-- **Hide all icons while on a flight path**.
+- **Hide everything while on a flight path** or **while mounted**, optionally keeping just the shard counter.
 - **Click-through in combat**: in combat the icons ignore the mouse, so you can click targets and turn the
   camera right through them.
 - **Combat simulation**: preview out of combat how everything will look and behave once a fight starts.

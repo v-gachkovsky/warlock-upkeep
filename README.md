@@ -121,7 +121,8 @@ and disappears when you recast it (see [Client limitations](#client-limitations)
 A counter of the shards in your bags. It turns red and lights up when you have fewer than the low threshold
 (below), and turns yellow and lights up when the count equals it (one more shard used and it's low). With
 *Show the threshold next to the count* (off by default) it reads `have/threshold`. It isn't clickable,
-since a shard has no action.
+since a shard has no action. With *Keep showing on a mount or flight path* (on by default) it stays on screen
+when the General options hide everything else there.
 
 **The recommended amount** is made up of:
 
@@ -247,8 +248,12 @@ These General settings apply to the icons, the shard counter and the Soulstone l
 | Out-of-combat opacity | 100% | Fully opaque |
 | In-combat opacity | 100% | Can't go below 20%, so nearly invisible icons don't steal clicks |
 | *Hide icons in combat* | off | Hides the icons for the whole fight. Turned on mid-fight, it applies at once |
-| *Hide all icons while on a flight path* | off | Hides the icons from takeoff to landing |
+| *Hide all icons while on a flight path* | off | Hides everything from takeoff to landing |
+| *Hide all icons while mounted* | off | Hides everything while you're on a mount (a flight path follows the option above) |
 | *Click-through in combat* | off | In combat all addon elements ignore the mouse, so you can click targets and turn the camera through them. With it off, icons are clickable in combat, also those that show up mid-fight |
+
+The flight path and mount options hide the icons, the Soulstone label and the shard counter. The counter can
+stay: with its *Keep showing on a mount or flight path* option (on by default) it's then the only thing on screen.
 
 > [!TIP]
 > If you change *Click-through in combat* mid-fight, the shard counter and the Soulstone label follow at once,

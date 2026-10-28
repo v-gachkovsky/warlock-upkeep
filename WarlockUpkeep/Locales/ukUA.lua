@@ -108,7 +108,14 @@ ns.LOCALES.ukUA = {
     ["Show minimap button"] = "Показувати кнопку біля мінімапи",
     ["Lock minimap button position"] = "Закріпити кнопку біля мінімапи",
     ["Move icons with"] = "Пересування іконок",
-    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту",
+    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту на таксі",
+    ["Hide all icons while mounted"] = "Ховати всі іконки, поки ви на маунті",
+    ["These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
+        "see \"Keep showing on a mount or flight path\" in its section."] =
+        "Ці опції ховають також лейбу Каменя душі та лічильник осколків душ. Лічильник можна лишити на екрані: " ..
+        "опція \"Показувати на маунті й таксі\" в його розділі.",
+    ["These also hide the Soulstone label."] = "Ці опції ховають також лейбу Каменя душі.",
+    ["Keep showing on a mount or flight path"] = "Показувати на маунті й таксі",
     ["Snap frames to each other (top / bottom / center, side by side)"] = "Прилипання рамок одна до одної (верх / низ / центр, поруч)",
     ["Snap distance"] = "Відстань прилипання",
     ["Gap between snapped frames"] = "Проміжок між рамками",

@@ -37,6 +37,7 @@ ns.defaults = {
     combat = { clickThrough = false, alpha = 1, idleAlpha = 1, glow = true, hide = false },
     minimap = { hide = false, locked = false, angle = 215 },
     hideOnTaxi = false, -- hide all icons during a flight path
+    hideOnMount = false, -- hide all icons while mounted
     grimoires = { merchant = true, tooltip = true }, -- mark grimoires the demons already know
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
@@ -75,6 +76,7 @@ ns.defaults = {
         font = "Fonts\\FRIZQT__.TTF", fontSize = 20, outline = "OUTLINE",
         color = { 1, 1, 1, 1 }, lowColor = { 1, 0.25, 0.25, 1 }, edgeColor = { 1, 0.82, 0, 1 },
         showThreshold = false, -- "have/threshold" instead of just "have"
+        keepOnTravel = true, -- stays on screen when hideOnTaxi / hideOnMount hide the rest
         autoThreshold = true, threshold = 3,
         spare = 1, includeRitual = false,
         glow = true, glowColor = { 1, 0.2, 0.2, 1 }, edgeGlowColor = { 1, 0.82, 0, 1 },
@@ -667,6 +669,20 @@ ns:RegisterEvent("PLAYER_CONTROL_GAINED", function() ns:ScheduleUpdate() end)
 
 function ns.OnTaxi()
     return UnitOnTaxi and ns.Bool(UnitOnTaxi, "player") or false
+end
+
+-- Getting on and off a mount.
+ns:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED", function() ns:ScheduleUpdate() end)
+
+function ns.Mounted()
+    return IsMounted and ns.Bool(IsMounted) or false
+end
+
+-- Everything (icons, Soulstone label, shard counter unless kept) is hidden on a flight path or a mount
+-- by the options. A flight path follows its own option, also where it counts as being mounted.
+function ns.HiddenForTravel()
+    if ns.OnTaxi() then return ns.db.hideOnTaxi end
+    return ns.db.hideOnMount and ns.Mounted()
 end
 
 -- Dying, releasing the spirit and coming back to life.
