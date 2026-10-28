@@ -254,6 +254,7 @@ These General settings apply to the icons, the shard counter and the Soulstone l
 
 The flight path and mount options hide the icons, the Soulstone label and the shard counter. The counter can
 stay: with its *Keep showing on a mount or flight path* option (on by default) it's then the only thing on screen.
+Mists and Retail have no shard counter, so there these options hide the icons and the Soulstone label.
 
 > [!TIP]
 > If you change *Click-through in combat* mid-fight, the shard counter and the Soulstone label follow at once,
