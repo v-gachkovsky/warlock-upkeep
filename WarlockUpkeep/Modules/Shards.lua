@@ -90,6 +90,11 @@ function M:Update()
         self.low = nil
         return
     end
+    -- Hidden with the icons on a flight path or a mount, unless kept on screen.
+    if ns.HiddenForTravel() and not cfg.keepOnTravel then
+        f:Hide()
+        return
+    end
 
     -- Bags unreadable (secret in combat): keep the last known count.
     local count = ns.ItemCount(D.SOUL_SHARD) or self.lastCount or 0

@@ -69,7 +69,7 @@ if your demon was out when you set off, since the game dismisses it for a while.
 ### Grimoires
 
 At a grimoire vendor, see **which books your demons already know, for all of them at once**, without summoning
-each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are grey too), books already in your bags get a bag icon, and the tooltip tells per demon what it knows
+each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are dark grey with a red cross), books already in your bags get a bag icon, and the tooltip tells per demon what it knows
 (also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
 keeps them up to date. WoW Forever, Classic Era and TBC.
 
@@ -91,7 +91,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 
 - Separate **in-combat and out-of-combat opacity**.
 - **Hide icons in combat** if you only want reminders between fights.
-- **Hide all icons while on a flight path**.
+- **Hide everything while on a flight path** or **while mounted**, optionally keeping just the shard counter (on clients that have one).
 - **Click-through in combat**: in combat the icons ignore the mouse, so you can click targets and turn the
   camera right through them.
 - **Combat simulation**: preview out of combat how everything will look and behave once a fight starts.

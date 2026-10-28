@@ -108,7 +108,14 @@ ns.LOCALES.ukUA = {
     ["Show minimap button"] = "Показувати кнопку біля мінімапи",
     ["Lock minimap button position"] = "Закріпити кнопку біля мінімапи",
     ["Move icons with"] = "Пересування іконок",
-    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту",
+    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту на таксі",
+    ["Hide all icons while mounted"] = "Ховати всі іконки, поки ви на маунті",
+    ["These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
+        "see \"Keep showing on a mount or flight path\" in its section."] =
+        "Ці опції ховають також лейбу Каменя душі та лічильник осколків душ. Лічильник можна лишити на екрані: " ..
+        "опція \"Показувати на маунті й таксі\" в його розділі.",
+    ["These also hide the Soulstone label."] = "Ці опції ховають також лейбу Каменя душі.",
+    ["Keep showing on a mount or flight path"] = "Показувати на маунті й таксі",
     ["Snap frames to each other (top / bottom / center, side by side)"] = "Прилипання рамок одна до одної (верх / низ / центр, поруч)",
     ["Snap distance"] = "Відстань прилипання",
     ["Gap between snapped frames"] = "Проміжок між рамками",
@@ -231,12 +238,12 @@ ns.LOCALES.ukUA = {
         "the addon remembers what it knows and keeps it up to date. To check a demon, just summon it anywhere: " ..
         "its spells are read in a moment, and you can summon another one right after. At a vendor, learned " ..
         "grimoires get a check mark and turn grey; a question mark means that demon hasn't been checked yet. " ..
-        "Grimoires for demons you can't summon yet are grey, without a mark. A bag icon means you already have " ..
+        "Grimoires for demons you can't summon yet are dark grey with a red cross. A bag icon means you already have " ..
         "that grimoire in your bags."] =
         "Заклинання демона аддон може прочитати, лише поки демон призваний: призвіть кожного демона один раз, і далі " ..
         "аддон пам'ятає, що він знає, і сам оновлює ці дані. Щоб перевірити демона, просто призвіть його будь-де: " ..
         "заклинання зчитаються за мить, і одразу можна призивати наступного. У торговця вивчені гримуари мають " ..
         "галочку і сіру іконку; знак питання означає, що цього демона ще не перевірено. Гримуари для демонів, " ..
-        "яких ви ще не можете призвати, сірі й без позначки. Іконка сумки означає, що цей гримуар уже " ..
+        "яких ви ще не можете призвати, темно-сірі з червоним хрестиком. Іконка сумки означає, що цей гримуар уже " ..
         "лежить у ваших сумках.",
 }

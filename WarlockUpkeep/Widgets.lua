@@ -566,7 +566,7 @@ end
 function Icon:ShouldShow()
     local cfg = self:Cfg()
     if not cfg.enabled then return false end
-    if ns.db.hideOnTaxi and ns.OnTaxi() then return false end
+    if ns.HiddenForTravel() then return false end
     -- Nothing to fix while dead (or a ghost); preview still shows the samples for positioning.
     if ns.IsDead() and not ns.db.preview then return false end
     -- Simulated combat with "hide icons in combat" (real combat hides them in PrepareForCombat).

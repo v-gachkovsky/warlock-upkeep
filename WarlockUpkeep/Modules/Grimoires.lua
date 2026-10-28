@@ -149,10 +149,15 @@ local function ItemIDFromLink(link)
 end
 
 ------------------------------------------------------------------------
--- Vendor window: a check on grimoires already learned, a question mark where it's unknown;
--- learned ones and those for demons you can't summon yet turn grey; a bag on the ones in your bags.
+-- Vendor window: a check on grimoires already learned, a question mark where it's unknown, a cross
+-- for demons you can't summon yet; learned ones turn grey, the cross ones dark grey; a bag on the ones
+-- in your bags.
 ------------------------------------------------------------------------
-local MARKS = { known = "Interface\\RaidFrame\\ReadyCheck-Ready", unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting" }
+local MARKS = {
+    known = "Interface\\RaidFrame\\ReadyCheck-Ready",
+    unknown = "Interface\\RaidFrame\\ReadyCheck-Waiting",
+    unlearned = "Interface\\RaidFrame\\ReadyCheck-NotReady",
+}
 
 local function MerchantButton(i)
     local b = _G["MerchantItem" .. i .. "ItemButton"]
@@ -161,24 +166,41 @@ local function MerchantButton(i)
         b.wuMark = b:CreateTexture(nil, "OVERLAY", nil, 7)
         b.wuMark:SetSize(18, 18)
         b.wuMark:SetPoint("TOPRIGHT", 4, 4)
-        -- A bag in the other corner: you already have this grimoire with you.
+        -- A bag in the other corner: you already have this grimoire with you. The vendor's sack
+        -- from the gossip menu: its own shape, so it doesn't look like a square button.
         b.wuBag = b:CreateTexture(nil, "OVERLAY", nil, 7)
-        b.wuBag:SetSize(16, 16)
+        b.wuBag:SetSize(18, 18)
         b.wuBag:SetPoint("TOPLEFT", -4, 4)
-        b.wuBag:SetTexture("Interface\\Buttons\\Button-Backpack-Up")
+        b.wuBag:SetTexture("Interface\\GossipFrame\\VendorGossipIcon")
     end
     return b
 end
+
+-- Grimoires for demons you can't summon yet: dark grey, apart from learned (grey) and
+-- unusable (the game's red) ones.
+local UNLEARNED_TINT = { 0.4, 0.4, 0.4 }
 
 local function SetMark(b, state)
     local icon = b.icon or _G[b:GetName() .. "IconTexture"]
     b.wuMark:SetTexture(state and MARKS[state])
     b.wuMark:SetShown(state ~= nil and MARKS[state] ~= nil)
-    -- Restore only what this addon greyed out.
+    if not icon then return end
+    -- Restore only what this addon changed: the game's own color (red when unusable) is kept aside.
     local grey = state == "known" or state == "unlearned"
-    if icon and (grey or b.wuGrey) then
+    if grey or b.wuGrey then
         icon:SetDesaturated(grey)
         b.wuGrey = grey or nil
+    end
+    -- The vendor window repaints the colors on every page, so the tint is checked each time.
+    local r, g, bl = icon:GetVertexColor()
+    local tinted = math.abs(r - UNLEARNED_TINT[1]) < 0.01 and math.abs(g - UNLEARNED_TINT[2]) < 0.01
+        and math.abs(bl - UNLEARNED_TINT[3]) < 0.01
+    if state == "unlearned" then
+        if not tinted then b.wuColor = { r, g, bl } end
+        icon:SetVertexColor(unpack(UNLEARNED_TINT))
+    elseif b.wuColor then
+        if tinted then icon:SetVertexColor(unpack(b.wuColor)) end
+        b.wuColor = nil
     end
 end
 
