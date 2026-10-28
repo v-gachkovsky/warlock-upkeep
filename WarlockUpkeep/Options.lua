@@ -510,7 +510,7 @@ local function BuildContent()
             "the addon remembers what it knows and keeps it up to date. To check a demon, just summon it anywhere: " ..
             "its spells are read in a moment, and you can summon another one right after. At a vendor, learned " ..
             "grimoires get a check mark and turn grey; a question mark means that demon hasn't been checked yet. " ..
-            "Grimoires for demons you can't summon yet are grey, without a mark. A bag icon means you already have " ..
+            "Grimoires for demons you can't summon yet are dark grey, without a mark. A bag icon means you already have " ..
             "that grimoire in your bags.")
     end
 
