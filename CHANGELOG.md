@@ -7,8 +7,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
-- **Grimoires**: at vendors, grimoires for demons you can't summon yet are dark grey instead of grey, so they
-  no longer look like learned ones (or like the game's red for books you can't use yet).
+- **Grimoires**: at vendors, learned grimoires are light green instead of grey, and those for demons you can't
+  summon yet are dark grey, so the two no longer look alike (or like the game's red for books you can't use yet).
 
 ## [1.7.1] - 2026-10-27
 
