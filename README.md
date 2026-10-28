@@ -393,10 +393,12 @@ WarlockUpkeep/
 ## Releasing
 
 Releases are built by [`.github/workflows/release.yml`](.github/workflows/release.yml) from a version tag.
-The tag is the only place the version is set: it goes into the TOC (`## Version: @project-version@`),
-the zip name, the GitHub Release and the CurseForge file, so they always match.
+The version is written in the TOC (`## Version: x.y.z`), so the addon list shows it even when the addon runs
+straight from the repository. The tag must match it: if they differ, the workflow stops before publishing anything.
+The version goes into the zip name, the GitHub Release and the CurseForge file, so they always match.
 
-1. Add a `## [x.y.z] - YYYY-MM-DD` section to [CHANGELOG.md](CHANGELOG.md). It becomes the release notes.
+1. Set the version in [`WarlockUpkeep.toc`](WarlockUpkeep/WarlockUpkeep.toc) and add a `## [x.y.z] - YYYY-MM-DD`
+   section to [CHANGELOG.md](CHANGELOG.md). The section becomes the release notes.
 2. Tag and push:
 
    ```sh
@@ -404,7 +406,7 @@ the zip name, the GitHub Release and the CurseForge file, so they always match.
    git push origin v1.0.0
    ```
 
-Tags with a suffix (`v1.1.0-beta1`) become pre-releases (*beta* on CurseForge, *alpha* if the suffix contains `alpha`).
+Tags with a suffix (`v1.1.0-beta1`, with the same version in the TOC) become pre-releases (*beta* on CurseForge, *alpha* if the suffix contains `alpha`).
 
 For CurseForge uploads, set in the repository settings:
 
