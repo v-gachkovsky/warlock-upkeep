@@ -42,9 +42,8 @@ ns.defaults = {
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
     healthstone = Icon(-90, 160),
-    -- Firestone or Spellstone (Forever, Classic Era, TBC). Off by default: only one can be on at a time.
+    -- Firestone or Spellstone (Forever, Classic Era, TBC): only one can be on at a time, so one icon for the chosen.
     weaponStone = Icon(-180, 160, {
-        enabled = false,
         stone = "firestone",
         remindOverOther = false, -- Forever: remind while another temporary enchant (an oil) is on the weapon
         states = {

@@ -146,9 +146,9 @@ The icon appears when there's no Healthstone in your bags. Clicking it creates t
 
 ### 4. Firestone / Spellstone
 
-Forever, Classic Era and TBC only (Mists and Retail have no such stones). Off by default: turn it on and pick
-the stone in the settings. Only one of the two works at a time, so there's one icon for the chosen stone. Like
-the Soulstone, it has two states with their own highlight and sound:
+Forever, Classic Era and TBC only (Mists and Retail have no such stones). Only one of the two works at a time, so
+there's one icon for the stone picked in the settings (Firestone by default). It shows once you can create that
+stone (outside preview). Like the Soulstone, it has two states with their own highlight and sound:
 
 - **the stone is in your bags but not on**: click to put it on;
 - **no stone in your bags**: click to create the strongest one you know.
