@@ -2,7 +2,7 @@
 ## Title: WarlockUpkeep!
 ## Notes: Keeps a Warlock ready: reminders with one-click fixes for armor, Healthstone, Soulstone, Soul Shards and your demon. Marks the grimoires your demons already know.
 ## Author: Volodymyr Hachkovsky
-## Version: 1.8.1
+## Version: 1.9.0
 ## SavedVariables: WarlockUpkeepDB
 ## SavedVariablesPerCharacter: WarlockUpkeepCharDB
 ## IconTexture: Interface\AddOns\WarlockUpkeep\Media\logo
