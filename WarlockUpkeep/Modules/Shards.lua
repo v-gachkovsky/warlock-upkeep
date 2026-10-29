@@ -16,10 +16,14 @@ function M:Desired()
             break
         end
     end
+    local ws = ns.db.weaponStone
     for _, key in ipairs(D.stoneOrder) do
         local spell = ns.HighestKnown(D.stones[key])
         -- Hardcore realms: trainers teach the Soulstone, but it can't bring anyone back there.
-        if spell and not (key == "soulstone" and ns.Hardcore()) then parts[#parts + 1] = ns.SpellName(spell) or key end
+        local skip = key == "soulstone" and ns.Hardcore()
+        -- With the Firestone / Spellstone icon on, only the chosen stone of the two is kept.
+        if ws.enabled and (key == "firestone" or key == "spellstone") and key ~= ws.stone then skip = true end
+        if spell and not skip then parts[#parts + 1] = ns.SpellName(spell) or key end
     end
     if cfg.includeRitual and ns.IsKnown(D.ritualOfSummoning) then
         parts[#parts + 1] = ns.SpellName(D.ritualOfSummoning) or "Ritual of Summoning"

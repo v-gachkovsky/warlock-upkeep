@@ -4,6 +4,23 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - 2026-10-30
+
+### Added
+- **Firestone / Spellstone icon** (WoW Forever, Classic Era, TBC). Pick the stone in the settings (Firestone by
+  default); the icon shows once you can create that stone.
+  Like the Soulstone, it has two states with their own highlight and sound: the stone is in your bags but not on
+  (click to put it on), or there's none (click to create the strongest one). In Classic Era and TBC "on" means
+  held in the off-hand, and the click equips it. On WoW Forever the stone imbues the main-hand weapon, and the
+  click uses it; by default there's no reminder while another temporary enchant (an oil) is on the weapon, and
+  a new option reminds you anyway.
+
+### Changed
+- The recommended Soul Shards count only the Firestone or Spellstone chosen for the icon, not both (both again
+  when the icon is turned off).
+- The CurseForge page's Support section also lists the ways to report a bug or share an idea (comments, GitHub
+  Issues, email) and what to include.
+
 ## [1.8.1] - 2026-10-29
 
 ### Added

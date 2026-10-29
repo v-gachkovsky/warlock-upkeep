@@ -441,6 +441,27 @@ local function BuildContent()
     -- 3. Healthstone
     IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04")
 
+    -- 3b. Firestone / Spellstone (Forever, Classic Era, TBC)
+    if ns.modules.weaponStone then
+        IconSection("Firestone / Spellstone", "weaponStone", ns.ItemIcon(13699) or "Interface\\Icons\\INV_Misc_Gem_Bloodstone_02", function(get)
+            Select("Stone", { { value = "firestone", text = "Firestone" }, { value = "spellstone", text = "Spellstone" } },
+                function() return get().stone end, function(v) get().stone = v end)
+            if ns.FOREVER then
+                Check("Remind while another temporary enchant (an oil) is on the weapon", function() return get().remindOverOther end, function(v) get().remindOverOther = v end)
+                Note("The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
+                    "the stone (from the icon, your bags or a macro).")
+                SubHeader("State: stone in bags but not applied to the weapon")
+            else
+                Note("The stone works while held in the off-hand: clicking the icon equips it in place of your " ..
+                    "off-hand item.")
+                SubHeader("State: stone in bags but not equipped")
+            end
+            GlowAndSound(function() return get().states.use end)
+            SubHeader("State: no stone in bags")
+            GlowAndSound(function() return get().states.create end)
+        end)
+    end
+
     -- 4. Soulstone
     if ns.Hardcore() then
         Header("Soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem")
