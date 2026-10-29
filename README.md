@@ -4,7 +4,7 @@
 
 <p align="center">
   Reminders and one-click buttons for Warlocks in <b>World of Warcraft: Forever</b><br>
-  armor · Soul Shards · Healthstone · Soulstone · demon
+  armor · Soul Shards · Healthstone · Firestone / Spellstone · Soulstone · demon
 </p>
 
 <p align="center">
@@ -22,9 +22,10 @@
   - [Armor](#1-armor)
   - [Soul Shards](#2-soul-shards)
   - [Healthstone](#3-healthstone)
-  - [Soulstone](#4-soulstone)
-  - [Demon](#5-demon)
-  - [Grimoires](#6-grimoires)
+  - [Firestone / Spellstone](#4-firestone--spellstone)
+  - [Soulstone](#5-soulstone)
+  - [Demon](#6-demon)
+  - [Grimoires](#7-grimoires)
 - [Look and behavior](#look-and-behavior)
   - [Highlight](#highlight)
   - [Opacity and combat](#opacity-and-combat)
@@ -102,9 +103,10 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | 1 | **Armor** | No Demon Skin / Demon Armor | Casts your strongest armor |
 | 2 | **Soul Shards** | Always (counter) | Not clickable |
 | 3 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
-| 4 | **Soulstone** | Stone not applied or missing | Use or create the stone |
-| 5 | **Demon** | No pet out | Summons the assigned demon |
-| 6 | **Grimoires** | At vendors and in tooltips | — |
+| 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
+| 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
+| 6 | **Demon** | No pet out | Summons the assigned demon |
+| 7 | **Grimoires** | At vendors and in tooltips | — |
 
 ### 1. Armor
 
@@ -142,7 +144,25 @@ The highlight threshold equals the recommended amount by default, but you can se
 
 The icon appears when there's no Healthstone in your bags. Clicking it creates the strongest Healthstone available.
 
-### 4. Soulstone
+### 4. Firestone / Spellstone
+
+Forever, Classic Era and TBC only (Mists and Retail have no such stones). Off by default: turn it on and pick
+the stone in the settings. Only one of the two works at a time, so there's one icon for the chosen stone. Like
+the Soulstone, it has two states with their own highlight and sound:
+
+- **the stone is in your bags but not on**: click to put it on;
+- **no stone in your bags**: click to create the strongest one you know.
+
+In **Classic Era and TBC** the stone works while held in the off-hand, so "on" means equipped, and the click
+equips it in place of your off-hand item. On **WoW Forever** the stone imbues your main-hand weapon instead, so
+"on" means the weapon has its enchant, and the click uses the stone. If the weapon has another temporary
+enchant, such as a wizard oil, the addon doesn't remind you by default; *Remind while another temporary
+enchant is on the weapon* changes that. The addon tells the stone's enchant from an oil's once you use the
+stone (from the icon, your bags or a macro). Without a main-hand weapon there's no reminder.
+
+With the icon on, the recommended Soul Shards count only the chosen stone of the two.
+
+### 5. Soulstone
 
 | Highlight | Meaning | Click |
 |-----------|---------|-------|
@@ -177,7 +197,7 @@ and the sounds play on every cycle, so you can hear them.
 **Hardcore realms.** Nobody can be brought back to life there, so the addon has no Soulstone icon or label on
 them and replaces the Soulstone settings with a note, although trainers still teach the spell.
 
-### 5. Demon
+### 6. Demon
 
 The demon icon appears when you have no pet. Each click variant can be bound to its own demon:
 
@@ -194,7 +214,7 @@ Available demons: Imp, Voidwalker, Succubus, Incubus, Felhunter, Felguard.
 While you ride, fly or take a flight path, the game may dismiss the demon for a while. If it was out when you
 set off, the icon stays hidden until a few seconds after you land or dismount, so the demon has time to come back.
 
-### 6. Grimoires
+### 7. Grimoires
 
 On clients with grimoires (WoW Forever, Classic Era, TBC) the addon remembers which spells and ranks each of
 your demons knows, and marks the grimoires at vendors for all demons at once, whichever one is out:
@@ -389,6 +409,7 @@ WarlockUpkeep/
     ├── Armor.lua
     ├── Shards.lua
     ├── Healthstone.lua
+    ├── WeaponStone.lua
     ├── Soulstone.lua
     ├── Pet.lua
     └── Grimoires.lua

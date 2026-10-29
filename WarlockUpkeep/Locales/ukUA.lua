@@ -27,10 +27,16 @@ ns.LOCALES.ukUA = {
     ["Demon Armor"] = "Демонічна броня",
     ["Healthstone"] = "Камінь здоров'я",
     ["Soulstone"] = "Камінь душі",
+    ["Firestone"] = "Камінь вогню",
+    ["Spellstone"] = "Камінь чар",
+    ["Firestone / Spellstone"] = "Камінь вогню / Камінь чар",
     ["Summon Demon"] = "Призов демона",
     ["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."] = "Немає Демонічної шкіри / Демонічної броні / Броні скверни. Клік - накласти.",
     ["No Healthstone in bags. Click to create the strongest one."] = "У сумках немає Каменя здоров'я. Клік - створити найсильніший.",
     ["No Soulstone in bags. Click to create the strongest one."] = "У сумках немає Каменя душі. Клік - створити найсильніший.",
+    ["No %s in bags. Click to create the strongest one."] = "У сумках немає: %s. Клік - створити найсильніший.",
+    ["%s is not applied to your weapon. Click to apply it."] = "%s не накладено на зброю. Клік - накласти.",
+    ["%s is not equipped. Click to equip it."] = "%s не вдягнено. Клік - вдягнути.",
     ["Soulstone is not applied. Click to use it on your"] = "Камінь душі не накладено. Клік - використати на",
     ["friendly target (or yourself if none)."] = "дружню ціль (або на себе, якщо цілі немає).",
     ["Soulstone target"] = "Ціль Каменя душі",
@@ -200,6 +206,18 @@ ns.LOCALES.ukUA = {
     ["Remind to create a new Soulstone while one is applied"] = "Нагадувати створити новий Камінь душі, поки накладено попередній",
     ["State: Soulstone in bags but not applied"] = "Стан: Камінь душі в сумках, але не накладений",
     ["State: no Soulstone in bags"] = "Стан: у сумках немає Каменя душі",
+    ["Stone"] = "Камінь",
+    ["Remind while another temporary enchant (an oil) is on the weapon"] = "Нагадувати, коли на зброї інше тимчасове зачарування (олія)",
+    ["The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
+        "the stone (from the icon, your bags or a macro)."] =
+        "Камінь зачаровує зброю в основній руці. Його зачарування аддон відрізнить від олії, щойно ви " ..
+        "використаєте камінь (з іконки, із сумки чи макросом).",
+    ["The stone works while held in the off-hand: clicking the icon equips it in place of your " ..
+        "off-hand item."] =
+        "Камінь діє, поки ви тримаєте його в лівій руці: клік по іконці вдягає його замість вашої речі в лівій руці.",
+    ["State: stone in bags but not applied to the weapon"] = "Стан: камінь у сумках, але не накладений на зброю",
+    ["State: stone in bags but not equipped"] = "Стан: камінь у сумках, але не вдягнений",
+    ["State: no stone in bags"] = "Стан: у сумках немає каменя",
     ["Soulstone target label"] = "Лейба цілі Каменя душі",
     ["Show label (name + timer) when used on another player"] = "Показувати лейбу (ім'я + таймер), коли накладено на іншого гравця",
     ["Show timer (without name) when Soulstone is on yourself (yours or another warlock's)"] = "Показувати таймер (без імені), коли Камінь душі на вас (ваш чи іншого чорнокнижника)",

@@ -42,6 +42,16 @@ ns.defaults = {
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
     healthstone = Icon(-90, 160),
+    -- Firestone or Spellstone (Forever, Classic Era, TBC). Off by default: only one can be on at a time.
+    weaponStone = Icon(-180, 160, {
+        enabled = false,
+        stone = "firestone",
+        remindOverOther = false, -- Forever: remind while another temporary enchant (an oil) is on the weapon
+        states = {
+            use    = { glow = true, glowColor = { 1, 0.82, 0, 1 }, sound = false, soundName = "READY_CHECK" },
+            create = { glow = true, glowColor = { 1, 0.1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+    }),
     soulstone = Icon(-45, 160, {
         createWhileApplied = false,
         hideWhenOthers = false, -- no icon while another warlock's Soulstone is on you
@@ -217,7 +227,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()
@@ -232,7 +242,8 @@ ns.SHARD_ITEMS = TOC < 40000
 ns.HAS_ARMOR = TOC < 50000
 -- Forever (1.6x) and Retail hide auras from addons in combat; there the Cooldown Manager tells
 -- when a tracked buff changes. Classic Era, TBC and Mists read auras in combat as usual.
-ns.SECRET_AURAS = (TOC >= 16000 and TOC < 20000) or TOC >= 120000
+ns.FOREVER = TOC >= 16000 and TOC < 20000
+ns.SECRET_AURAS = ns.FOREVER or TOC >= 120000
 -- Hardcore realms (Classic Era, Anniversary, Forever): nobody can be brought back to life there, so the
 -- Soulstone is no use, although trainers still teach it. Clients without the function have no such realms.
 function ns.Hardcore()

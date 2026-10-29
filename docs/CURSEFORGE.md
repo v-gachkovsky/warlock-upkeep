@@ -21,6 +21,7 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 | **Armor** | Demon Skin / Demon Armor is missing | Casts your strongest armor |
 | **Soul Shards** | Always (counter) | — |
 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
+| **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equips, applies or creates the stone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
 | **Grimoires** | At vendors and in tooltips | — |
@@ -49,6 +50,13 @@ You can also set the warning threshold manually.
 ### Healthstone
 
 Appears when there's no Healthstone in your bags. Click to create the strongest one you know.
+
+### Firestone / Spellstone
+
+Forever, Classic Era and TBC. Off by default: turn it on and pick your stone. Yellow when the stone is in your
+bags but not on, red when there's none. In Classic Era and TBC the click equips the stone in your off-hand; on
+WoW Forever it imbues your main-hand weapon (by default no reminder while another temporary enchant, such as
+an oil, is on it).
 
 ### Soulstone
 
