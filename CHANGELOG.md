@@ -18,6 +18,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ### Changed
 - The recommended Soul Shards count only the Firestone or Spellstone chosen for the icon, not both (both again
   when the icon is turned off).
+- The CurseForge page's Support section also lists the ways to report a bug or share an idea (comments, GitHub
+  Issues, email) and what to include.
 
 ## [1.8.1] - 2026-10-29
 

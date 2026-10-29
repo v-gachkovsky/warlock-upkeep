@@ -149,16 +149,21 @@ button in the settings. The shard counter and the Soulstone label are dragged wi
   dispelled, so check it before the pull.
 - Spell and item IDs come from Classic Era. If anything differs in Forever, the addon looks the spell up by name.
 
-## Feedback
-
-Found a bug or have an idea? Open an issue on [GitHub](https://github.com/v-gachkovsky/warlock-upkeep/issues).
-
 ## Support
 
 WarlockUpkeep! is free. If it helps you, you can support its development:
 
 - [Ko-fi](https://ko-fi.com/mortivux)
 - [monobank jar](https://send.monobank.ua/jar/2GZjyGouqJ)
+
+Found a bug or have an idea? Tell me any way you like:
+
+- comments on this page
+- [GitHub Issues](https://github.com/v-gachkovsky/warlock-upkeep/issues)
+- email: [volodymyr.hachkovsky@icloud.com](mailto:volodymyr.hachkovsky@icloud.com)
+
+Say what you did, what you expected and what happened (a screenshot helps), and add what `/wu auras` prints
+(for grimoires, `/wu grimoires`).
 
 ---
 
