@@ -53,7 +53,7 @@ ns.LOCALES.ukUA = {
     ["Soul Link is not active. Click to cast it."] = "Soul Link не активний. Клік - накласти.",
     ["Not learned yet (shown in preview only)."] = "Ще не вивчено (видно лише в попередньому перегляді).",
     ["%s to move"] = "%s - пересунути",
-    ["Soul Shards"] = "Осколки душ",
+    ["Soul Shards"] = "Уламки душ",
     ["In bags"] = "У сумках",
     ["Recommended"] = "Рекомендовано",
     ["Demon summon"] = "Призов демона",
@@ -61,10 +61,10 @@ ns.LOCALES.ukUA = {
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
     ["Maximum"] = "Максимум",
-    ["Bags are full: a new Soul Shard has nowhere to go."] = "Сумки повні: новому осколку душі нема куди лягти.",
-    ["Shift + click to delete %d extra Soul Shards."] = "Shift + клік - видалити зайві осколки душ: %d.",
-    ["can't delete Soul Shards in combat."] = "не можна видаляти осколки душ у бою.",
-    ["deleted %d extra Soul Shards."] = "видалено зайвих осколків душ: %d.",
+    ["Bags are full: a new Soul Shard has nowhere to go."] = "Сумки повні: новому уламку душі нема куди лягти.",
+    ["Shift + click to delete %d extra Soul Shards."] = "Shift + клік - видалити зайві уламки душ: %d.",
+    ["can't delete Soul Shards in combat."] = "не можна видаляти уламки душ у бою.",
+    ["deleted %d extra Soul Shards."] = "видалено зайвих уламків душ: %d.",
     ["Summon queue"] = "Черга призиву",
     ["Drag the corner to resize"] = "Потягніть за кут, щоб змінити розмір",
     ["%d-%d of %d, scroll with the mouse wheel"] = "%d-%d з %d, гортайте коліщатком миші",
@@ -89,7 +89,7 @@ ns.LOCALES.ukUA = {
     ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю - взяти в ціль і почати Ritual of Summoning.",
     ["Right click: remove from the queue."] = "Правий клік - прибрати з черги.",
     ["summoning"] = "призив",
-    ["Shards: %d"] = "Осколки: %d",
+    ["Shards: %d"] = "Уламки: %d",
     ["Clickers: %d/2"] = "Біля порталу: %d/2",
     ["Reagents"] = "Реагенти",
     ["Infernal Stone"] = "Камінь інфернала",
@@ -167,9 +167,9 @@ ns.LOCALES.ukUA = {
     ["Hide all icons while mounted"] = "Ховати всі іконки, поки ви на маунті",
     ["These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
         "see \"Keep showing on a mount or flight path\" in its section."] =
-        "Ці опції ховають також лейбу Каменя душі та лічильник осколків душ. Лічильник можна лишити на екрані: " ..
+        "Ці опції ховають також мітку Каменя душі та лічильник уламків душ. Лічильник можна лишити на екрані: " ..
         "опція \"Показувати на маунті й таксі\" в його розділі.",
-    ["These also hide the Soulstone label."] = "Ці опції ховають також лейбу Каменя душі.",
+    ["These also hide the Soulstone label."] = "Ці опції ховають також мітку Каменя душі.",
     ["Keep showing on a mount or flight path"] = "Показувати на маунті й таксі",
     ["Snap frames to each other (top / bottom / center, side by side)"] = "Прилипання рамок одна до одної (верх / низ / центр, поруч)",
     ["Snap distance"] = "Відстань прилипання",
@@ -210,7 +210,7 @@ ns.LOCALES.ukUA = {
         "Labels and the shard counter are moved with left-drag. Changes made in combat apply after combat."] =
         "Іконки: лівий клік виконує дію; пересуваються так, як задано в \"Пересування іконок\" (лише відкріплені). " ..
         "Якщо для пересування задано модифікатор, кліки з ним нічого не роблять, поки іконку відкріплено. " ..
-        "Лейби та лічильник осколків пересуваються перетягуванням лівою кнопкою. Зміни, зроблені в бою, застосуються після бою.",
+        "Мітки та лічильник уламків пересуваються перетягуванням лівою кнопкою. Зміни, зроблені в бою, застосуються після бою.",
 
     -- Settings: sounds
     ["Custom sounds"] = "Власні звуки",
@@ -244,10 +244,10 @@ ns.LOCALES.ukUA = {
         "помітити, що броню знято або накладено знову під час бою.",
 
     -- Settings: shards
-    ["Soul Shard counter"] = "Лічильник осколків душ",
-    ["Show shard icon"] = "Показувати іконку осколка",
+    ["Soul Shard counter"] = "Лічильник уламків душ",
+    ["Show shard icon"] = "Показувати іконку уламка",
     ["Background opacity, %"] = "Непрозорість фону, %",
-    ["Spare shards"] = "Запасні осколки",
+    ["Spare shards"] = "Запасні уламки",
     ["Count Ritual of Summoning in recommended amount"] = "Враховувати Ритуал призову в рекомендованій кількості",
     ["Recommended now: |cffffd100%d|r  (%s%s+%d spare)"] = "Рекомендовано зараз: |cffffd100%d|r  (%s%s+%d запас)",
     ["Low threshold = recommended amount"] = "Поріг нестачі = рекомендована кількість",
@@ -259,16 +259,16 @@ ns.LOCALES.ukUA = {
     ["Highlight color at the threshold"] = "Колір підсвітки на порозі",
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
-    ["Low shards alert"] = "Сповіщення про нестачу осколків",
-    ["Extra shards"] = "Зайві осколки",
-    ["Maximum shards (0 = no limit)"] = "Максимум осколків (0 = без ліміту)",
+    ["Low shards alert"] = "Сповіщення про нестачу уламків",
+    ["Extra shards"] = "Зайві уламки",
+    ["Maximum shards (0 = no limit)"] = "Максимум уламків (0 = без ліміту)",
     ["Text color above the maximum"] = "Колір тексту понад максимум",
     ["Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
         "Soul Pouch keeps its shards. Not in combat."] =
-        "Shift + клік по лічильнику видаляє осколки понад максимум: спершу зі звичайних сумок, тож Soul Pouch " ..
+        "Shift + клік по лічильнику видаляє уламки понад максимум: спершу зі звичайних сумок, тож Soul Pouch " ..
         "зберігає свої. Не в бою.",
     ["Full bags"] = "Повні сумки",
-    ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому осколку нема місця в сумках",
+    ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому уламку нема місця в сумках",
     ["Remove from the queue after, minutes"] = "Прибирати з черги через, хвилин",
     ["Keywords (comma-separated)"] = "Ключові слова (через кому)",
     ["Play sound when someone joins the queue"] = "Звук, коли хтось стає в чергу",
@@ -323,7 +323,7 @@ ns.LOCALES.ukUA = {
     ["At a vendor that sells them, reagents for the spells you know are bought up to these amounts (0: never). " ..
         "The Soul Shard counter's tooltip shows how many you have."] =
         "У продавця, який їх продає, реагенти для заклинань, які ви знаєте, докуповуються до цієї кількості (0 - " ..
-        "ніколи). Скільки їх у вас, видно в підказці лічильника осколків.",
+        "ніколи). Скільки їх у вас, видно в підказці лічильника уламків.",
     ["Talents"] = "Таланти",
     ["Remind to sacrifice the demon (Demonic Sacrifice)"] = "Нагадувати принести демона в жертву (Demonic Sacrifice)",
     ["Remind to cast Soul Link"] = "Нагадувати накласти Soul Link",
@@ -375,10 +375,10 @@ ns.LOCALES.ukUA = {
     ["State: stone in bags but not applied to the weapon"] = "Стан: камінь у сумках, але не накладений на зброю",
     ["State: stone in bags but not equipped"] = "Стан: камінь у сумках, але не вдягнений",
     ["State: no stone in bags"] = "Стан: у сумках немає каменя",
-    ["Soulstone target label"] = "Лейба цілі Каменя душі",
-    ["Show label (name + timer) when used on another player"] = "Показувати лейбу (ім'я + таймер), коли накладено на іншого гравця",
+    ["Soulstone target label"] = "Мітка цілі Каменя душі",
+    ["Show label (name + timer) when used on another player"] = "Показувати мітку (ім'я + таймер), коли накладено на іншого гравця",
     ["Show timer (without name) when Soulstone is on yourself (yours or another warlock's)"] = "Показувати таймер (без імені), коли Камінь душі на вас (ваш чи іншого чорнокнижника)",
-    ["Lock label position"] = "Закріпити позицію лейби",
+    ["Lock label position"] = "Закріпити позицію мітки",
     ["Show Soulstone icon left of the timer"] = "Показувати іконку Каменя душі ліворуч від таймера",
     ["Name size"] = "Розмір імені",
     ["Timer size"] = "Розмір таймера",
@@ -397,8 +397,8 @@ ns.LOCALES.ukUA = {
         "(300x: секунда за 5 хвилин), а звуки грають на кожному колі.",
     ["Hardcore realm: nobody can be brought back to life here, so the Soulstone icon and label are off " ..
         "and the Soulstone isn't counted in the recommended shards."] =
-        "Хардкор-реалм: тут нікого не можна воскресити, тому іконку й лейбу Каменя душі вимкнено, " ..
-        "а Камінь душі не входить у рекомендовану кількість осколків.",
+        "Хардкор-реалм: тут нікого не можна воскресити, тому іконку й мітку Каменя душі вимкнено, " ..
+        "а Камінь душі не входить у рекомендовану кількість уламків.",
 
     -- Settings: demon
     ["Demon (pet)"] = "Демон (пет)",
