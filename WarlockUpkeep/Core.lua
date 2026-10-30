@@ -72,7 +72,7 @@ ns.defaults = {
     -- Summon queue window (Ritual of Summoning). Keywords: comma-separated, whole words; timeout in minutes.
     summon = {
         enabled = true, locked = false,
-        point = { "CENTER", "CENTER", 260, 60 },
+        point = { "TOPLEFT", "CENTER", 145, 163 },
         width = 230, height = 206, -- resized by the corner; the height is the most, up to 10 players
         bgAlpha = 0.5,
         keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
@@ -87,7 +87,7 @@ ns.defaults = {
     -- Selling summons to players outside the group. Off until turned on (/wu sell); price in gold, 0 = ask.
     summonSell = {
         enabled = false, locked = false,
-        point = { "CENTER", "CENTER", 260, -80 },
+        point = { "TOPLEFT", "CENTER", 110, -58 },
         width = 300, height = 136, -- up to 6 buyers before the list scrolls
         price = 0,
         adChannel = "Trade",

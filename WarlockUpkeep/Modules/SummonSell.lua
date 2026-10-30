@@ -236,6 +236,7 @@ function M:CreateWindow()
     f.ad:SetPoint("RIGHT", f.stop, "LEFT", -2, 0)
     f.empty = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
     f.empty:SetPoint("TOPLEFT", 8, -26)
+    f.anchor = "TOPLEFT"
     ns.MakeMovable(f, Cfg)
     f:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")

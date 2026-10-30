@@ -393,11 +393,17 @@ local modifierDown = {
 -- Stores the position as an offset of the frame's center from UIParent's center.
 -- StartMoving anchors frames to the screen, which can differ from UIParent
 -- (e.g. the Mac notch safe area), so the raw GetPoint() result would drift.
+-- Frames with frame.anchor = "TOPLEFT" (list windows that change height with their content) keep their top
+-- left corner instead, so they grow down and to the right without moving.
 local function SavePoint(frame, cfg)
     local cx, cy = frame:GetCenter()
     local ux, uy = UIParent:GetCenter()
     if not cx or not ux then return end
     local ratio = UIParent:GetEffectiveScale() / frame:GetEffectiveScale()
+    if frame.anchor == "TOPLEFT" then
+        cfg.point = { "TOPLEFT", "CENTER", frame:GetLeft() - ux * ratio, frame:GetTop() - uy * ratio }
+        return
+    end
     cfg.point = { "CENTER", "CENTER", cx - ux * ratio, cy - uy * ratio }
 end
 
@@ -506,6 +512,10 @@ function ns.MakeResizable(frame, getCfg, minWidth, minHeight, onDone)
     grip:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
     grip:SetScript("OnMouseDown", function()
         if InCombatLockdown() then return end
+        -- Pin the top left corner where it is, so only the dragged corner moves.
+        local left, top = frame:GetLeft(), frame:GetTop()
+        frame:ClearAllPoints()
+        frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
         frame.sizing = true
         frame:StartSizing("BOTTOMRIGHT")
     end)
@@ -543,7 +553,7 @@ function ns.ApplyDragButton(frame)
 end
 
 function ns.ApplyPoint(frame, point)
-    if frame.moving then return end
+    if frame.moving or frame.sizing then return end
     frame:ClearAllPoints()
     frame:SetPoint(point[1], UIParent, point[2], point[3], point[4])
 end
