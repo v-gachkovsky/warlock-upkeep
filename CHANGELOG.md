@@ -19,6 +19,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
   the group they move on to the summon queue. The offer names your price, or asks how much the buyer would pay
   when the price is 0. The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
   30 seconds. All texts are editable ({name}, {zone}, {price}, {clickers}); nothing is sent without a click.
+- **Summon announcements** (off by default): when Ritual of Summoning starts, a line to the group chat ("Summoning
+  {name}, please click the portal!") and a whisper to the player ("Summoning you now, please accept the summon.").
+  Both texts are editable.
 
 ## [1.9.0] - 2026-10-30
 

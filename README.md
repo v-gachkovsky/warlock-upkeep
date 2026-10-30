@@ -249,6 +249,10 @@ default). Someone just summoned shows *summoning* for up to 2 minutes and goes b
 arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
 combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
 
+**Announcements** (off by default): when Ritual of Summoning starts, from the queue or cast by hand, the addon
+can post a line to the group chat ("Summoning {name}, please click the portal!") and whisper the player
+("Summoning you now, please accept the summon."). Both texts are editable; `{name}` is the player.
+
 **Selling summons.** Turn it on with `/wu sell` (or in the settings) and a second window lists players outside
 your group who look for a summon in a public channel, `/say`, `/yell` or a whisper ("wtb sum", "lf lock", "lfw",
 "need a summon"... editable). Their message is in the tooltip, together with the offer you'd send.

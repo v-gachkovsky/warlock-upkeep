@@ -536,6 +536,13 @@ local function BuildContent()
         local kw = Input("Keywords (comma-separated)", 220, function(text) su().keywords = text; Changed() end)
         refreshers[#refreshers + 1] = function() kw:SetText(su().keywords or "") kw:SetCursorPosition(0) end
         SoundRows(su, "Play sound when someone joins the queue")
+        local an = function() return su().announce end
+        Check("Announce the summon in group chat", function() return an().group end, function(v) an().group = v end)
+        local g = Input("Group message", 250, function(text) an().groupText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() g:SetText(an().groupText or ""); g:SetCursorPosition(0) end
+        Check("Whisper the player being summoned", function() return an().whisper end, function(v) an().whisper = v end)
+        local w = Input("Whisper", 250, function(text) an().whisperText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() w:SetText(an().whisperText or ""); w:SetCursorPosition(0) end
         Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
             "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
             "once they're next to you or leave the group. The window shows only while someone is waiting.")

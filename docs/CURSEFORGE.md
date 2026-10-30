@@ -91,7 +91,8 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 Write "123" or "summ" in party or raid chat and you're in the queue: a small window lists everyone waiting, in
 order, with their zone and wait time, plus your shards and how many people stand by to click the portal. One
 click targets the player and starts Ritual of Summoning; right click removes them. Players drop off once they
-arrive or leave the group. The keywords are editable.
+arrive or leave the group. The keywords are editable. Optionally, the addon tells the group to click the portal
+and whispers the player to accept (both texts editable).
 
 **Selling summons** (`/wu sell`): a second window lists players looking for a summon in Trade, General, /say,
 /yell or whispers ("wtb sum", "lf lock"...). Click to whisper your offer (your price, or "how much would you

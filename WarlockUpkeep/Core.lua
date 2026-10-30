@@ -71,6 +71,11 @@ ns.defaults = {
         keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
         timeout = 10,
         sound = false, soundName = "READY_CHECK", -- someone joined the queue
+        -- When Ritual of Summoning starts: a line to the group and a whisper to the player ({name}).
+        announce = {
+            group = false, groupText = "Summoning {name}, please click the portal!",
+            whisper = false, whisperText = "Summoning you now, please accept the summon.",
+        },
     },
     -- Selling summons to players outside the group. Off until turned on (/wu sell); price in gold, 0 = ask.
     summonSell = {
@@ -731,6 +736,20 @@ end
 ns:RegisterEvent("PLAYER_DEAD", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_ALIVE", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_UNGHOST", function() ns:ScheduleUpdate() end)
+
+-- Sends `text` to the group chat that fits: instance, raid or party. Nothing outside a group.
+function ns.SendToGroup(text)
+    if not text or text == "" then return end
+    local channel
+    if LE_PARTY_CATEGORY_INSTANCE and IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        channel = "INSTANCE_CHAT"
+    elseif IsInRaid() then
+        channel = "RAID"
+    elseif IsInGroup() then
+        channel = "PARTY"
+    end
+    if channel then SendChatMessage(text:sub(1, 255), channel) end
+end
 
 function ns.IsDead()
     return ns.Bool(UnitIsDeadOrGhost, "player") or false

@@ -326,6 +326,14 @@ local CHAT_EVENTS = {
     "CHAT_MSG_INSTANCE_CHAT", "CHAT_MSG_INSTANCE_CHAT_LEADER", "CHAT_MSG_WHISPER",
 }
 
+function M:Announce(name)
+    local a = Cfg().announce
+    if a.group then ns.SendToGroup((a.groupText:gsub("{name}", function() return name end))) end
+    if a.whisper and UnitOf(name) then
+        SendChatMessage((a.whisperText:gsub("{name}", function() return name end)):sub(1, 255), "WHISPER", nil, name)
+    end
+end
+
 function M:Init()
     self:CreateWindow()
     for _, event in ipairs(CHAT_EVENTS) do
@@ -335,6 +343,12 @@ function M:Init()
             M:Add(Short(sender))
         end)
     end
+    -- Announcements when the ritual starts, for casts from the queue and by hand alike.
+    ns:RegisterEvent("UNIT_SPELLCAST_SENT", function(_, unit, target, _, spellID)
+        if unit ~= "player" or ns.IsSecret(spellID) or spellID ~= D.ritualOfSummoning then return end
+        local name = Safe(target) or Safe(UnitName("target"))
+        if name then M:Announce(Short(name)) end
+    end)
     ns:RegisterEvent("GROUP_ROSTER_UPDATE", function() if M:Prune() then M:Refresh() end end)
     ns:RegisterEvent("PLAYER_REGEN_ENABLED", function() if M.dirty then M:Refresh() end end)
 end
