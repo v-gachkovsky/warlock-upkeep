@@ -364,7 +364,7 @@ end
 ------------------------------------------------------------------------
 local pages, navButtons = {}, {}
 local currentPage
-local ORDER = { "general", "profiles", "armor", "shards", "healthstone", "weaponStone", "soulstone", "pet",
+local ORDER = { "general", "profiles", "armor", "shards", "reagents", "healthstone", "weaponStone", "soulstone", "pet",
     "enslave", "summon", "sell", "trainer", "grimoires", "sounds" }
 
 local function FinishPage()
@@ -705,6 +705,7 @@ function BuildContent()
     -- 2b. Reagents
     if ns.modules.reagents then
         local rg = T("reagents")
+        Page("reagents", "Reagents", ns.ItemIcon(5565) or "Interface\\Icons\\INV_Stone_05")
         Header("Reagents", ns.ItemIcon(5565) or "Interface\\Icons\\INV_Stone_05")
         Check("Buy reagents at vendors automatically", function() return rg().autoBuy end, function(v) rg().autoBuy = v end)
         for _, r in ipairs(ns.data.reagents) do
