@@ -49,7 +49,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
   sacrifice your demon with Demonic Sacrifice (off by default). Both have their own highlight and sound and
   show out of combat only.
 - **Enslave Demon timer** (Subjugate Demon in Classic Era): a movable label with the time your enslaved demon
-  stays under control, red in the last 30 seconds (adjustable), with an optional sound.
+  stays under control. Like the Soulstone label it has a warning and a critical zone (yellow from 60 seconds,
+  red from 30; seconds, colors and sounds adjustable) and a sound when the timer runs out; in preview it runs
+  fast and restarts.
 - **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
   teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
   prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
@@ -69,9 +71,6 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - `/wu reset` resets the current profile.
-  stays under control. Like the Soulstone label it has a warning and a critical zone (yellow from 60 seconds,
-  red from 30; seconds, colors and sounds adjustable) and a sound when the timer runs out; in preview it runs
-  fast and restarts.
 
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
