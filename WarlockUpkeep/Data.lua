@@ -26,6 +26,15 @@ ns.data = {
 
     -- Grimoire of Sacrifice buff (Mists, Retail): the demon is sacrificed on purpose.
     petSacrificeBuffs = { 108503, 196099 },
+    -- Demonic Sacrifice talent (Classic Era, TBC, Forever) and its buffs per demon: also a demon sacrificed on purpose.
+    demonicSacrifice = 18788,
+    demonicSacrificeBuffs = { 18789, 18790, 18791, 18792, 35701 },
+    -- Soul Link talent and its buff on the caster.
+    soulLink = 19028,
+    soulLinkBuffs = { 25228, 19028 },
+    -- Enslave Demon (Subjugate Demon in Classic Era): the debuff on the enslaved demon lasts up to 5 minutes.
+    enslaveDemon = { 1098, 11725, 11726 },
+    enslaveDuration = 300,
 
     -- The counter shows once Soul Shards can be gained.
     drainSoul = { 1120, 8288, 8289, 11675, 27217 },

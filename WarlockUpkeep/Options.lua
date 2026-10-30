@@ -557,6 +557,17 @@ local function BuildContent()
     -- 5. Demon
     IconSection("Demon (pet)", "pet", "Interface\\Icons\\Spell_Shadow_SummonImp", function(get)
         GlowAndSound(get)
+        if ns.IsKnown(ns.data.demonicSacrifice) or ns.IsKnown(ns.data.soulLink) then
+            SubHeader("Talents")
+        end
+        if ns.IsKnown(ns.data.demonicSacrifice) then
+            Check("Remind to sacrifice the demon (Demonic Sacrifice)", function() return get().sacrifice end, function(v) get().sacrifice = v end)
+            GlowAndSound(function() return get().states.sacrifice end)
+        end
+        if ns.IsKnown(ns.data.soulLink) then
+            Check("Remind to cast Soul Link", function() return get().soulLink end, function(v) get().soulLink = v end)
+            GlowAndSound(function() return get().states.soulLink end)
+        end
         SubHeader("Demon per click / modifier")
         local P = ns.modules.pet
         for _, slot in ipairs(P.SLOTS) do
@@ -618,6 +629,19 @@ local function BuildContent()
             "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
             "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
             "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by.")
+    -- 5c. Enslave Demon timer
+    if ns.modules.enslave then
+        local en = T("enslave")
+        Header("Enslave Demon timer", ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon")
+        Check("Enable", function() return en().enabled end, function(v) en().enabled = v end)
+        Check("Lock position", function() return en().locked end, function(v) en().locked = v end)
+        Slider("Background opacity, %", 0, 100, 5, function() return math.floor(en().bgAlpha * 100 + 0.5) end, function(v) en().bgAlpha = v / 100 end)
+        FontRows(en, { { "Font size", "size" } })
+        Color("Text color", function() return en().color end, function(v) en().color = v end)
+        Slider("Warning at, seconds left", 5, 120, 5, function() return en().warnSeconds end, function(v) en().warnSeconds = v end)
+        Color("Text color in the warning", function() return en().warnColor end, function(v) en().warnColor = v end)
+        SoundRows(en, "Play sound when the warning starts")
+        Note("Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier.")
     end
 
     -- 6. Grimoires

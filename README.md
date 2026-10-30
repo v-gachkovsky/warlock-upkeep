@@ -235,6 +235,16 @@ Available demons: Imp, Voidwalker, Succubus, Incubus, Felhunter, Felguard.
 While you ride, fly or take a flight path, the game may dismiss the demon for a while. If it was out when you
 set off, the icon stays hidden until a few seconds after you land or dismount, so the demon has time to come back.
 
+**Talents** (Forever, Classic Era, TBC). With **Demonic Sacrifice** active, the icon doesn't ask for a demon, just
+like with Grimoire of Sacrifice. Optionally (off by default) it reminds you to sacrifice the demon you've
+summoned, and the click casts Demonic Sacrifice. With **Soul Link** learned, it reminds you when your demon is
+out but Soul Link isn't on (on by default), and the click casts it. Both reminders have their own highlight
+(purple) and sound, and show out of combat only.
+
+**Enslave Demon timer** (Subjugate Demon in Classic Era). While a demon is enslaved, a small movable label shows
+how long it stays under control (up to 5 minutes) and turns red in the last 30 seconds, with an optional sound.
+It can break free earlier.
+
 ### 7. Grimoires
 
 On clients with grimoires (WoW Forever, Classic Era, TBC) the addon remembers which spells and ranks each of

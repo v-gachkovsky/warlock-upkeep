@@ -20,6 +20,7 @@ Modules\Soulstone.lua
 Modules\Pet.lua
 Modules\Summon.lua
 Modules\SummonSell.lua
+Modules\Enslave.lua
 Modules\Grimoires.lua
 Modules\Reagents.lua
 Minimap.lua
