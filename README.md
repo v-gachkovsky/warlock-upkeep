@@ -279,6 +279,10 @@ and how many group members stand next to you to click the portal (2 are needed).
 - **Click** a player: targets them and casts Ritual of Summoning.
 - **Right click**: removes them from the queue.
 
+In **Mists and Retail** one ritual leaves a portal that stands for 5 minutes and summons anyone in the group, one
+by one. While your portal stands, a click on a player only targets them (then you click the portal), the header
+shows how long the portal has left, and **Shift + click** casts a new ritual if you need one.
+
 A player leaves the queue once they're next to you, leave the group, or after the timeout (10 minutes by
 default). Someone just summoned shows *summoning* for up to 2 minutes and goes back to waiting if they don't
 arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
