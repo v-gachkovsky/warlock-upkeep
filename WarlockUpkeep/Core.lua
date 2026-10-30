@@ -63,6 +63,15 @@ ns.defaults = {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
     }),
+    -- Summon queue window (Ritual of Summoning). Keywords: comma-separated, whole words; timeout in minutes.
+    summon = {
+        enabled = true, locked = false,
+        point = { "CENTER", "CENTER", 260, 60 },
+        bgAlpha = 0.5,
+        keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
+        timeout = 10,
+        sound = false, soundName = "READY_CHECK", -- someone joined the queue
+    },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -226,7 +235,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()

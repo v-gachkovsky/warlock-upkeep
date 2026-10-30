@@ -525,6 +525,22 @@ local function BuildContent()
         end
     end)
 
+    -- 5b. Summon queue
+    do
+        local su = T("summon")
+        Header("Summon queue", "Interface\\Icons\\Spell_Shadow_Twilight")
+        Check("Enable", function() return su().enabled end, function(v) su().enabled = v end)
+        Check("Lock position", function() return su().locked end, function(v) su().locked = v end)
+        Slider("Background opacity, %", 0, 100, 5, function() return math.floor(su().bgAlpha * 100 + 0.5) end, function(v) su().bgAlpha = v / 100 end)
+        Slider("Remove from the queue after, minutes", 1, 30, 1, function() return su().timeout end, function(v) su().timeout = v end)
+        local kw = Input("Keywords (comma-separated)", 220, function(text) su().keywords = text; Changed() end)
+        refreshers[#refreshers + 1] = function() kw:SetText(su().keywords or "") kw:SetCursorPosition(0) end
+        SoundRows(su, "Play sound when someone joins the queue")
+        Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
+            "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
+            "once they're next to you or leave the group. The window shows only while someone is waiting.")
+    end
+
     -- 6. Grimoires
     if ns.modules.grimoires then
         local gr = T("grimoires")

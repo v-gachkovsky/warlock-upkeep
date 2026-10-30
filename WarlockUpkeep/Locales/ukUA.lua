@@ -50,6 +50,12 @@ ns.LOCALES.ukUA = {
     ["Spare"] = "Запас",
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
+    ["Summon queue"] = "Черга призиву",
+    ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю - взяти в ціль і почати Ritual of Summoning.",
+    ["Right click: remove from the queue."] = "Правий клік - прибрати з черги.",
+    ["summoning"] = "призив",
+    ["Shards: %d"] = "Осколки: %d",
+    ["Clickers: %d/2"] = "Біля порталу: %d/2",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -200,6 +206,15 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["Remove from the queue after, minutes"] = "Прибирати з черги через, хвилин",
+    ["Keywords (comma-separated)"] = "Ключові слова (через кому)",
+    ["Play sound when someone joins the queue"] = "Звук, коли хтось стає в чергу",
+    ["Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
+        "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
+        "once they're next to you or leave the group. The window shows only while someone is waiting."] =
+        "Учасники групи, які напишуть одне з ключових слів у групу, рейд або шепотом, стають у чергу. Клік по " ..
+        "гравцю бере його в ціль і починає Ritual of Summoning; правий клік прибирає з черги. Гравець виходить " ..
+        "із черги, коли він поруч з вами або покинув групу. Вікно видно, лише поки хтось чекає.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

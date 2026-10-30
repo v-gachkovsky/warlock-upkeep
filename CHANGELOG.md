@@ -4,6 +4,16 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Summon queue**: group members who ask for a summon in party, raid or instance chat or in a whisper ("123",
+  "summ", "summon"...; the keywords are editable, whole words only) join a queue window in the order they
+  asked, with their class color, zone (in a raid) and wait time. The header shows your Soul Shards and how many
+  group members stand next to you to click the portal. Click a player to target them and cast Ritual of
+  Summoning, right click to remove them. Players leave the queue once they're next to you, leave the group or
+  wait longer than the timeout (10 minutes by default). Optional sound when someone joins.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

@@ -26,6 +26,7 @@
   - [Soulstone](#5-soulstone)
   - [Demon](#6-demon)
   - [Grimoires](#7-grimoires)
+  - [Summon queue](#8-summon-queue)
 - [Look and behavior](#look-and-behavior)
   - [Highlight](#highlight)
   - [Opacity and combat](#opacity-and-combat)
@@ -107,6 +108,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 6 | **Demon** | No pet out | Summons the assigned demon |
 | 7 | **Grimoires** | At vendors and in tooltips | — |
+| 8 | **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
 ### 1. Armor
 
@@ -231,6 +233,21 @@ The game shows a demon's spells only while it's summoned, so **summon each demon
 remembers its spells (per character) and updates them whenever that demon is out, e.g. after reading a new
 grimoire. The settings list the demons checked so far. Both the vendor marks and the tooltip lines can be
 turned off.
+
+### 8. Summon queue
+
+Group members who ask for a summon in party, raid or instance chat or in a whisper ("123", "summ", "summon",
+"sum pls"... the list is editable) join a small queue window, in the order they asked. A row shows the player in
+their class color, their zone (in a raid) and how long they've been waiting; the header shows your Soul Shards
+and how many group members stand next to you to click the portal (2 are needed).
+
+- **Click** a player: targets them and casts Ritual of Summoning.
+- **Right click**: removes them from the queue.
+
+A player leaves the queue once they're next to you, leave the group, or after the timeout (10 minutes by
+default). Someone just summoned shows *summoning* for up to 2 minutes and goes back to waiting if they don't
+arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
+combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
 
 ## Look and behavior
 
@@ -412,6 +429,7 @@ WarlockUpkeep/
     ├── WeaponStone.lua
     ├── Soulstone.lua
     ├── Pet.lua
+    ├── Summon.lua
     └── Grimoires.lua
 ```
 

@@ -25,6 +25,7 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
 | **Grimoires** | At vendors and in tooltips | — |
+| **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
 ### Armor
 
@@ -84,6 +85,13 @@ At a grimoire vendor, see **which books your demons already know, for all of the
 each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are dark grey with a red cross), books already in your bags get a bag icon, and the tooltip tells per demon what it knows
 (also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
 keeps them up to date. WoW Forever, Classic Era and TBC.
+
+### Summon queue
+
+Write "123" or "summ" in party or raid chat and you're in the queue: a small window lists everyone waiting, in
+order, with their zone and wait time, plus your shards and how many people stand by to click the portal. One
+click targets the player and starts Ritual of Summoning; right click removes them. Players drop off once they
+arrive or leave the group. The keywords are editable.
 
 ---
 
