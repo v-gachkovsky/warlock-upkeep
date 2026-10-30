@@ -52,6 +52,8 @@ You can also set the warning threshold manually.
 
 Set a maximum and **Shift + click** the counter to delete the shards above it (ordinary bags first, so your Soul
 Pouch keeps its shards). The counter also lights up orange when your bags have no room for a new shard.
+Infernal Stones and Demonic Figurines show in the counter's tooltip once you know Inferno or Ritual of Doom, and
+the addon buys them at vendors up to the amount you choose.
 
 ### Healthstone
 

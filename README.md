@@ -147,6 +147,10 @@ keeps its own. Not in combat.
 
 **Full bags.** When a new shard has no free slot in your bags (Drain Soul would lose it), the counter lights up
 orange (on by default; color and sound in the settings).
+**Reagents** (Forever, Classic Era, TBC). Once you know Inferno or Ritual of Doom, the counter's tooltip also
+shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them the addon buys them up to the
+amount to keep (1 Infernal Stone and no Figurines by default; 0 means never). It buys only what you can pay for
+and prints what it bought. Turn it off under *Reagents* in the settings.
 
 ### 3. Healthstone
 

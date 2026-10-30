@@ -142,6 +142,7 @@ function M:Init()
         if extra > 0 then
             GameTooltip:AddLine(string.format(ns.L["Shift + click to delete %d extra Soul Shards."], extra), 0.6, 0.8, 1)
         end
+        if ns.modules.reagents then ns.modules.reagents:AddTooltipLines(GameTooltip) end
         if not Cfg().locked then GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6) end
         GameTooltip:Show()
     end)

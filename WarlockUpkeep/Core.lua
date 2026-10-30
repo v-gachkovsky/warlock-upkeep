@@ -107,6 +107,8 @@ ns.defaults = {
         },
         sound = false, soundName = "READY_CHECK", -- a new buyer
     },
+    -- Reagents to keep in the bags; bought at vendors up to these amounts (0 = don't buy).
+    reagents = { autoBuy = true, keep = { infernal = 1, figurine = 0 } },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },

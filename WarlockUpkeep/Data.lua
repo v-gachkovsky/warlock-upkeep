@@ -32,6 +32,12 @@ ns.data = {
 
     ritualOfSummoning = 698,
 
+    -- Reagents bought from vendors (Forever, Classic Era, TBC; none from Cataclysm on).
+    reagents = {
+        { key = "infernal", item = 5565,  spell = 1122,  name = "Infernal Stone" },   -- Inferno
+        { key = "figurine", item = 16583, spell = 18540, name = "Demonic Figurine" }, -- Ritual of Doom
+    },
+
     -- Before Cataclysm every stone costs one Soul Shard to create.
     -- Mists and Retail only keep Create Healthstone (6201, item 5512).
     stones = {

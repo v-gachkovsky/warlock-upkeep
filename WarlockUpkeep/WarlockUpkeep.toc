@@ -21,5 +21,6 @@ Modules\Pet.lua
 Modules\Summon.lua
 Modules\SummonSell.lua
 Modules\Grimoires.lua
+Modules\Reagents.lua
 Minimap.lua
 Options.lua
