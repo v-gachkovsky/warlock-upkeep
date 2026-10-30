@@ -93,11 +93,11 @@ ns.defaults = {
     },
 }
 
-local function CopyDefaults(src, dst)
+function ns.CopyDefaults(src, dst)
     for k, v in pairs(src) do
         if type(v) == "table" then
             if type(dst[k]) ~= "table" then dst[k] = {} end
-            CopyDefaults(v, dst[k])
+            ns.CopyDefaults(v, dst[k])
         elseif dst[k] == nil then
             dst[k] = v
         end
@@ -105,11 +105,12 @@ local function CopyDefaults(src, dst)
     return dst
 end
 
+-- Resets the current profile.
 function ns:ResetDB()
-    local locale = WarlockUpkeepDB.locale -- the language survives a reset
-    wipe(WarlockUpkeepDB)
-    CopyDefaults(self.defaults, WarlockUpkeepDB)
-    WarlockUpkeepDB.locale = locale
+    local locale = self.db.locale -- the language survives a reset
+    wipe(self.db)
+    ns.CopyDefaults(self.defaults, self.db)
+    self.db.locale = locale
     self:ApplyAll()
 end
 
@@ -618,9 +619,13 @@ ns:RegisterEvent("ADDON_LOADED", function(_, name)
     if name ~= ADDON then return end
     WarlockUpkeepDB = WarlockUpkeepDB or {}
     WarlockUpkeepCharDB = WarlockUpkeepCharDB or {}
-    CopyDefaults(ns.defaults, WarlockUpkeepDB)
-    ns.db = WarlockUpkeepDB
+    -- Settings live in named profiles; each character picks one ("Default" unless set). Settings saved
+    -- before profiles existed become the Default profile.
+    if type(WarlockUpkeepDB.profiles) ~= "table" then
+        WarlockUpkeepDB = { profiles = { Default = WarlockUpkeepDB } }
+    end
     ns.cdb = WarlockUpkeepCharDB
+    ns.SelectProfile(ns.cdb.profile)
 end)
 
 ns:RegisterEvent("PLAYER_LOGIN", function()

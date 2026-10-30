@@ -11,6 +11,7 @@ Data.lua
 Locale.lua
 Locales\ukUA.lua
 Core.lua
+Profiles.lua
 Widgets.lua
 Modules\Armor.lua
 Modules\Shards.lua

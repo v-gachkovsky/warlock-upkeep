@@ -90,6 +90,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 ## Make it yours
 
 - **Language**: English or Ukrainian, switched in the settings.
+- **Profiles** per character, with export and import as a text string to share your setup.
 - **Every feature** can be turned on or off individually.
 - **Every icon** can be resized, moved, locked, and given its own highlight color and alert sound.
 - **Highlight styles**: *Proc* (the Cooldown Manager animation, default), *Running lines* or *Pulsing border*.
@@ -120,7 +121,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 | `/wu lock` / `/wu unlock` | Lock or unlock all elements |
 | `/wu preview` | Show all icons to position them |
 | `/wu combat` | Toggle combat simulation |
-| `/wu reset` | Reset settings |
+| `/wu reset` | Reset the current profile |
 
 ## Minimap button
 

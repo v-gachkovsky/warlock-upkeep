@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Profiles**: settings belong to a named profile, and each character picks one (*Default* unless set). New
+  profiles copy the current one; any profile but *Default* can be deleted. **Export** turns the current profile
+  into a text string to copy, **Import** loads such a string into the current profile (only settings the addon
+  knows are taken; the string can't run code). Settings saved before are kept as the *Default* profile.
+
+### Changed
+- `/wu reset` resets the current profile.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added
