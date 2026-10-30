@@ -53,8 +53,8 @@ Appears when there's no Healthstone in your bags. Click to create the strongest 
 
 ### Firestone / Spellstone
 
-Forever, Classic Era and TBC. Pick your stone in the settings (Firestone by default); the icon shows once you
-can create it. Yellow when the stone is in your
+Forever, Classic Era and TBC. Pick your stone with a **right click** on the icon (a menu like the Retail demon
+flyout) or in the settings (Firestone by default); the icon shows once you can create it. Yellow when the stone is in your
 bags but not on, red when there's none. In Classic Era and TBC the click equips the stone in your off-hand; on
 WoW Forever it imbues your main-hand weapon (by default no reminder while another temporary enchant, such as
 an oil, is on it).

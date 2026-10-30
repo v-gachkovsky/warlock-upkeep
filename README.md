@@ -153,6 +153,10 @@ stone (outside preview). Like the Soulstone, it has two states with their own hi
 - **the stone is in your bags but not on**: click to put it on;
 - **no stone in your bags**: click to create the strongest one you know.
 
+**Right click** on the icon opens a menu with both stones, like the demon menu on Retail action bars: pick the
+other one and the icon switches to it (a stone you haven't learned is greyed out). Holding the right button and
+dragging still moves the icon. Not in combat. The stone can also be picked in the settings.
+
 In **Classic Era and TBC** the stone works while held in the off-hand, so "on" means equipped, and the click
 equips it in place of your off-hand item. On **WoW Forever** the stone imbues your main-hand weapon instead, so
 "on" means the weapon has its enchant, and the click uses the stone. If the weapon has another temporary

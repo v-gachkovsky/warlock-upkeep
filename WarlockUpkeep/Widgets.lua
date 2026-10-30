@@ -682,3 +682,95 @@ function ns.CreateActionIcon(key, title)
     table.insert(ns.icons, b)
     return b
 end
+
+-- A Retail-style flyout: a column of choices above an icon, opened by a right click on it (a right-button
+-- drag still moves the icon). entries() returns { texture, tipItem, note, selected, disabled, onClick }
+-- per choice. Not in combat; a click anywhere else closes it.
+function ns.CreateFlyout(owner, entries)
+    local f = CreateFrame("Frame", nil, owner)
+    f:SetFrameStrata("DIALOG")
+    f:Hide()
+    f.buttons = {}
+
+    local function Button_OnEnter(b)
+        GameTooltip:SetOwner(b, "ANCHOR_RIGHT")
+        if b.entry.tipItem then GameTooltip:SetItemByID(b.entry.tipItem) end
+        if b.entry.note then GameTooltip:AddLine(b.entry.note, 1, 0.3, 0.3) end
+        GameTooltip:Show()
+    end
+    local function Button_OnClick(b)
+        if b.entry.disabled then return end
+        f:Hide()
+        b.entry.onClick()
+    end
+    local function MakeButton(i)
+        local b = CreateFrame("Button", nil, f)
+        local bg = b:CreateTexture(nil, "BACKGROUND")
+        bg:SetColorTexture(0, 0, 0, 1)
+        bg:SetPoint("TOPLEFT", -1, 1)
+        bg:SetPoint("BOTTOMRIGHT", 1, -1)
+        b.icon = b:CreateTexture(nil, "ARTWORK")
+        b.icon:SetAllPoints()
+        b.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        b.selected = b:CreateTexture(nil, "OVERLAY")
+        b.selected:SetTexture("Interface\\Buttons\\CheckButtonHilight")
+        b.selected:SetBlendMode("ADD")
+        b.selected:SetAllPoints()
+        b:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
+        b:SetScript("OnEnter", Button_OnEnter)
+        b:SetScript("OnLeave", GameTooltip_Hide)
+        b:SetScript("OnClick", Button_OnClick)
+        f.buttons[i] = b
+        return b
+    end
+
+    function f:Toggle()
+        if self:IsShown() or InCombatLockdown() then
+            self:Hide()
+            return
+        end
+        local list, size, gap = entries(), owner:GetWidth(), 4
+        for i, e in ipairs(list) do
+            local b = self.buttons[i] or MakeButton(i)
+            b.entry = e
+            b:SetSize(size, size)
+            b:ClearAllPoints()
+            b:SetPoint("BOTTOM", self, "BOTTOM", 0, (i - 1) * (size + gap))
+            b.icon:SetTexture(e.texture or ns.QUESTION_ICON)
+            b.icon:SetDesaturated(e.disabled and true or false)
+            b.selected:SetShown(e.selected and true or false)
+            b:Show()
+        end
+        for i = #list + 1, #self.buttons do self.buttons[i]:Hide() end
+        self:SetSize(size, #list * (size + gap) - gap)
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOM", owner, "TOP", 0, gap + 2)
+        self:Show()
+    end
+
+    f:SetScript("OnShow", function(self)
+        pcall(self.RegisterEvent, self, "GLOBAL_MOUSE_DOWN")
+        self:RegisterEvent("PLAYER_REGEN_DISABLED")
+    end)
+    f:SetScript("OnHide", function(self) self:UnregisterAllEvents() end)
+    f:SetScript("OnEvent", function(self, event, button)
+        if event == "GLOBAL_MOUSE_DOWN" then
+            if self:IsMouseOver() then return end
+            if button == "RightButton" and owner:IsMouseOver() then return end -- the owner's click toggles it
+        end
+        self:Hide()
+    end)
+
+    -- A right click is a press and release without moving; with movement it's a drag.
+    owner:HookScript("OnMouseDown", function(_, button)
+        if button == "RightButton" then f.downX, f.downY = GetCursorPosition() end
+    end)
+    owner:HookScript("OnMouseUp", function(_, button)
+        if button ~= "RightButton" or not f.downX then return end
+        local x, y = GetCursorPosition()
+        local moved = math.abs(x - f.downX) + math.abs(y - f.downY) > 5
+        f.downX, f.downY = nil, nil
+        if not moved and not owner.moving then f:Toggle() end
+    end)
+    return f
+end

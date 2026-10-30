@@ -4,6 +4,14 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Firestone / Spellstone: stone menu.** A right click on the icon opens a menu with both stones, like the demon
+  flyout on Retail action bars; pick one and the icon switches to it. A left click still equips, applies or
+  creates the stone, and holding the right button and dragging still moves the icon. Not in combat; the setting
+  stays too.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added
