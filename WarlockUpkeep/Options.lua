@@ -544,11 +544,21 @@ local function BuildContent()
         Check("Lock position", function() return en().locked end, function(v) en().locked = v end)
         Slider("Background opacity, %", 0, 100, 5, function() return math.floor(en().bgAlpha * 100 + 0.5) end, function(v) en().bgAlpha = v / 100 end)
         FontRows(en, { { "Font size", "size" } })
-        Color("Text color", function() return en().color end, function(v) en().color = v end)
-        Slider("Warning at, seconds left", 5, 120, 5, function() return en().warnSeconds end, function(v) en().warnSeconds = v end)
-        Color("Text color in the warning", function() return en().warnColor end, function(v) en().warnColor = v end)
-        SoundRows(en, "Play sound when the warning starts")
-        Note("Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier.")
+        Color("Timer color", function() return en().color end, function(v) en().color = v end)
+        for _, z in ipairs({ { "warn", "Timer: warning zone" }, { "crit", "Timer: critical zone" } }) do
+            local get = function() return en().zones[z[1]] end
+            SubHeader(z[2])
+            Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
+            Slider("Starts at, seconds left", 5, 300, 5, function() return get().seconds end, function(v) get().seconds = v end)
+            Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
+            SoundRows(get, "Play sound when the zone starts")
+        end
+        SubHeader("Timer: the demon is free")
+        SoundRows(function() return en().expired end, "Play sound when the timer runs out")
+        Slider("Preview timer speed, x", 1, 300, 1, function() return en().previewSpeed end, function(v) en().previewSpeed = v end)
+        Note("Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier. " ..
+            "The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
+            "(30x: 5 minutes in 10 seconds) and the sounds play on every cycle.")
     end
 
     -- 6. Grimoires
