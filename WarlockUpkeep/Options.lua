@@ -916,8 +916,11 @@ function BuildContent()
     -- 5c. Enslave Demon timer
     if ns.modules.enslave then
         local en = T("enslave")
-        Page("enslave", "Enslave Demon timer", ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon")
-        Header("Enslave Demon timer", ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon")
+        -- Named as the client calls the spell: Enslave Demon or Subjugate Demon.
+        local title = string.format(L["%s timer"], ns.SpellName(ns.data.enslaveDemon[1]) or "Enslave Demon")
+        local icon = ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon"
+        Page("enslave", title, icon)
+        Header(title, icon)
         Check("Enable", function() return en().enabled end, function(v) en().enabled = v end)
         Check("Lock position", function() return en().locked end, function(v) en().locked = v end)
         Slider("Background opacity, %", 0, 100, 5, function() return math.floor(en().bgAlpha * 100 + 0.5) end, function(v) en().bgAlpha = v / 100 end)
@@ -927,16 +930,16 @@ function BuildContent()
             local get = function() return en().zones[z[1]] end
             SubHeader(z[2])
             Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
-            Slider("Starts with this many seconds left", 5, 300, 5, function() return get().seconds end, function(v) get().seconds = v end)
+            Slider("Starts with this many seconds left", 5, ns.data.enslaveDuration, 5, function() return get().seconds end, function(v) get().seconds = v end)
             Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
             SoundRows(get, "Play sound when the zone starts")
         end
         SubHeader("Timer: the demon is free")
         SoundRows(function() return en().expired end, "Play sound when the timer runs out")
         Slider("Preview timer speed, x", 1, 300, 1, function() return en().previewSpeed end, function(v) en().previewSpeed = v end)
-        Note("Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier. " ..
-            "The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
-            "(30x: 5 minutes in 10 seconds) and the sounds play on every cycle.")
+        Note(string.format(L["Shows how long your demon stays under your control (up to %d minutes). It can break " ..
+            "free earlier. The critical zone wins where the zones overlap. In preview mode the timer runs faster by " ..
+            "the speed above (30x: a minute in 2 seconds) and the sounds play on every cycle."], ns.data.enslaveDuration / 60))
     end
 
     -- 5d. Trainer

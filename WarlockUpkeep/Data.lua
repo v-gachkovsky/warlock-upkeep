@@ -32,9 +32,10 @@ ns.data = {
     -- Soul Link talent and its buff on the caster.
     soulLink = 19028,
     soulLinkBuffs = { 25228, 19028 },
-    -- Enslave Demon (Subjugate Demon in Classic Era): the debuff on the enslaved demon lasts up to 5 minutes.
+    -- Enslave Demon (Subjugate Demon in Classic Era, Mists and Retail): the debuff on the demon lasts up to
+    -- 5 minutes, 10 in Retail.
     enslaveDemon = { 1098, 11725, 11726 },
-    enslaveDuration = 300,
+    enslaveDuration = select(4, GetBuildInfo()) >= 100000 and 600 or 300,
 
     -- The counter shows once Soul Shards can be gained.
     drainSoul = { 1120, 8288, 8289, 11675, 27217 },
