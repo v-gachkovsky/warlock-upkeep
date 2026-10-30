@@ -55,7 +55,7 @@ and the project uses [Semantic Versioning](https://semver.org/).
   your demon is out but Soul Link isn't on (click to cast it; on by default). Optionally it reminds you to
   sacrifice your demon with Demonic Sacrifice (off by default). Both have their own highlight and sound and
   show out of combat only.
-- **Enslave Demon timer** (Subjugate Demon in Classic Era, Mists and Retail; every client): a movable label with
+- **Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client): a movable label with
   the time your enslaved demon stays under control, up to 5 minutes (10 in Retail). Like the Soulstone label it has a warning and a critical zone (yellow from 60 seconds,
   red from 30; seconds, colors and sounds adjustable) and a sound when the timer runs out; in preview it runs
   fast and restarts.

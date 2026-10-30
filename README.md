@@ -245,7 +245,7 @@ summoned, and the click casts Demonic Sacrifice. With **Soul Link** learned, it 
 out but Soul Link isn't on (on by default), and the click casts it. Both reminders have their own highlight
 (purple) and sound, and show out of combat only.
 
-**Enslave Demon timer** (Subjugate Demon in Classic Era, Mists and Retail; every client). While a demon is
+**Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client). While a demon is
 enslaved, a small movable label shows how long it stays under control (up to 5 minutes, 10 in Retail). It can break free earlier. Like the Soulstone label, the timer
 has a warning zone (yellow from 60 seconds left) and a critical one (red from 30), each with its own threshold,
 color and optional sound, plus a sound when the timer runs out. In preview the timer runs 30 times faster and
