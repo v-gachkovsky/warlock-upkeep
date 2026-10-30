@@ -101,7 +101,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | # | Feature | Shown when | Click |
 |---|---------|------------|-------|
 | 1 | **Armor** | No Demon Skin / Demon Armor | Casts your strongest armor |
-| 2 | **Soul Shards** | Always (counter) | Not clickable |
+| 2 | **Soul Shards** | Always (counter) | Shift + click deletes shards above the maximum |
 | 3 | **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
@@ -123,8 +123,7 @@ and disappears when you recast it (see [Client limitations](#client-limitations)
 
 A counter of the shards in your bags. It turns red and lights up when you have fewer than the low threshold
 (below), and turns yellow and lights up when the count equals it (one more shard used and it's low). With
-*Show the threshold next to the count* (off by default) it reads `have/threshold`. It isn't clickable,
-since a shard has no action. With *Keep showing on a mount or flight path* (on by default) it stays on screen
+*Show the threshold next to the count* (off by default) it reads `have/threshold`. With *Keep showing on a mount or flight path* (on by default) it stays on screen
 when the General options hide everything else there.
 
 **The recommended amount** is made up of:
@@ -139,6 +138,13 @@ spell), so low-level characters don't get a "low shards" alert. It exists only o
 items (Forever, Classic Era, TBC); in Mists and Retail shards are a resource shown by the game itself.
 
 The highlight threshold equals the recommended amount by default, but you can set it manually.
+
+**Extra shards.** Set *Maximum shards* (0 by default, no limit) and the count turns light blue above it.
+**Shift + click** on the counter then deletes the extra shards: from ordinary bags first, so a Soul Pouch
+keeps its own. Not in combat.
+
+**Full bags.** When a new shard has no free slot in your bags (Drain Soul would lose it), the counter lights up
+orange (on by default; color and sound in the settings).
 
 ### 3. Healthstone
 

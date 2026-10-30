@@ -21,6 +21,8 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 | **Armor** | Demon Skin / Demon Armor is missing | Casts your strongest armor |
 | **Soul Shards** | Always (counter) | — |
 | **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
+| **Soul Shards** | Always (counter) | Shift + click deletes extra shards |
+| **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equips, applies or creates the stone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
@@ -46,6 +48,9 @@ below it, with a highlight in the same color. The threshold equals the recommend
 - optionally, Ritual of Summoning
 
 You can also set the warning threshold manually.
+
+Set a maximum and **Shift + click** the counter to delete the shards above it (ordinary bags first, so your Soul
+Pouch keeps its shards). The counter also lights up orange when your bags have no room for a new shard.
 
 ### Healthstone
 

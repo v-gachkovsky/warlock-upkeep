@@ -51,6 +51,11 @@ ns.LOCALES.ukUA = {
     ["Spare"] = "Запас",
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
+    ["Maximum"] = "Максимум",
+    ["Bags are full: a new Soul Shard has nowhere to go."] = "Сумки повні: новому осколку душі нема куди лягти.",
+    ["Shift + click to delete %d extra Soul Shards."] = "Shift + клік - видалити зайві осколки душ: %d.",
+    ["can't delete Soul Shards in combat."] = "не можна видаляти осколки душ у бою.",
+    ["deleted %d extra Soul Shards."] = "видалено зайвих осколків душ: %d.",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -201,6 +206,15 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["Extra shards"] = "Зайві осколки",
+    ["Maximum shards (0 = no limit)"] = "Максимум осколків (0 = без ліміту)",
+    ["Text color above the maximum"] = "Колір тексту понад максимум",
+    ["Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
+        "Soul Pouch keeps its shards. Not in combat."] =
+        "Shift + клік по лічильнику видаляє осколки понад максимум: спершу зі звичайних сумок, тож Soul Pouch " ..
+        "зберігає свої. Не в бою.",
+    ["Full bags"] = "Повні сумки",
+    ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому осколку нема місця в сумках",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

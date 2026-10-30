@@ -11,6 +11,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
   default) when your health drops below a threshold (20% by default), also in combat, and a click uses the
   strongest Healthstone you have. No reminder while the Healthstone is on cooldown. The threshold, color and
   sound are in the Healthstone settings; the reminder can be turned off there.
+- **Soul Shard counter: extra shards.** New *Maximum shards* option (0 by default, no limit): above it the count
+  turns light blue, and **Shift + click** on the counter deletes the shards above the maximum, from ordinary
+  bags first so a Soul Pouch keeps its own. Not in combat.
+- **Soul Shard counter: full bags.** The counter lights up orange when a new shard has no free slot in your bags
+  (Drain Soul would lose it). On by default; the color and an optional sound are in the settings.
 
 ## [1.9.0] - 2026-10-30
 

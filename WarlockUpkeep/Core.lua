@@ -96,6 +96,9 @@ ns.defaults = {
         spare = 1, includeRitual = false,
         glow = true, glowColor = { 1, 0.2, 0.2, 1 }, edgeGlowColor = { 1, 0.82, 0, 1 },
         sound = false, soundName = "RAID_WARNING",
+        maxShards = 0, overColor = { 0.6, 0.8, 1, 1 }, -- limit for Shift + click cleanup; 0 = no limit
+        -- Bags full: a new shard would be lost.
+        fullWarn = true, fullGlowColor = { 1, 0.5, 0, 1 }, fullSound = false, fullSoundName = "RAID_WARNING",
     },
 }
 
