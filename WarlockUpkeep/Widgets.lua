@@ -694,6 +694,8 @@ function ns.SkinWithMasque(b)
     masqueGroup = masqueGroup or Masque:Group("WarlockUpkeep!")
     b.bg:Hide()
     masqueGroup:AddButton(b, { Icon = b.icon, Highlight = b:GetHighlightTexture() })
+end
+
 -- A Retail-style flyout: a column of choices above an icon, opened by a right click on it (a right-button
 -- drag still moves the icon). entries() returns { texture, tipItem, note, selected, disabled, onClick }
 -- per choice. Not in combat; a click anywhere else closes it.
