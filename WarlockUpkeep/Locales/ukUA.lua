@@ -232,6 +232,20 @@ ns.LOCALES.ukUA = {
     ["Announce the summon in group chat"] = "Повідомляти про призив у чат групи",
     ["Group message"] = "Повідомлення в групу",
     ["Whisper the player being summoned"] = "Шепнути гравцю, якого призиваєте",
+    ["Not enough people at the portal"] = "Замало людей біля порталу",
+    ["Ask for help when fewer than 2 stand next to you"] = "Кликати на допомогу, коли поруч менше двох",
+    ["Message to the group"] = "Повідомлення групі",
+    ["Message for a sold summon"] = "Повідомлення для проданого призиву",
+    ["Sold summon: to the party or raid"] = "Проданий призив: у групу чи рейд",
+    ["Sold summon: to /say"] = "Проданий призив: у /say",
+    ["Sold summon: to /yell"] = "Проданий призив: у /yell",
+    ["Sold summon: to the ad channel (Trade)"] = "Проданий призив: у канал оголошень (Trade)",
+    ["Sent when you click a player in the queue and fewer than two group members stand next to you, at most " ..
+        "once per 15 seconds. {n} is how many more people you need. Your group's summons ask the group; a summon " ..
+        "you sold asks everyone around too, and its message takes the selling texts' {zone} and {price}."] =
+        "Надсилається, коли ви клікаєте гравця в черзі, а поруч з вами менше двох учасників групи, не частіше ніж " ..
+        "раз на 15 секунд. {n} - скільки ще людей потрібно. Для призиву своєї групи кличе групу; для проданого " ..
+        "кличе ще й усіх довкола, а в його тексті працюють {zone} і {price} із текстів продажу.",
     ["Soulstone messages"] = "Повідомлення про Камінь душі",
     ["Tell the group who has your Soulstone"] = "Писати в групу, на кому ваш Камінь душі",
     ["Whisper the player who got it"] = "Шепнути гравцю, який його отримав",

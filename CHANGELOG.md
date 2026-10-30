@@ -25,6 +25,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - Both summon windows can be resized by their bottom-right corner while unlocked, and scroll with the mouse
   wheel when more players are listed than fit; the queue scrolls out of combat only. Preview fills them with
   enough sample players to try the scrolling.
+- **Not enough people at the portal**: when you start a summon from the queue and fewer than two group members
+  stand next to you, the addon asks for help ("Need 1 more next to me to click the summoning portal!"). For your
+  group it goes to the group chat; for a summon you sold it also goes to /say, /yell and the ad channel (Trade),
+  asking players around to whisper you for an invite. On by default, each channel and both texts adjustable,
+  at most once per 15 seconds.
 - **Summon announcements** (off by default): when Ritual of Summoning starts, a line to the group chat ("Summoning
   {name}, please click the portal!") and a whisper to the player ("Summoning you now, please accept the summon.").
   Both texts are editable.

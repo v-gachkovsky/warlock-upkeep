@@ -162,7 +162,7 @@ function M:Prune()
         local b = self.buyers[i]
         if InGroup(b.name) then
             table.remove(self.buyers, i)
-            if Q() then Q():Add(b.name) end
+            if Q() then Q():Add(b.name, true) end
         elseif now - b.at > BUYER_TIMEOUT then
             table.remove(self.buyers, i)
         end

@@ -110,12 +110,13 @@ function M:Find(name)
     end
 end
 
-function M:Add(name)
+-- sold: a buyer from the selling window, summoned for strangers to see (and help with).
+function M:Add(name, sold)
     if not name or self:Find(name) then return end
     local unit = UnitOf(name)
     if not unit or Check(UnitIsUnit, unit, "player") or Near(unit) then return end
     local ok, _, class = pcall(UnitClass, unit)
-    self.queue[#self.queue + 1] = { name = name, class = ok and Safe(class) or nil, at = GetTime() }
+    self.queue[#self.queue + 1] = { name = name, class = ok and Safe(class) or nil, at = GetTime(), sold = sold }
     if ns.ready and Cfg().sound then ns.PlaySound(Cfg().soundName) end
     self:Refresh()
 end
@@ -157,6 +158,33 @@ end
 -- Shared with the selling window (SummonSell.lua).
 M.UnitOf, M.Clickers = UnitOf, Clickers
 
+-- Fewer than two people next to you for the portal: ask for help. To the group for your own group's summons;
+-- for a sold summon also to /say, /yell and the Trade channel, so players around can help. Called from the
+-- click that starts the ritual: the game lets addons write to /say, /yell and channels only on a click.
+local CALL_COOLDOWN = 15
+function M:CallClickers(e)
+    local c = Cfg().clickersCall
+    local need = 2 - Clickers()
+    if not c.enabled or need <= 0 then return end
+    if self.lastCall and GetTime() - self.lastCall < CALL_COOLDOWN then return end
+    self.lastCall = GetTime()
+    if not e.sold then
+        ns.SendToGroup((c.groupText:gsub("{n}", tostring(need))))
+        return
+    end
+    local sell = ns.modules.summonSell
+    local text = c.publicText:gsub("{n}", tostring(need))
+    if sell then text = sell.Fill(text, e.name) end
+    text = text:sub(1, 255)
+    if c.party then ns.SendToGroup(text) end
+    if c.say then SendChatMessage(text, "SAY") end
+    if c.yell then SendChatMessage(text, "YELL") end
+    if c.trade and sell then
+        local id = GetChannelName and GetChannelName(ns.db.summonSell.adChannel)
+        if id and id ~= 0 then SendChatMessage(text, "CHANNEL", nil, id) end
+    end
+end
+
 ------------------------------------------------------------------------
 -- Window
 ------------------------------------------------------------------------
@@ -194,7 +222,10 @@ local function CreateRow(f, i)
             M:Remove(self.entryName)
         elseif button == "LeftButton" then
             local _, e = M:Find(self.entryName)
-            if e then e.summonedAt = GetTime() end
+            if e then
+                e.summonedAt = GetTime()
+                M:CallClickers(e)
+            end
             M:Refresh()
         end
     end)

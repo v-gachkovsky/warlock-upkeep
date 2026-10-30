@@ -259,6 +259,14 @@ players than fit, a line at the bottom shows which ones you see, and the mouse w
 combat). The window grows down and to the right, its top left corner stays put. Preview shows enough sample
 players to try the scrolling. The selling window below works the same way.
 
+**Not enough people at the portal.** When you click a player in the queue and fewer than two group members stand
+next to you, the addon asks for help (on by default): your group's summons ask the group chat ("Need 1 more next
+to me to click the summoning portal!"); a summon you sold also asks `/say`, `/yell` and the ad channel (Trade),
+since only group members can click the portal: "Summoning at {zone}: need 1 more to click the portal, whisper me
+for an invite!". The texts and each channel are in the settings; at most once per 15 seconds. The game lets
+addons write to `/say`, `/yell` and channels only on a click, which is why this goes out with the click on the
+queue.
+
 **Announcements** (off by default): when Ritual of Summoning starts, from the queue or cast by hand, the addon
 can post a line to the group chat ("Summoning {name}, please click the portal!") and whisper the player
 ("Summoning you now, please accept the summon."). Both texts are editable; `{name}` is the player.

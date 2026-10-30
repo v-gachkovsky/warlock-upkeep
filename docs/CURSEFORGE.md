@@ -100,7 +100,8 @@ and whispers the player to accept (both texts editable).
 **Selling summons** (`/wu sell`): a second window lists players looking for a summon in Trade, General, /say,
 /yell or whispers ("wtb sum", "lf lock"...). Click to whisper your offer (your price, or "how much would you
 pay?" with no price set), Shift + click to invite them too, and post a "WTS summon" ad to Trade with one button.
-Type the place ("BRD meeting stone") in the window, or leave it to the zone you're in.
+Type the place ("BRD meeting stone") in the window, or leave it to the zone you're in. Too few people at the
+portal? The addon asks your group for help, and for a summon you sold also /say, /yell and Trade.
 All texts are editable, and nothing is sent without your click. Both windows can be resized by their corner and
 scroll with the mouse wheel when the list is long.
 
