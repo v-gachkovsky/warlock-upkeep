@@ -19,16 +19,19 @@ local function Money(copper)
     return string.format("%dg %ds %dc", math.floor(copper / 10000), math.floor(copper / 100) % 100, copper % 100)
 end
 
--- Reads every service, whatever the trainer window's filters show, and puts the filters back.
-local FILTERS = { "available", "unavailable", "used" }
+-- Reads every service, whatever the trainer window's filters show, and puts the filters back. Learned ranks
+-- ("used") are skipped anyway, so that filter stays as it is. The filters take true / false.
+local FILTERS = { "available", "unavailable" }
+local function SetFilter(f, on) pcall(SetTrainerServiceTypeFilter, f, on) end
 function M:ReadTrainer()
     if not (GetNumTrainerServices and GetTrainerServiceInfo) then return end
     if IsTradeskillTrainer and IsTradeskillTrainer() then return end
     local saved = {}
     if GetTrainerServiceTypeFilter and SetTrainerServiceTypeFilter then
         for _, f in ipairs(FILTERS) do
-            saved[f] = GetTrainerServiceTypeFilter(f)
-            if not saved[f] then SetTrainerServiceTypeFilter(f, 1) end
+            local on = GetTrainerServiceTypeFilter(f)
+            saved[f] = on == true or on == 1
+            if not saved[f] then SetFilter(f, true) end
         end
     end
     local list = {}
@@ -42,7 +45,7 @@ function M:ReadTrainer()
     end
     if GetTrainerServiceTypeFilter and SetTrainerServiceTypeFilter then
         for _, f in ipairs(FILTERS) do
-            if not saved[f] then SetTrainerServiceTypeFilter(f, 0) end
+            if not saved[f] then SetFilter(f, false) end
         end
     end
     -- Whatever was learned is gone from the list ("used" is skipped), so the stored list is replaced.
