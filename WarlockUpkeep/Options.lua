@@ -671,6 +671,8 @@ local function BuildContent()
             "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
             "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
             "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by.")
+    end
+
     -- 5c. Enslave Demon timer
     if ns.modules.enslave then
         local en = T("enslave")
@@ -684,6 +686,8 @@ local function BuildContent()
         Color("Text color in the warning", function() return en().warnColor end, function(v) en().warnColor = v end)
         SoundRows(en, "Play sound when the warning starts")
         Note("Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier.")
+    end
+
     -- 5d. Trainer
     if ns.modules.trainer then
         local tr = T("trainer")

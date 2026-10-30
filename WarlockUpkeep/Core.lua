@@ -292,8 +292,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "minimap" }) do
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "enslave", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "enslave", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()
