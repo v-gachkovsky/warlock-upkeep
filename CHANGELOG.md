@@ -4,6 +4,13 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
+  teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
+  prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

@@ -63,6 +63,8 @@ ns.defaults = {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
     }),
+    -- New ranks at the class trainer: a chat message after a level up.
+    trainer = { enabled = true, sound = false, soundName = "LEVEL_UP" },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -754,6 +756,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
             local ok, err = pcall(ns.DebugAuras)
             if not ok then ns.Print("auras debug failed: %s", tostring(err)) end
         end
+    elseif msg == "trainer" and ns.PrintTrainer then
+        ns.PrintTrainer()
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then

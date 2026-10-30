@@ -85,6 +85,11 @@ each one: learned grimoires get a check mark and turn grey (books for demons you
 (also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
 keeps them up to date. WoW Forever, Classic Era and TBC.
 
+### New ranks at the trainer
+
+Visit your class trainer once and the addon remembers what it teaches. After each level up it tells you in chat
+which new ranks you can learn and what they cost (`/wu trainer` any time). Forever, Classic Era and TBC.
+
 ---
 
 ## Make it yours
@@ -120,6 +125,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 | `/wu lock` / `/wu unlock` | Lock or unlock all elements |
 | `/wu preview` | Show all icons to position them |
 | `/wu combat` | Toggle combat simulation |
+| `/wu trainer` | Ranks waiting at your class trainer |
 | `/wu reset` | Reset settings |
 
 ## Minimap button

@@ -525,6 +525,16 @@ local function BuildContent()
         end
     end)
 
+    -- 5d. Trainer
+    if ns.modules.trainer then
+        local tr = T("trainer")
+        Header("New ranks at the trainer", "Interface\\Icons\\INV_Misc_Book_09")
+        Check("Tell me after a level up what I can learn", function() return tr().enabled end, function(v) tr().enabled = v end)
+        SoundRows(tr)
+        Note("The game lists what a trainer teaches only while its window is open, so visit your class trainer once: " ..
+            "the addon remembers the ranks you can't learn yet and their levels. /wu trainer shows what's waiting now.")
+    end
+
     -- 6. Grimoires
     if ns.modules.grimoires then
         local gr = T("grimoires")

@@ -50,6 +50,9 @@ ns.LOCALES.ukUA = {
     ["Spare"] = "Запас",
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
+    ["new at your trainer (%s): %s."] = "нове у вашого тренера (%s): %s.",
+    ["visit your class trainer once so the addon learns what it teaches."] = "зайдіть раз до свого класового тренера, щоб аддон дізнався, чого він навчає.",
+    ["nothing new at your trainer for now."] = "поки в тренера нічого нового.",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -200,6 +203,12 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["New ranks at the trainer"] = "Нові ранги в тренера",
+    ["Tell me after a level up what I can learn"] = "Після нового рівня писати, що можна вивчити",
+    ["The game lists what a trainer teaches only while its window is open, so visit your class trainer once: " ..
+        "the addon remembers the ranks you can't learn yet and their levels. /wu trainer shows what's waiting now."] =
+        "Гра показує, чого навчає тренер, лише поки відкрите його вікно, тож зайдіть раз до класового тренера: аддон " ..
+        "запам'ятає ранги, які поки не можна вивчити, і їхні рівні. /wu trainer показує, що чекає зараз.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",
