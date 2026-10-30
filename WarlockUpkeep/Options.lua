@@ -673,6 +673,20 @@ local function BuildContent()
         Check("Whisper the player being summoned", function() return an().whisper end, function(v) an().whisper = v end)
         local w = Input("Whisper", 250, function(text) an().whisperText = text; Changed() end)
         refreshers[#refreshers + 1] = function() w:SetText(an().whisperText or ""); w:SetCursorPosition(0) end
+        local cc = function() return su().clickersCall end
+        SubHeader("Not enough people at the portal")
+        Check("Ask for help when fewer than 2 stand next to you", function() return cc().enabled end, function(v) cc().enabled = v end)
+        local cg = Input("Message to the group", 250, function(text) cc().groupText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() cg:SetText(cc().groupText or ""); cg:SetCursorPosition(0) end
+        local cp = Input("Message for a sold summon", 250, function(text) cc().publicText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() cp:SetText(cc().publicText or ""); cp:SetCursorPosition(0) end
+        Check("Sold summon: to the party or raid", function() return cc().party end, function(v) cc().party = v end)
+        Check("Sold summon: to /say", function() return cc().say end, function(v) cc().say = v end)
+        Check("Sold summon: to /yell", function() return cc().yell end, function(v) cc().yell = v end)
+        Check("Sold summon: to the ad channel (Trade)", function() return cc().trade end, function(v) cc().trade = v end)
+        Note("Sent when you click a player in the queue and fewer than two group members stand next to you, at most " ..
+            "once per 15 seconds. {n} is how many more people you need. Your group's summons ask the group; a summon " ..
+            "you sold asks everyone around too, and its message takes the selling texts' {zone} and {price}.")
         Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
             "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
             "once they're next to you or leave the group. The window shows only while someone is waiting.")

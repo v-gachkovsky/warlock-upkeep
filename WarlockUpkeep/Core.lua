@@ -95,6 +95,15 @@ ns.defaults = {
             group = false, groupText = "Summoning {name}, please click the portal!",
             whisper = false, whisperText = "Summoning you now, please accept the summon.",
         },
+        -- Too few people at the portal when the ritual starts: {n} more needed. A sold summon's call also goes
+        -- to /say, /yell and the selling window's ad channel, and takes the selling placeholders ({zone}...).
+        clickersCall = {
+            enabled = true,
+            groupText = "Need {n} more next to me to click the summoning portal!",
+            -- Only group members can click the portal, so strangers who'd help need an invite.
+            publicText = "Summoning at {zone}: need {n} more to click the portal, whisper me for an invite!",
+            party = true, say = true, yell = true, trade = true,
+        },
     },
     -- Selling summons to players outside the group. Off until turned on (/wu sell); price in copper, 0 = ask.
     summonSell = {
