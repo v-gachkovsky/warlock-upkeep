@@ -570,8 +570,12 @@ local function BuildContent()
         SubHeader("Selling summons")
         Check("Selling summons (/wu sell)", function() return se().enabled end, function(v) se().enabled = v end)
         Check("Lock position", function() return se().locked end, function(v) se().locked = v end)
-        Text("Price, gold (0 = ask the buyer)", function() return tostring(se().price) end,
-            function(v) se().price = math.max(0, math.floor(tonumber(v) or 0)) end)
+        local sell = ns.modules.summonSell
+        Text("Price: 5 or 5g, 1g50s, 75s (0 = ask the buyer)", function() return sell.FormatPrice(se().price) end,
+            function(v)
+                local copper = sell.ParsePrice(v)
+                if copper then se().price = copper else ns.Print(L["can't read the price \"%s\"."], v) end
+            end)
         Text("Channel for the ad", function() return se().adChannel end, function(v) se().adChannel = v end)
         Text("Buyer keywords (comma-separated)", function() return se().keywords end, function(v) se().keywords = v end)
         Text("Offer without a price", function() return se().templates.ask end, function(v) se().templates.ask = v end)

@@ -42,9 +42,42 @@ local function ClickersNeeded()
     return math.max(0, 2 - (q and q.Clickers and q.Clickers() or 0))
 end
 
+-- Price text to copper: a plain number is gold ("5", "2.5"), otherwise gold, silver and copper in that
+-- order, each optional: "1g50s", "75s", "2g 5c". nil when it can't be read.
+local UNITS = { { "g", 10000 }, { "s", 100 }, { "c", 1 } }
+function M.ParsePrice(text)
+    text = tostring(text or ""):lower():gsub("%s+", "")
+    if text == "" then return 0 end
+    local n = tonumber(text)
+    if n then return n >= 0 and math.floor(n * 10000 + 0.5) or nil end
+    local total, rest = 0, text
+    for _, u in ipairs(UNITS) do
+        local num, after = rest:match("^(%d+)" .. u[1] .. "(.*)$")
+        if num then
+            total = total + tonumber(num) * u[2]
+            rest = after
+        end
+    end
+    if rest ~= "" then return nil end
+    return total
+end
+
+-- Copper to "1g50s" (only the parts that aren't 0).
+function M.FormatPrice(copper)
+    copper = math.floor(tonumber(copper) or 0)
+    if copper <= 0 then return "0" end
+    local parts = {}
+    for _, u in ipairs(UNITS) do
+        local n = math.floor(copper / u[2])
+        copper = copper - n * u[2]
+        if n > 0 then parts[#parts + 1] = n .. u[1] end
+    end
+    return table.concat(parts)
+end
+
 local function Price()
     local p = tonumber(Cfg().price) or 0
-    return p > 0 and (p .. "g") or nil
+    return p > 0 and M.FormatPrice(p) or nil
 end
 
 -- Fills {name}, {zone}, {price} and {clickers}; {clickers} is the clickers sentence, or nothing when two

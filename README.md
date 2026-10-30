@@ -274,10 +274,11 @@ your group who look for a summon in a public channel, `/say`, `/yell` or a whisp
 - **Place**: what `{zone}` says in the offer and the ad, for example "BRD meeting stone". Left empty, it's the
   zone you're in; it clears when you go to another zone.
 
-The offer depends on the price in the settings: with a price (in gold) it names it, with 0 it asks how much the
-buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
-`{clickers}` a sentence saying how many more people you need next to you to click the portal (left out once
-two stand by). Nothing is sent without your click.
+The offer depends on the price in the settings: with a price it names it (a plain number is gold: "5"; or gold,
+silver and copper: "1g50s", "75s", "2g5c", "50c"), with 0 it asks how much the buyer would pay. All texts are
+editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and `{clickers}` a sentence saying how
+many more people you need next to you to click the portal (left out once two stand by). Nothing is sent without
+your click.
 
 ## Look and behavior
 
