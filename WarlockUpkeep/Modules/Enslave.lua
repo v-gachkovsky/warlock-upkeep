@@ -1,5 +1,5 @@
 local _, ns = ...
--- Enslave Demon, called Subjugate Demon in Classic Era, Mists and Retail.
+-- Enslave Demon, called Subjugate Demon in Classic Era, TBC, Mists and Retail.
 local D = ns.data
 local M = ns:NewModule("enslave")
 
