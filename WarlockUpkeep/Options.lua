@@ -312,6 +312,48 @@ local function BuildContent()
             Changed()
         end)
     end)
+    -- A profile switch can change the language too: the rows are built again.
+    local function Rebuild()
+        C_Timer.After(0, function()
+            BuildContent()
+            if settingsButton then settingsButton:SetText(L["Open settings (/wu)"]) end
+            Changed()
+        end)
+    end
+    local function ProfileList()
+        local list = {}
+        for _, name in ipairs(ns.ProfileNames()) do list[#list + 1] = { value = name, text = name } end
+        return list
+    end
+    Select("Profile", ProfileList, ns.CurrentProfile, function(v) ns.SelectProfile(v); Rebuild() end,
+        { text = "Delete", onClick = function()
+            if ns.DeleteProfile(ns.CurrentProfile()) then Rebuild() else ns.Print(L["the Default profile can't be deleted."]) end
+        end })
+    Input("New profile (copy of the current one)", 170, function(text)
+        if ns.CreateProfile(text) then Rebuild() else ns.Print(L["enter a new, unused profile name."]) end
+    end)
+    local io = Input("Export / import", 170, function() end)
+    io:SetMaxLetters(0)
+    Button("Export", 80, function()
+        io:SetText(ns.ExportProfile())
+        io:SetFocus()
+        io:HighlightText()
+        ns.Print(L["the profile string is selected: copy it with Ctrl+C (Cmd+C on a Mac)."])
+    end, RIGHT + 6)
+    Button("Import", 80, function()
+        local ok, err = ns.ImportProfile(io:GetText())
+        if ok then
+            io:SetText("")
+            ns.Print(L["profile imported into %s."], ns.CurrentProfile())
+            Rebuild()
+        else
+            ns.Print(L["can't import: %s."], err)
+        end
+    end, RIGHT + 92)
+    y = y - 28
+    Note("Each character uses one profile. Export puts the current profile's settings into the box as text; paste " ..
+        "such a text into the box and press Import to replace the current profile's settings with it.")
+
     Check("Preview mode (show all icons for positioning)", function() return ns.db.preview end, function(v) ns.db.preview = v end)
     Check("Simulate combat (opacity, highlight, hiding, click-through)", function() return ns.db.previewCombat end, function(v) ns.db.previewCombat = v end)
     Check("Show minimap button", function() return not ns.db.minimap.hide end, function(v) ns.db.minimap.hide = not v end)

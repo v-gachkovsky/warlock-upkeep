@@ -125,6 +125,7 @@ which new ranks you can learn and what they cost (`/wu trainer` any time). Forev
 ## Make it yours
 
 - **Language**: English or Ukrainian, switched in the settings.
+- **Profiles** per character, with export and import as a text string to share your setup.
 - **Every feature** can be turned on or off individually.
 - **Every icon** can be resized, moved, locked, and given its own highlight color and alert sound.
 - **Highlight styles**: *Proc* (the Cooldown Manager animation, default), *Running lines* or *Pulsing border*.
@@ -158,6 +159,7 @@ which new ranks you can learn and what they cost (`/wu trainer` any time). Forev
 | `/wu combat` | Toggle combat simulation |
 | `/wu trainer` | Ranks waiting at your class trainer |
 | `/wu reset` | Reset settings |
+| `/wu reset` | Reset the current profile |
 
 ## Minimap button
 

@@ -14,6 +14,11 @@ ns.LOCALES.ukUA = {
     ["can't create the name font: %s"] = "не вдалося створити шрифт для імені: %s",
     ["can't play %s. Custom files need a full game restart after adding them."] = "не вдається відтворити %s. Після додавання власних файлів гру треба повністю перезапустити.",
     ["already added: %s"] = "уже додано: %s",
+    ["the Default profile can't be deleted."] = "профіль Default не можна видалити.",
+    ["enter a new, unused profile name."] = "введіть нову назву профілю, якої ще немає.",
+    ["the profile string is selected: copy it with Ctrl+C (Cmd+C on a Mac)."] = "рядок профілю виділено: скопіюйте його Ctrl+C (Cmd+C на Mac).",
+    ["profile imported into %s."] = "профіль імпортовано в %s.",
+    ["can't import: %s."] = "не вдалося імпортувати: %s.",
     ["added %s, but it can't be played yet: check the name or restart the game."] = "додано %s, але поки не відтворюється: перевірте назву або перезапустіть гру.",
 
     -- Minimap button
@@ -305,6 +310,16 @@ ns.LOCALES.ukUA = {
         "the addon remembers the ranks you can't learn yet and their levels. /wu trainer shows what's waiting now."] =
         "Гра показує, чого навчає тренер, лише поки відкрите його вікно, тож зайдіть раз до класового тренера: аддон " ..
         "запам'ятає ранги, які поки не можна вивчити, і їхні рівні. /wu trainer показує, що чекає зараз.",
+    ["Profile"] = "Профіль",
+    ["Delete"] = "Видалити",
+    ["New profile (copy of the current one)"] = "Новий профіль (копія поточного)",
+    ["Export / import"] = "Експорт / імпорт",
+    ["Export"] = "Експорт",
+    ["Import"] = "Імпорт",
+    ["Each character uses one profile. Export puts the current profile's settings into the box as text; paste " ..
+        "such a text into the box and press Import to replace the current profile's settings with it."] =
+        "Кожен персонаж використовує один профіль. «Експорт» кладе налаштування поточного профілю в поле текстом; " ..
+        "вставте такий текст у поле й натисніть «Імпорт», щоб замінити ним налаштування поточного профілю.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

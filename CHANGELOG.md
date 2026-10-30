@@ -54,6 +54,13 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **Masque**: with Masque installed, the icons take its skins (group *WarlockUpkeep!*).
 - **LibDataBroker** feed for display addons (Titan Panel, ElvUI, Bazooka...): the Soul Shard count as text (red
   when low), shards and the Soulstone target in the tooltip, and the minimap button's clicks.
+- **Profiles**: settings belong to a named profile, and each character picks one (*Default* unless set). New
+  profiles copy the current one; any profile but *Default* can be deleted. **Export** turns the current profile
+  into a text string to copy, **Import** loads such a string into the current profile (only settings the addon
+  knows are taken; the string can't run code). Settings saved before are kept as the *Default* profile.
+
+### Changed
+- `/wu reset` resets the current profile.
 
 ## [1.9.0] - 2026-10-30
 

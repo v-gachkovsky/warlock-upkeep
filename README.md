@@ -311,6 +311,14 @@ The addon speaks English or Ukrainian: pick it with **Language** at the top of G
 (settings, tooltips, chat messages). English is the default: there is no Ukrainian game client, so the language
 doesn't follow the client's. Spell, item and demon summon names come from the game in the client's language.
 
+### Profiles
+
+All settings belong to a **profile**; each character uses one (*Default* unless you pick another under General).
+*New profile* copies the current one under a new name, *Delete* removes the current one (not *Default*). To
+share settings, press **Export**: the profile turns into a text string, selected in the box, ready to copy.
+Paste such a string into the box and press **Import** to load it into the current profile. Settings from before
+profiles existed become the *Default* profile.
+
 ### Highlight
 
 The **style** is set under General:
@@ -407,7 +415,7 @@ tooltip, and the same clicks as the minimap button.
 | `/wu unlock` | Unlocks all elements |
 | `/wu preview` | Shows all icons so you can position them, including spells not learned yet |
 | `/wu combat` | Toggles combat simulation |
-| `/wu reset` | Resets the settings |
+| `/wu reset` | Resets the settings of the current profile |
 | `/wu auras` | Prints diagnostics of your buffs and recent aura events (useful for bug reports) |
 | `/wu grimoires` | Prints what each demon is remembered to know and the summoned demon's spellbook (for bug reports) |
 | `/wu trainer` | Prints the ranks waiting at your class trainer and their cost |
