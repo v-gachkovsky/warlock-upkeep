@@ -50,15 +50,15 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **Reagents** (WoW Forever, Classic Era, TBC): once you know Inferno or Ritual of Doom, the Soul Shard counter's
   tooltip shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them they're bought up to
   the amount to keep (1 Infernal Stone and no Figurines by default; 0 = never), as far as your money goes. New
-  *Reagents* settings section.
+  *Reagents* settings page.
 - **Demon talents** (WoW Forever, Classic Era, TBC): with Soul Link learned, the demon icon reminds you when
   your demon is out but Soul Link isn't on (click to cast it; on by default). Optionally it reminds you to
   sacrifice your demon with Demonic Sacrifice (off by default). Both have their own highlight and sound and
   show out of combat only.
-- **Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client): a movable label with
-  the time your enslaved demon stays under control, up to 5 minutes (10 in Retail). Like the Soulstone label it has a warning and a critical zone (yellow from 60 seconds,
-  red from 30; seconds, colors and sounds adjustable) and a sound when the timer runs out; in preview it runs
-  fast and restarts.
+- **Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client): a movable
+  label with the time your enslaved demon stays under control, up to 5 minutes (10 in Retail). Like the
+  Soulstone label it has a warning and a critical zone (yellow from 60 seconds, red from 30; seconds, colors and
+  sounds adjustable) and a sound when the timer runs out; in preview it runs fast and restarts.
 - **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
   teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
   prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
