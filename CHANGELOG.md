@@ -44,10 +44,6 @@ and the project uses [Semantic Versioning](https://semver.org/).
   show out of combat only.
 - **Enslave Demon timer** (Subjugate Demon in Classic Era): a movable label with the time your enslaved demon
   stays under control, red in the last 30 seconds (adjustable), with an optional sound.
-
-### Fixed
-- The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
-  sacrificed on purpose, like Grimoire of Sacrifice.
 - **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
   teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
   prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
@@ -58,13 +54,17 @@ and the project uses [Semantic Versioning](https://semver.org/).
   profiles copy the current one; any profile but *Default* can be deleted. **Export** turns the current profile
   into a text string to copy, **Import** loads such a string into the current profile (only settings the addon
   knows are taken; the string can't run code). Settings saved before are kept as the *Default* profile.
-
-### Changed
-- `/wu reset` resets the current profile.
 - **Firestone / Spellstone: stone menu.** A right click on the icon opens a menu with both stones, like the demon
   flyout on Retail action bars; pick one and the icon switches to it. A left click still equips, applies or
   creates the stone, and holding the right button and dragging still moves the icon. Not in combat; the setting
   stays too.
+
+### Changed
+- `/wu reset` resets the current profile.
+
+### Fixed
+- The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
+  sacrificed on purpose, like Grimoire of Sacrifice.
 
 ## [1.9.0] - 2026-10-30
 
