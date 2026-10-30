@@ -102,7 +102,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 |---|---------|------------|-------|
 | 1 | **Armor** | No Demon Skin / Demon Armor | Casts your strongest armor |
 | 2 | **Soul Shards** | Always (counter) | Not clickable |
-| 3 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
+| 3 | **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 6 | **Demon** | No pet out | Summons the assigned demon |
@@ -143,6 +143,10 @@ The highlight threshold equals the recommended amount by default, but you can se
 ### 3. Healthstone
 
 The icon appears when there's no Healthstone in your bags. Clicking it creates the strongest Healthstone available.
+
+**Low health.** With a Healthstone in your bags, the icon shows with a green highlight when your health drops below
+20% (the percentage, color and sound are in the settings), also in combat. Clicking it uses the strongest
+Healthstone you have. There's no reminder while the Healthstone is on cooldown.
 
 ### 4. Firestone / Spellstone
 

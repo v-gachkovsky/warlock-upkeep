@@ -33,6 +33,7 @@ ns.LOCALES.ukUA = {
     ["Summon Demon"] = "Призов демона",
     ["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."] = "Немає Демонічної шкіри / Демонічної броні / Броні скверни. Клік - накласти.",
     ["No Healthstone in bags. Click to create the strongest one."] = "У сумках немає Каменя здоров'я. Клік - створити найсильніший.",
+    ["Low health. Click to use your Healthstone."] = "Мало здоров'я. Клік - використати Камінь здоров'я.",
     ["No Soulstone in bags. Click to create the strongest one."] = "У сумках немає Каменя душі. Клік - створити найсильніший.",
     ["No %s in bags. Click to create the strongest one."] = "У сумках немає: %s. Клік - створити найсильніший.",
     ["%s is not applied to your weapon. Click to apply it."] = "%s не накладено на зброю. Клік - накласти.",
@@ -206,6 +207,12 @@ ns.LOCALES.ukUA = {
     ["Remind to create a new Soulstone while one is applied"] = "Нагадувати створити новий Камінь душі, поки накладено попередній",
     ["State: Soulstone in bags but not applied"] = "Стан: Камінь душі в сумках, але не накладений",
     ["State: no Soulstone in bags"] = "Стан: у сумках немає Каменя душі",
+    ["State: no Healthstone in bags"] = "Стан: у сумках немає Каменя здоров'я",
+    ["State: low health"] = "Стан: мало здоров'я",
+    ["Remind to use the Healthstone at low health"] = "Нагадувати використати Камінь здоров'я, коли мало здоров'я",
+    ["Health below, %"] = "Здоров'я нижче, %",
+    ["Shows the icon while a Healthstone is in your bags and off cooldown; a click uses the strongest one."] =
+        "Іконка з'являється, якщо Камінь здоров'я є в сумках і не на перезарядці; клік використовує найсильніший.",
     ["Stone"] = "Камінь",
     ["Remind while another temporary enchant (an oil) is on the weapon"] = "Нагадувати, коли на зброї інше тимчасове зачарування (олія)",
     ["The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
