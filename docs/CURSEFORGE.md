@@ -47,6 +47,9 @@ below it, with a highlight in the same color. The threshold equals the recommend
 
 You can also set the warning threshold manually.
 
+Infernal Stones and Demonic Figurines show in the counter's tooltip once you know Inferno or Ritual of Doom, and
+the addon buys them at vendors up to the amount you choose.
+
 ### Healthstone
 
 Appears when there's no Healthstone in your bags. Click to create the strongest one you know.

@@ -50,6 +50,11 @@ ns.LOCALES.ukUA = {
     ["Spare"] = "Запас",
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
+    ["Reagents"] = "Реагенти",
+    ["Infernal Stone"] = "Камінь інфернала",
+    ["Demonic Figurine"] = "Демонічна статуетка",
+    ["bought %d x %s."] = "куплено %d x %s.",
+    ["not enough money for %s."] = "не вистачає грошей на %s.",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -200,6 +205,12 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["Buy reagents at vendors automatically"] = "Автоматично купувати реагенти в продавців",
+    ["%s: keep in bags"] = "%s: тримати в сумках",
+    ["At a vendor that sells them, reagents for the spells you know are bought up to these amounts (0: never). " ..
+        "The Soul Shard counter's tooltip shows how many you have."] =
+        "У продавця, який їх продає, реагенти для заклинань, які ви знаєте, докуповуються до цієї кількості (0 - " ..
+        "ніколи). Скільки їх у вас, видно в підказці лічильника осколків.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

@@ -140,6 +140,11 @@ items (Forever, Classic Era, TBC); in Mists and Retail shards are a resource sho
 
 The highlight threshold equals the recommended amount by default, but you can set it manually.
 
+**Reagents** (Forever, Classic Era, TBC). Once you know Inferno or Ritual of Doom, the counter's tooltip also
+shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them the addon buys them up to the
+amount to keep (1 Infernal Stone and no Figurines by default; 0 means never). It buys only what you can pay for
+and prints what it bought. Turn it off under *Reagents* in the settings.
+
 ### 3. Healthstone
 
 The icon appears when there's no Healthstone in your bags. Clicking it creates the strongest Healthstone available.

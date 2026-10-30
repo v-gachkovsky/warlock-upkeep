@@ -63,6 +63,8 @@ ns.defaults = {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
     }),
+    -- Reagents to keep in the bags; bought at vendors up to these amounts (0 = don't buy).
+    reagents = { autoBuy = true, keep = { infernal = 1, figurine = 0 } },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },

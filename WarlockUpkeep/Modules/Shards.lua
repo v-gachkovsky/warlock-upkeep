@@ -68,6 +68,7 @@ function M:Init()
         for _, p in ipairs(parts) do GameTooltip:AddDoubleLine("  " .. p, 1, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8) end
         if Cfg().spare > 0 then GameTooltip:AddDoubleLine("  " .. ns.L["Spare"], Cfg().spare, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8) end
         GameTooltip:AddDoubleLine(ns.L["Low threshold"], M:Threshold(), 1, 1, 1, 1, 0.3, 0.3)
+        if ns.modules.reagents then ns.modules.reagents:AddTooltipLines(GameTooltip) end
         if not Cfg().locked then GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6) end
         GameTooltip:Show()
     end)

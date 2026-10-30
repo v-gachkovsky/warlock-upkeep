@@ -438,6 +438,20 @@ local function BuildContent()
         Color("Highlight color at the threshold", function() return sh().edgeGlowColor end, function(v) sh().edgeGlowColor = v end)
     end
 
+    -- 2b. Reagents
+    if ns.modules.reagents then
+        local rg = T("reagents")
+        Header("Reagents", ns.ItemIcon(5565) or "Interface\\Icons\\INV_Stone_05")
+        Check("Buy reagents at vendors automatically", function() return rg().autoBuy end, function(v) rg().autoBuy = v end)
+        for _, r in ipairs(ns.data.reagents) do
+            local label = string.format(L["%s: keep in bags"], L[r.name])
+            if not ns.IsKnown(r.spell) then label = label .. " " .. L["(not learned)"] end
+            Slider(label, 0, 10, 1, function() return rg().keep[r.key] end, function(v) rg().keep[r.key] = v end)
+        end
+        Note("At a vendor that sells them, reagents for the spells you know are bought up to these amounts (0: never). " ..
+            "The Soul Shard counter's tooltip shows how many you have.")
+    end
+
     -- 3. Healthstone
     IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04")
 

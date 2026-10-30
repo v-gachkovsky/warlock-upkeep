@@ -4,6 +4,14 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Reagents** (WoW Forever, Classic Era, TBC): once you know Inferno or Ritual of Doom, the Soul Shard counter's
+  tooltip shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them they're bought up to
+  the amount to keep (1 Infernal Stone and no Figurines by default; 0 = never), as far as your money goes. New
+  *Reagents* settings section.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added
