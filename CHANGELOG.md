@@ -61,6 +61,10 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - `/wu reset` resets the current profile.
+- **Firestone / Spellstone: stone menu.** A right click on the icon opens a menu with both stones, like the demon
+  flyout on Retail action bars; pick one and the icon switches to it. A left click still equips, applies or
+  creates the stone, and holding the right button and dragging still moves the icon. Not in combat; the setting
+  stays too.
 
 ## [1.9.0] - 2026-10-30
 
