@@ -11,6 +11,10 @@ local HEADER = 26 -- title line and bottom padding
 local WIDTH = 230
 -- After the cast, a player gets this long to accept and arrive before going back to the queue.
 local SUMMON_WAIT = 120
+-- Mists and Retail: the ritual leaves a portal for 5 minutes that summons anyone in the group, one by one.
+-- Older clients cast a ritual per player.
+local PORTAL = not ns.SHARD_ITEMS
+local PORTAL_TIME = 300
 
 local function Cfg() return ns.db.summon end
 
@@ -158,6 +162,13 @@ end
 -- Shared with the selling window (SummonSell.lua).
 M.UnitOf, M.Clickers = UnitOf, Clickers
 
+-- Seconds your portal still stands (Mists, Retail), or nil.
+function M:PortalLeft()
+    local left = self.portalUntil and self.portalUntil - GetTime()
+    if left and left > 0 then return left end
+    self.portalUntil = nil
+end
+
 -- Fewer than two people next to you for the portal: ask for help. To the group for your own group's summons;
 -- for a sold summon also to /say, /yell and the Trade channel, so players around can help. Called from the
 -- click that starts the ritual: the game lets addons write to /say, /yell and channels only on a click.
@@ -224,7 +235,8 @@ local function CreateRow(f, i)
             local _, e = M:Find(self.entryName)
             if e then
                 e.summonedAt = GetTime()
-                M:CallClickers(e)
+                -- With the portal up the click only targets: the ritual's announcement comes from here instead.
+                if self.portalClick and not IsShiftKeyDown() then M:Announce(e.name) else M:CallClickers(e) end
             end
             M:Refresh()
         end
@@ -251,7 +263,12 @@ function M:CreateWindow()
     f:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:AddLine(ns.L["Summon queue"], 0.58, 0.51, 0.79)
-        GameTooltip:AddLine(ns.L["Click a player: target and cast Ritual of Summoning."], 1, 1, 1)
+        if M:PortalLeft() then
+            GameTooltip:AddLine(ns.L["Your portal is up. Click a player to target them, then click the portal."], 1, 1, 1)
+            GameTooltip:AddLine(ns.L["Shift + click: cast Ritual of Summoning again."], 1, 1, 1)
+        else
+            GameTooltip:AddLine(ns.L["Click a player: target and cast Ritual of Summoning."], 1, 1, 1)
+        end
         GameTooltip:AddLine(ns.L["Right click: remove from the queue."], 1, 1, 1)
         if not Cfg().locked then
             GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6)
@@ -332,8 +349,13 @@ function M:UpdateTimes()
             parts[#parts + 1] = string.format(ns.L["Shards: %d"], ns.ItemCount(D.SOUL_SHARD) or 0)
         end
         local n = sample and 2 or Clickers()
-        parts[#parts + 1] = string.format(n >= 2 and "|cff33ff33%s|r" or "|cffff5555%s|r",
-            string.format(ns.L["Clickers: %d/2"], math.min(n, 2)))
+        local portal = self:PortalLeft()
+        if portal then
+            parts[#parts + 1] = "|cff33ff33" .. string.format(ns.L["Portal: %s"], Elapsed(portal)) .. "|r"
+        else
+            parts[#parts + 1] = string.format(n >= 2 and "|cff33ff33%s|r" or "|cffff5555%s|r",
+                string.format(ns.L["Clickers: %d/2"], math.min(n, 2)))
+        end
         f.info:SetText(table.concat(parts, "   "))
     end
 end
@@ -364,11 +386,16 @@ function M:Refresh()
             r.name:SetText(string.format("%d. %s", offset + i, e.name))
             r.name:SetTextColor(ClassColor(e.class))
             r.zone:SetText(sample and e.zone or "")
+            local cast = string.format("/target %s\n/cast %s", e.name, spell)
+            r.portalClick = not sample and self:PortalLeft() and true or nil
             if sample then
                 r:SetAttribute("type1", nil)
+                r:SetAttribute("shift-type1", nil)
             else
                 r:SetAttribute("type1", "macro")
-                r:SetAttribute("macrotext1", string.format("/target %s\n/cast %s", e.name, spell))
+                r:SetAttribute("macrotext1", r.portalClick and ("/target " .. e.name) or cast)
+                r:SetAttribute("shift-type1", "macro")
+                r:SetAttribute("shift-macrotext1", cast)
             end
             r:Show()
         else
@@ -422,6 +449,19 @@ function M:Init()
         local name = Safe(target) or Safe(UnitName("target"))
         if name then M:Announce(Short(name)) end
     end)
+    -- Mists and Retail: a ritual that went through leaves the portal; an interrupted one doesn't.
+    if PORTAL then
+        ns:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", function(_, unit, _, spellID)
+            if unit ~= "player" or ns.IsSecret(spellID) or spellID ~= D.ritualOfSummoning then return end
+            M.portalUntil = GetTime() + PORTAL_TIME
+            M:Refresh()
+        end)
+        ns:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED", function(_, unit, _, spellID)
+            if unit ~= "player" or ns.IsSecret(spellID) or spellID ~= D.ritualOfSummoning then return end
+            M.portalUntil = nil
+            M:Refresh()
+        end)
+    end
     ns:RegisterEvent("GROUP_ROSTER_UPDATE", function() if M:Prune() then M:Refresh() end end)
     ns:RegisterEvent("PLAYER_REGEN_ENABLED", function() if M.dirty then M:Refresh() end end)
 end
@@ -432,5 +472,5 @@ end
 
 function M:Update()
     self:Prune()
-    self:Refresh()
+    self:Refresh() -- also puts the ritual back on the rows once the portal closes
 end

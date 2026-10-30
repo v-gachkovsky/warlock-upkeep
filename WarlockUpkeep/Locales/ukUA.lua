@@ -86,6 +86,10 @@ ns.LOCALES.ukUA = {
     ["selling summons off."] = "продаж призиву вимкнено.",
     ["wait %d s before the next ad."] = "наступне оголошення можна дати через %d с.",
     ["you're not in the %s channel."] = "ви не в каналі %s.",
+    ["Your portal is up. Click a player to target them, then click the portal."] =
+        "Ваш портал стоїть. Клікніть гравця, щоб узяти його в ціль, а тоді клікніть портал.",
+    ["Shift + click: cast Ritual of Summoning again."] = "Shift + клік: знову почати Ritual of Summoning.",
+    ["Portal: %s"] = "Портал: %s",
     ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю: взяти в ціль і почати Ritual of Summoning.",
     ["Right click: remove from the queue."] = "Правий клік: прибрати з черги.",
     ["summoning"] = "призив",
