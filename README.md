@@ -318,6 +318,13 @@ and your own files:
 
 The shard counter and the Soulstone label have a background opacity setting from 0 to 100%.
 
+### Masque and data brokers
+
+With **Masque** installed, the icons take its skins: pick one for the *WarlockUpkeep!* group in Masque's
+settings. Display addons that use **LibDataBroker** (Titan Panel, ElvUI, Bazooka, ChocolateBar...) get a
+*WarlockUpkeep* feed: your Soul Shards as text (red when low), the shards and the Soulstone target in its
+tooltip, and the same clicks as the minimap button.
+
 ## Controls
 
 ### Commands

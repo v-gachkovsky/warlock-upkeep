@@ -98,6 +98,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
   Snap distance and spacing are adjustable.
 - **Background opacity** for the shard counter and the Soulstone label.
 - **Sounds**: 14 game sounds, LibSharedMedia sounds, or **your own .ogg / .mp3 files** for every alert.
+- **Masque** skins for the icons and a **LibDataBroker** feed (Titan Panel, ElvUI, Bazooka...) with your shards.
 
 ## Built for combat
 

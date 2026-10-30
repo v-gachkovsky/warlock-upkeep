@@ -4,6 +4,13 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Masque**: with Masque installed, the icons take its skins (group *WarlockUpkeep!*).
+- **LibDataBroker** feed for display addons (Titan Panel, ElvUI, Bazooka...): the Soul Shard count as text (red
+  when low), shards and the Soulstone target in the tooltip, and the minimap button's clicks.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added
