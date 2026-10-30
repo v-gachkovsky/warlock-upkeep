@@ -62,7 +62,21 @@ ns.defaults = {
     pet = Icon(0, 160, {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
+        -- With the demon out: remind to sacrifice it (Demonic Sacrifice) or to cast Soul Link, once learned.
+        sacrifice = false, soulLink = true,
+        states = {
+            sacrifice = { glow = true, glowColor = { 0.7, 0.3, 1, 1 }, sound = false, soundName = "RAID_WARNING" },
+            soulLink  = { glow = true, glowColor = { 0.7, 0.3, 1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
     }),
+    -- Enslave Demon timer label.
+    enslave = {
+        enabled = true, locked = false,
+        point = { "CENTER", "CENTER", 0, 120 },
+        font = "Fonts\\FRIZQT__.TTF", outline = "OUTLINE", size = 14, bgAlpha = 0.3,
+        color = { 1, 1, 1, 1 }, warnColor = { 1, 0.2, 0.2, 1 }, warnSeconds = 30,
+        sound = false, soundName = "RAID_WARNING", -- when the warning starts
+    },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -226,7 +240,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "enslave", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()

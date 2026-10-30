@@ -41,6 +41,8 @@ ns.LOCALES.ukUA = {
     ["friendly target (or yourself if none)."] = "дружню ціль (або на себе, якщо цілі немає).",
     ["Soulstone target"] = "Ціль Каменя душі",
     ["No demon summoned."] = "Демона не призвано.",
+    ["Demonic Sacrifice is not active. Click to sacrifice your demon."] = "Demonic Sacrifice не активна. Клік - принести демона в жертву.",
+    ["Soul Link is not active. Click to cast it."] = "Soul Link не активний. Клік - накласти.",
     ["Not learned yet (shown in preview only)."] = "Ще не вивчено (видно лише в попередньому перегляді).",
     ["%s to move"] = "%s - пересунути",
     ["Soul Shards"] = "Осколки душ",
@@ -200,6 +202,15 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["Talents"] = "Таланти",
+    ["Remind to sacrifice the demon (Demonic Sacrifice)"] = "Нагадувати принести демона в жертву (Demonic Sacrifice)",
+    ["Remind to cast Soul Link"] = "Нагадувати накласти Soul Link",
+    ["Enslave Demon timer"] = "Таймер Enslave Demon",
+    ["Warning at, seconds left"] = "Попередження, коли лишилось секунд",
+    ["Text color in the warning"] = "Колір тексту під час попередження",
+    ["Play sound when the warning starts"] = "Звук, коли починається попередження",
+    ["Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier."] =
+        "Показує, скільки ще поневолений демон буде під контролем (до 5 хвилин). Він може вирватися й раніше.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

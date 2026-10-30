@@ -4,6 +4,20 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Demon talents** (WoW Forever, Classic Era, TBC): with Soul Link learned, the demon icon reminds you when
+  your demon is out but Soul Link isn't on (click to cast it; on by default). Optionally it reminds you to
+  sacrifice your demon with Demonic Sacrifice (off by default). Both have their own highlight and sound and
+  show out of combat only.
+- **Enslave Demon timer** (Subjugate Demon in Classic Era): a movable label with the time your enslaved demon
+  stays under control, red in the last 30 seconds (adjustable), with an optional sound.
+
+### Fixed
+- The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
+  sacrificed on purpose, like Grimoire of Sacrifice.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

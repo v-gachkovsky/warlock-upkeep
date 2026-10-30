@@ -78,6 +78,10 @@ Appears when you have no pet. Bind a different demon to **Click, Shift, Ctrl, Al
 Voidwalker, Succubus, Incubus, Felhunter or Felguard. It stays hidden while you ride, fly or take a flight path
 if your demon was out when you set off, since the game dismisses it for a while.
 
+It also knows your talents: no demon reminder while Demonic Sacrifice is active (optionally, a reminder to
+sacrifice), and a reminder to cast Soul Link when your demon is out without it. An Enslave Demon timer shows how
+long your enslaved demon stays under control.
+
 ### Grimoires
 
 At a grimoire vendor, see **which books your demons already know, for all of them at once**, without summoning
