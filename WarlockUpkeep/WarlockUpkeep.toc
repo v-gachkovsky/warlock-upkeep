@@ -6,6 +6,7 @@
 ## SavedVariables: WarlockUpkeepDB
 ## SavedVariablesPerCharacter: WarlockUpkeepCharDB
 ## IconTexture: Interface\AddOns\WarlockUpkeep\Media\logo
+## OptionalDeps: Masque
 
 Data.lua
 Locale.lua
@@ -25,4 +26,5 @@ Modules\Grimoires.lua
 Modules\Reagents.lua
 Modules\Trainer.lua
 Minimap.lua
+Modules\Broker.lua
 Options.lua

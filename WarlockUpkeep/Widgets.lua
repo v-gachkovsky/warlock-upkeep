@@ -666,6 +666,7 @@ function ns.CreateActionIcon(key, title)
     bg:SetColorTexture(0, 0, 0, 1)
     bg:SetPoint("TOPLEFT", -1, 1)
     bg:SetPoint("BOTTOMRIGHT", 1, -1)
+    b.bg = bg
 
     b.icon = b:CreateTexture(nil, "ARTWORK")
     b.icon:SetAllPoints()
@@ -680,5 +681,17 @@ function ns.CreateActionIcon(key, title)
     b:SetScript("OnLeave", GameTooltip_Hide)
 
     table.insert(ns.icons, b)
+    ns.SkinWithMasque(b)
     return b
+end
+
+-- Masque skins the icons when it's installed (one "WarlockUpkeep!" group in its settings); the plain black
+-- border then gives way to the skin.
+local masqueGroup
+function ns.SkinWithMasque(b)
+    local Masque = LibStub and LibStub("Masque", true)
+    if not Masque then return end
+    masqueGroup = masqueGroup or Masque:Group("WarlockUpkeep!")
+    b.bg:Hide()
+    masqueGroup:AddButton(b, { Icon = b.icon, Highlight = b:GetHighlightTexture() })
 end

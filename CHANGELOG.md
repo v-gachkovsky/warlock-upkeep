@@ -51,6 +51,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
   teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
   prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
+- **Masque**: with Masque installed, the icons take its skins (group *WarlockUpkeep!*).
+- **LibDataBroker** feed for display addons (Titan Panel, ElvUI, Bazooka...): the Soul Shard count as text (red
+  when low), shards and the Soulstone target in the tooltip, and the minimap button's clicks.
 
 ## [1.9.0] - 2026-10-30
 
