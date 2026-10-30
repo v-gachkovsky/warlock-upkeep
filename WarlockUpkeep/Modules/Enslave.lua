@@ -1,10 +1,9 @@
 local _, ns = ...
--- Enslave Demon (Subjugate Demon in Classic Era) exists only before Cataclysm.
-if not ns.SHARD_ITEMS then return end
+-- Enslave Demon, called Subjugate Demon in Classic Era, Mists and Retail.
 local D = ns.data
 local M = ns:NewModule("enslave")
 
--- Timer of the enslaved demon: up to 5 minutes, then (or earlier, at random) it turns on you.
+-- Timer of the enslaved demon: up to 5 minutes (10 in Retail), then (or earlier, at random) it turns on you.
 
 local function Cfg() return ns.db.enslave end
 local isEnslave = {}
