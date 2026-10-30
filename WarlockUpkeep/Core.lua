@@ -41,7 +41,13 @@ ns.defaults = {
     grimoires = { merchant = true, tooltip = true }, -- mark grimoires the demons already know
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
-    healthstone = Icon(-90, 160),
+    healthstone = Icon(-90, 160, {
+        -- With a Healthstone in the bags: the icon shows to use it when health drops below `percent`.
+        lowHealth = { enabled = true, percent = 20 },
+        states = {
+            low = { glow = true, glowColor = { 0.1, 1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+    }),
     -- Firestone or Spellstone (Forever, Classic Era, TBC): only one can be on at a time, so one icon for the chosen.
     weaponStone = Icon(-180, 160, {
         stone = "firestone",

@@ -439,7 +439,16 @@ local function BuildContent()
     end
 
     -- 3. Healthstone
-    IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04")
+    IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04", function(get)
+        SubHeader("State: no Healthstone in bags")
+        GlowAndSound(get)
+        local low = function() return get().lowHealth end
+        SubHeader("State: low health")
+        Check("Remind to use the Healthstone at low health", function() return low().enabled end, function(v) low().enabled = v end)
+        Slider("Health below, %", 5, 90, 5, function() return low().percent end, function(v) low().percent = v end)
+        GlowAndSound(function() return get().states.low end)
+        Note("Shows the icon while a Healthstone is in your bags and off cooldown; a click uses the strongest one.")
+    end)
 
     -- 3b. Firestone / Spellstone (Forever, Classic Era, TBC)
     if ns.modules.weaponStone then

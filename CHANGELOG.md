@@ -4,6 +4,14 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Healthstone at low health**: with a Healthstone in your bags, the icon shows with its own highlight (green by
+  default) when your health drops below a threshold (20% by default), also in combat, and a click uses the
+  strongest Healthstone you have. No reminder while the Healthstone is on cooldown. The threshold, color and
+  sound are in the Healthstone settings; the reminder can be turned off there.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

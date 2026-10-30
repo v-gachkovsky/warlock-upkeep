@@ -20,7 +20,7 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 |------|------------|-------|
 | **Armor** | Demon Skin / Demon Armor is missing | Casts your strongest armor |
 | **Soul Shards** | Always (counter) | — |
-| **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
+| **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equips, applies or creates the stone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
@@ -50,6 +50,9 @@ You can also set the warning threshold manually.
 ### Healthstone
 
 Appears when there's no Healthstone in your bags. Click to create the strongest one you know.
+
+It also lights up green when your health drops below 20% (adjustable, also the color and sound) and a Healthstone
+is ready in your bags: click to use it, in combat too.
 
 ### Firestone / Spellstone
 
