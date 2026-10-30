@@ -199,6 +199,11 @@ and the sounds play on every cycle, so you can hear them.
 **Hardcore realms.** Nobody can be brought back to life there, so the addon has no Soulstone icon or label on
 them and replaces the Soulstone settings with a note, although trainers still teach the spell.
 
+**Messages** (all off by default, texts editable): when you apply a Soulstone the addon can tell the group who
+has it ("Soulstone on {name}."), whisper that player ("You have my Soulstone. It lasts {time}.") and, a set
+time before it runs out (60 seconds by default), tell the group ("My Soulstone on {name} runs out in {time}.").
+The messages go to the instance, raid or party chat, whichever you're in.
+
 ### 6. Demon
 
 The demon icon appears when you have no pet. Each click variant can be bound to its own demon:

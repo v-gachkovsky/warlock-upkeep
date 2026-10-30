@@ -481,6 +481,21 @@ local function BuildContent()
             SubHeader("State: no Soulstone in bags")
             GlowAndSound(function() return get().states.create end)
         end)
+        local an = function() return ns.db.soulstone.announce end
+        local function Text(label, key)
+            local e = Input(label, 250, function(text) an()[key] = text; Changed() end)
+            refreshers[#refreshers + 1] = function() e:SetText(an()[key] or ""); e:SetCursorPosition(0) end
+        end
+        SubHeader("Soulstone messages")
+        Check("Tell the group who has your Soulstone", function() return an().group end, function(v) an().group = v end)
+        Text("Group message", "groupText")
+        Check("Whisper the player who got it", function() return an().whisper end, function(v) an().whisper = v end)
+        Text("Whisper", "whisperText")
+        Check("Tell the group when it's about to run out", function() return an().expire end, function(v) an().expire = v end)
+        Slider("Seconds before it runs out", 10, 300, 10, function() return an().expireSeconds end, function(v) an().expireSeconds = v end)
+        Text("Running-out message", "expireText")
+        Note("{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
+            "party chat, whichever you're in.")
         local lb = T("soulstoneLabel")
         SubHeader("Soulstone target label")
         Check("Show label (name + timer) when used on another player", function() return lb().enabled end, function(v) lb().enabled = v end)

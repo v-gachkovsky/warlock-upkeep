@@ -22,6 +22,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **Summon announcements** (off by default): when Ritual of Summoning starts, a line to the group chat ("Summoning
   {name}, please click the portal!") and a whisper to the player ("Summoning you now, please accept the summon.").
   Both texts are editable.
+- **Soulstone messages** (off by default, texts editable): when you apply a Soulstone, tell the group who has it
+  and whisper that player; a set time before it runs out (60 seconds by default), tell the group. `{name}` is
+  the player and `{time}` the time left.
 
 ## [1.9.0] - 2026-10-30
 

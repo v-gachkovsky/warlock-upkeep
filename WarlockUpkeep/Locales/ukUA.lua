@@ -225,6 +225,16 @@ ns.LOCALES.ukUA = {
     ["Announce the summon in group chat"] = "Повідомляти про призив у чат групи",
     ["Group message"] = "Повідомлення в групу",
     ["Whisper the player being summoned"] = "Шепнути гравцю, якого призиваєте",
+    ["Soulstone messages"] = "Повідомлення про Камінь душі",
+    ["Tell the group who has your Soulstone"] = "Писати в групу, на кому ваш Камінь душі",
+    ["Whisper the player who got it"] = "Шепнути гравцю, який його отримав",
+    ["Tell the group when it's about to run out"] = "Писати в групу, коли він скоро закінчиться",
+    ["Seconds before it runs out"] = "За скільки секунд до кінця",
+    ["Running-out message"] = "Повідомлення про кінець",
+    ["{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
+        "party chat, whichever you're in."] =
+        "{name} - гравець із Каменем душі, {time} - скільки лишилось. Повідомлення йдуть у чат підземелля, рейду " ..
+        "або групи, залежно від того, де ви.",
     ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
     ["Price, gold (0 = ask the buyer)"] = "Ціна, золото (0 = спитати покупця)",
     ["Channel for the ad"] = "Канал для оголошення",

@@ -73,6 +73,9 @@ opacity are all configurable.
 On Hardcore realms nobody can be brought back to life, so there's no Soulstone icon or label there, although
 trainers still teach the spell.
 
+Optionally, the addon tells the group who has your Soulstone, whispers that player, and warns the group shortly
+before it runs out (all texts editable).
+
 ### Demon
 
 Appears when you have no pet. Bind a different demon to **Click, Shift, Ctrl, Alt and Cmd (Mac)**: Imp,

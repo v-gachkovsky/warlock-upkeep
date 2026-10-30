@@ -147,7 +147,11 @@ end
 -- is noticed by the scan right after the fight.
 function M:SetTracked(guid, name, class, expires, full)
     if not guid and not name then ns.cdb.soulstone = nil; return end
-    ns.cdb.soulstone = { guid = guid, name = name, full = full, class = class, expires = expires }
+    -- The same Soulstone seen again (rescans): keep whether its running out was already announced.
+    local old = ns.cdb.soulstone
+    local same = old and old.guid == guid and expires and old.expires and math.abs(old.expires - expires) < 5
+    ns.cdb.soulstone = { guid = guid, name = name, full = full, class = class, expires = expires,
+        expireAnnounced = same and old.expireAnnounced or nil }
 end
 
 local function IsSelf(t)
@@ -319,6 +323,40 @@ function M:ShowLabel(name, class, expires, preview)
 end
 
 ------------------------------------------------------------------------
+-- Announcements
+------------------------------------------------------------------------
+local function Clock(sec)
+    sec = math.max(0, math.floor(sec))
+    return string.format("%d:%02d", math.floor(sec / 60), sec % 60)
+end
+
+local function Fill(text, name, remain)
+    return (text:gsub("{name}", function() return name or "" end):gsub("{time}", function() return Clock(remain) end))
+end
+
+-- A Soulstone just applied: tell the group, and whisper the player (not yourself).
+function M:AnnounceCast(info)
+    local a = ns.db.soulstone.announce
+    local name = info.name or ShortName(UnitName("player"))
+    if a.group then ns.SendToGroup(Fill(a.groupText, name, Duration())) end
+    local me = info.guid and info.guid == GUIDOf("player") or IsMyName(info.full or info.name)
+    local to = info.full or info.name
+    if a.whisper and not me and to then
+        SendChatMessage(Fill(a.whisperText, name, Duration()):sub(1, 255), "WHISPER", nil, to)
+    end
+end
+
+-- Once per Soulstone, when it's about to run out.
+function M:AnnounceExpiry(t)
+    local a = ns.db.soulstone.announce
+    if not a.expire or t.expireAnnounced then return end
+    local remain = t.expires - GetServerTime()
+    if remain > a.expireSeconds or remain <= 0 then return end
+    t.expireAnnounced = true
+    ns.SendToGroup(Fill(a.expireText, t.name, remain))
+end
+
+------------------------------------------------------------------------
 -- Module
 ------------------------------------------------------------------------
 function M:Init()
@@ -357,6 +395,7 @@ function M:Init()
         if info.guid and info.guid == GUIDOf("player") then selfStone:Cast() end
         M:SetTracked(info.guid, info.name or UnitName("player"), info.class or ClassOfGUID(info.guid),
             GetServerTime() + Duration(), info.full)
+        M:AnnounceCast(info)
         M:Update()
     end)
     ns:RegisterEvent("GROUP_ROSTER_UPDATE", function() M:Update() end)
@@ -426,6 +465,7 @@ function M:Update()
     local t = self:GetTracked()
     -- The tracked Soulstone ran out (not removed early): optional sound.
     if t then
+        self:AnnounceExpiry(t)
         self.lastExpires = t.expires
     elseif self.lastExpires then
         local ex = LabelCfg().expired
