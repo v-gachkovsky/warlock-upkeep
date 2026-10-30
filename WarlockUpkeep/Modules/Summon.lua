@@ -316,6 +316,11 @@ function M:Refresh()
     f:SetAlpha(ns.FrameAlpha())
     f:Show()
     self:UpdateTimes()
+    -- Wide enough for the title and the info line (a longer translation, more shards); out of combat only,
+    -- like the secure rows.
+    local width = math.max(WIDTH, f.title:GetStringWidth() + f.info:GetStringWidth() + 36)
+    f:SetWidth(width)
+    for _, r in ipairs(f.rows) do r:SetWidth(width - 8) end
 end
 
 ------------------------------------------------------------------------

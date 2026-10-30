@@ -268,6 +268,7 @@ function M:Refresh()
     if sample then list = SAMPLE end
     f.title:SetText(ns.L["Selling summons"])
     f.ad:SetText(ns.L["Ad"])
+    f.ad:SetWidth(math.max(40, f.ad:GetFontString():GetStringWidth() + 20))
     f.empty:SetText(#list == 0 and ns.L["Waiting for buyers..."] or "")
     for i, r in ipairs(f.rows) do
         local b = list[i]
@@ -284,6 +285,10 @@ function M:Refresh()
         end
     end
     f:SetHeight(28 + math.max(1, #list) * ROW_HEIGHT)
+    -- Wide enough for the title and the buttons in a longer translation.
+    local width = math.max(WIDTH, f.title:GetStringWidth() + f.ad:GetWidth() + f.stop:GetWidth() + 24)
+    f:SetWidth(width)
+    for _, r in ipairs(f.rows) do r:SetWidth(width - 8) end
     f.bg:SetAlpha(ns.db.summon.bgAlpha)
     f:SetAlpha(ns.FrameAlpha())
     f:Show()
