@@ -100,7 +100,7 @@ ns.defaults = {
     summonSell = {
         enabled = false, locked = false,
         point = { "TOPLEFT", "CENTER", 110, -58 },
-        width = 300, height = 136, -- up to 6 buyers before the list scrolls
+        width = 300, height = 158, -- up to 6 buyers before the list scrolls
         price = 0,
         adChannel = "Trade",
         keywords = "wtb sum, wtb summ, wtb summon, wtb lock, lf sum, lf summ, lf summon, lf lock, lfw, "

@@ -299,6 +299,8 @@ your group who look for a summon in a public channel, `/say`, `/yell` or a whisp
 - **Shift + click**: invites them too. Once they join the group, they move on to the summon queue.
 - **Right click**: removes them from the list. Quiet buyers drop off after 5 minutes.
 - **Ad**: posts your ad to the Trade channel (another channel can be set), at most once per 30 seconds.
+- **Place**: what `{zone}` says in the offer and the ad, for example "BRD meeting stone". Left empty, it's the
+  zone you're in; it clears when you go to another zone.
 
 The offer depends on the price in the settings: with a price (in gold) it names it, with 0 it asks how much the
 buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
