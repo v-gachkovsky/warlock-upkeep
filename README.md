@@ -26,6 +26,7 @@
   - [Soulstone](#5-soulstone)
   - [Demon](#6-demon)
   - [Grimoires](#7-grimoires)
+  - [Summon queue](#8-summon-queue)
 - [Look and behavior](#look-and-behavior)
   - [Highlight](#highlight)
   - [Opacity and combat](#opacity-and-combat)
@@ -107,6 +108,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 6 | **Demon** | No pet out | Summons the assigned demon |
 | 7 | **Grimoires** | At vendors and in tooltips | — |
+| 8 | **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
 ### 1. Armor
 
@@ -207,6 +209,11 @@ and the sounds play on every cycle, so you can hear them.
 **Hardcore realms.** Nobody can be brought back to life there, so the addon has no Soulstone icon or label on
 them and replaces the Soulstone settings with a note, although trainers still teach the spell.
 
+**Messages** (all off by default, texts editable): when you apply a Soulstone the addon can tell the group who
+has it ("Soulstone on {name}."), whisper that player ("You have my Soulstone. It lasts {time}.") and, a set
+time before it runs out (60 seconds by default), tell the group ("My Soulstone on {name} runs out in {time}.").
+The messages go to the instance, raid or party chat, whichever you're in.
+
 ### 6. Demon
 
 The demon icon appears when you have no pet. Each click variant can be bound to its own demon:
@@ -241,6 +248,39 @@ The game shows a demon's spells only while it's summoned, so **summon each demon
 remembers its spells (per character) and updates them whenever that demon is out, e.g. after reading a new
 grimoire. The settings list the demons checked so far. Both the vendor marks and the tooltip lines can be
 turned off.
+
+### 8. Summon queue
+
+Group members who ask for a summon in party, raid or instance chat or in a whisper ("123", "summ", "summon",
+"sum pls"... the list is editable) join a small queue window, in the order they asked. A row shows the player in
+their class color, their zone (in a raid) and how long they've been waiting; the header shows your Soul Shards
+and how many group members stand next to you to click the portal (2 are needed).
+
+- **Click** a player: targets them and casts Ritual of Summoning.
+- **Right click**: removes them from the queue.
+
+A player leaves the queue once they're next to you, leave the group, or after the timeout (10 minutes by
+default). Someone just summoned shows *summoning* for up to 2 minutes and goes back to waiting if they don't
+arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
+combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
+
+**Announcements** (off by default): when Ritual of Summoning starts, from the queue or cast by hand, the addon
+can post a line to the group chat ("Summoning {name}, please click the portal!") and whisper the player
+("Summoning you now, please accept the summon."). Both texts are editable; `{name}` is the player.
+
+**Selling summons.** Turn it on with `/wu sell` (or in the settings) and a second window lists players outside
+your group who look for a summon in a public channel, `/say`, `/yell` or a whisper ("wtb sum", "lf lock", "lfw",
+"need a summon"... editable). Their message is in the tooltip, together with the offer you'd send.
+
+- **Click** a buyer: whispers them the offer.
+- **Shift + click**: invites them too. Once they join the group, they move on to the summon queue.
+- **Right click**: removes them from the list. Quiet buyers drop off after 5 minutes.
+- **Ad**: posts your ad to the Trade channel (another channel can be set), at most once per 30 seconds.
+
+The offer depends on the price in the settings: with a price (in gold) it names it, with 0 it asks how much the
+buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
+`{clickers}` a sentence saying how many more people you need next to you to click the portal (left out once
+two stand by). Nothing is sent without your click.
 
 ## Look and behavior
 
@@ -422,6 +462,8 @@ WarlockUpkeep/
     ├── WeaponStone.lua
     ├── Soulstone.lua
     ├── Pet.lua
+    ├── Summon.lua
+    ├── SummonSell.lua
     └── Grimoires.lua
 ```
 

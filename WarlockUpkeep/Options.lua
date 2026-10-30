@@ -501,6 +501,21 @@ local function BuildContent()
             SubHeader("State: no Soulstone in bags")
             GlowAndSound(function() return get().states.create end)
         end)
+        local an = function() return ns.db.soulstone.announce end
+        local function Text(label, key)
+            local e = Input(label, 250, function(text) an()[key] = text; Changed() end)
+            refreshers[#refreshers + 1] = function() e:SetText(an()[key] or ""); e:SetCursorPosition(0) end
+        end
+        SubHeader("Soulstone messages")
+        Check("Tell the group who has your Soulstone", function() return an().group end, function(v) an().group = v end)
+        Text("Group message", "groupText")
+        Check("Whisper the player who got it", function() return an().whisper end, function(v) an().whisper = v end)
+        Text("Whisper", "whisperText")
+        Check("Tell the group when it's about to run out", function() return an().expire end, function(v) an().expire = v end)
+        Slider("Seconds before it runs out", 10, 300, 10, function() return an().expireSeconds end, function(v) an().expireSeconds = v end)
+        Text("Running-out message", "expireText")
+        Note("{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
+            "party chat, whichever you're in.")
         local lb = T("soulstoneLabel")
         SubHeader("Soulstone target label")
         Check("Show label (name + timer) when used on another player", function() return lb().enabled end, function(v) lb().enabled = v end)
@@ -544,6 +559,52 @@ local function BuildContent()
             end
         end
     end)
+
+    -- 5b. Summon queue
+    do
+        local su = T("summon")
+        Header("Summon queue", "Interface\\Icons\\Spell_Shadow_Twilight")
+        Check("Enable", function() return su().enabled end, function(v) su().enabled = v end)
+        Check("Lock position", function() return su().locked end, function(v) su().locked = v end)
+        Slider("Background opacity, %", 0, 100, 5, function() return math.floor(su().bgAlpha * 100 + 0.5) end, function(v) su().bgAlpha = v / 100 end)
+        Slider("Remove from the queue after, minutes", 1, 30, 1, function() return su().timeout end, function(v) su().timeout = v end)
+        local kw = Input("Keywords (comma-separated)", 220, function(text) su().keywords = text; Changed() end)
+        refreshers[#refreshers + 1] = function() kw:SetText(su().keywords or "") kw:SetCursorPosition(0) end
+        SoundRows(su, "Play sound when someone joins the queue")
+        local an = function() return su().announce end
+        Check("Announce the summon in group chat", function() return an().group end, function(v) an().group = v end)
+        local g = Input("Group message", 250, function(text) an().groupText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() g:SetText(an().groupText or ""); g:SetCursorPosition(0) end
+        Check("Whisper the player being summoned", function() return an().whisper end, function(v) an().whisper = v end)
+        local w = Input("Whisper", 250, function(text) an().whisperText = text; Changed() end)
+        refreshers[#refreshers + 1] = function() w:SetText(an().whisperText or ""); w:SetCursorPosition(0) end
+        Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
+            "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
+            "once they're next to you or leave the group. The window shows only while someone is waiting.")
+
+        local se = T("summonSell")
+        local function Text(label, get, set)
+            local e = Input(label, 250, function(text) set(text); Changed() end)
+            refreshers[#refreshers + 1] = function() e:SetText(get() or ""); e:SetCursorPosition(0) end
+        end
+        SubHeader("Selling summons")
+        Check("Selling summons (/wu sell)", function() return se().enabled end, function(v) se().enabled = v end)
+        Check("Lock position", function() return se().locked end, function(v) se().locked = v end)
+        Text("Price, gold (0 = ask the buyer)", function() return tostring(se().price) end,
+            function(v) se().price = math.max(0, math.floor(tonumber(v) or 0)) end)
+        Text("Channel for the ad", function() return se().adChannel end, function(v) se().adChannel = v end)
+        Text("Buyer keywords (comma-separated)", function() return se().keywords end, function(v) se().keywords = v end)
+        Text("Offer without a price", function() return se().templates.ask end, function(v) se().templates.ask = v end)
+        Text("Offer with a price", function() return se().templates.priced end, function(v) se().templates.priced = v end)
+        Text("Clickers sentence", function() return se().templates.clickers end, function(v) se().templates.clickers = v end)
+        Text("Ad", function() return se().templates.ad end, function(v) se().templates.ad = v end)
+        SoundRows(se, "Play sound when a new buyer shows up")
+        Note("Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
+            "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
+            "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
+            "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
+            "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by.")
+    end
 
     -- 6. Grimoires
     if ns.modules.grimoires then

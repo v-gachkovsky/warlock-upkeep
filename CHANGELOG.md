@@ -16,6 +16,24 @@ and the project uses [Semantic Versioning](https://semver.org/).
   bags first so a Soul Pouch keeps its own. Not in combat.
 - **Soul Shard counter: full bags.** The counter lights up orange when a new shard has no free slot in your bags
   (Drain Soul would lose it). On by default; the color and an optional sound are in the settings.
+- **Summon queue**: group members who ask for a summon in party, raid or instance chat or in a whisper ("123",
+  "summ", "summon"...; the keywords are editable, whole words only) join a queue window in the order they
+  asked, with their class color, zone (in a raid) and wait time. The header shows your Soul Shards and how many
+  group members stand next to you to click the portal. Click a player to target them and cast Ritual of
+  Summoning, right click to remove them. Players leave the queue once they're next to you, leave the group or
+  wait longer than the timeout (10 minutes by default). Optional sound when someone joins.
+- **Selling summons** (`/wu sell` or the settings; off by default): a second window lists players outside the
+  group who look for a summon in public channels, /say, /yell or whispers ("wtb sum", "lf lock", "lfw"...;
+  editable). Click whispers them the offer, Shift + click also invites them, right click removes them; once in
+  the group they move on to the summon queue. The offer names your price, or asks how much the buyer would pay
+  when the price is 0. The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
+  30 seconds. All texts are editable ({name}, {zone}, {price}, {clickers}); nothing is sent without a click.
+- **Summon announcements** (off by default): when Ritual of Summoning starts, a line to the group chat ("Summoning
+  {name}, please click the portal!") and a whisper to the player ("Summoning you now, please accept the summon.").
+  Both texts are editable.
+- **Soulstone messages** (off by default, texts editable): when you apply a Soulstone, tell the group who has it
+  and whisper that player; a set time before it runs out (60 seconds by default), tell the group. `{name}` is
+  the player and `{time}` the time left.
 
 ## [1.9.0] - 2026-10-30
 

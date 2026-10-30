@@ -60,6 +60,12 @@ ns.defaults = {
     soulstone = Icon(-45, 160, {
         createWhileApplied = false,
         hideWhenOthers = false, -- no icon while another warlock's Soulstone is on you
+        -- Messages about your Soulstone: {name} is the player, {time} the time left (m:ss).
+        announce = {
+            group = false, groupText = "Soulstone on {name}.",
+            whisper = false, whisperText = "You have my Soulstone. It lasts {time}.",
+            expire = false, expireText = "My Soulstone on {name} runs out in {time}.", expireSeconds = 60,
+        },
         states = {
             use    = { glow = true, glowColor = { 1, 0.82, 0, 1 }, sound = false, soundName = "READY_CHECK" },
             create = { glow = true, glowColor = { 1, 0.1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
@@ -69,6 +75,38 @@ ns.defaults = {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
     }),
+    -- Summon queue window (Ritual of Summoning). Keywords: comma-separated, whole words; timeout in minutes.
+    summon = {
+        enabled = true, locked = false,
+        point = { "CENTER", "CENTER", 260, 60 },
+        bgAlpha = 0.5,
+        keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
+        timeout = 10,
+        sound = false, soundName = "READY_CHECK", -- someone joined the queue
+        -- When Ritual of Summoning starts: a line to the group and a whisper to the player ({name}).
+        announce = {
+            group = false, groupText = "Summoning {name}, please click the portal!",
+            whisper = false, whisperText = "Summoning you now, please accept the summon.",
+        },
+    },
+    -- Selling summons to players outside the group. Off until turned on (/wu sell); price in gold, 0 = ask.
+    summonSell = {
+        enabled = false, locked = false,
+        point = { "CENTER", "CENTER", 260, -80 },
+        price = 0,
+        adChannel = "Trade",
+        keywords = "wtb sum, wtb summ, wtb summon, wtb lock, lf sum, lf summ, lf summon, lf lock, lfw, "
+            .. "need sum, need summ, need summon, need a summ, need a summon, any lock, summon to, summ to",
+        -- {name} {zone} {price} {clickers}; {clickers} is the `clickers` sentence ({n} people still needed)
+        -- or nothing once two stand by.
+        templates = {
+            ask = "Hi {name}! I can summon you, I'm at {zone}. {clickers} How much would you pay?",
+            priced = "Hi {name}! I can summon you for {price}, I'm at {zone}. {clickers}",
+            clickers = "I need {n} more next to me to click the portal.",
+            ad = "WTS summon to {zone}, whisper me!",
+        },
+        sound = false, soundName = "READY_CHECK", -- a new buyer
+    },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -235,7 +273,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()
@@ -714,6 +752,20 @@ ns:RegisterEvent("PLAYER_DEAD", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_ALIVE", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_UNGHOST", function() ns:ScheduleUpdate() end)
 
+-- Sends `text` to the group chat that fits: instance, raid or party. Nothing outside a group.
+function ns.SendToGroup(text)
+    if not text or text == "" then return end
+    local channel
+    if LE_PARTY_CATEGORY_INSTANCE and IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        channel = "INSTANCE_CHAT"
+    elseif IsInRaid() then
+        channel = "RAID"
+    elseif IsInGroup() then
+        channel = "PARTY"
+    end
+    if channel then SendChatMessage(text:sub(1, 255), channel) end
+end
+
 function ns.IsDead()
     return ns.Bool(UnitIsDeadOrGhost, "player") or false
 end
@@ -763,6 +815,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
             local ok, err = pcall(ns.DebugAuras)
             if not ok then ns.Print("auras debug failed: %s", tostring(err)) end
         end
+    elseif msg == "sell" and ns.modules.summonSell then
+        ns.modules.summonSell:SetSelling(not ns.db.summonSell.enabled)
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then

@@ -56,6 +56,25 @@ ns.LOCALES.ukUA = {
     ["Shift + click to delete %d extra Soul Shards."] = "Shift + клік - видалити зайві осколки душ: %d.",
     ["can't delete Soul Shards in combat."] = "не можна видаляти осколки душ у бою.",
     ["deleted %d extra Soul Shards."] = "видалено зайвих осколків душ: %d.",
+    ["Summon queue"] = "Черга призиву",
+    ["Selling summons"] = "Продаж призиву",
+    ["Click: whisper the offer. Shift + click: also invite."] = "Клік - шепнути пропозицію. Shift + клік - ще й запросити в групу.",
+    ["Right click: remove from the list."] = "Правий клік - прибрати зі списку.",
+    ["whispered"] = "написано",
+    ["invited"] = "запрошено",
+    ["Ad"] = "Оголошення",
+    ["Waiting for buyers..."] = "Чекаємо на покупців...",
+    ["Say"] = "Розмова",
+    ["Yell"] = "Крик",
+    ["selling summons on."] = "продаж призиву увімкнено.",
+    ["selling summons off."] = "продаж призиву вимкнено.",
+    ["wait %d s before the next ad."] = "наступне оголошення можна дати через %d с.",
+    ["you're not in the %s channel."] = "ви не в каналі %s.",
+    ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю - взяти в ціль і почати Ritual of Summoning.",
+    ["Right click: remove from the queue."] = "Правий клік - прибрати з черги.",
+    ["summoning"] = "призив",
+    ["Shards: %d"] = "Осколки: %d",
+    ["Clickers: %d/2"] = "Біля порталу: %d/2",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -215,6 +234,46 @@ ns.LOCALES.ukUA = {
         "зберігає свої. Не в бою.",
     ["Full bags"] = "Повні сумки",
     ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому осколку нема місця в сумках",
+    ["Remove from the queue after, minutes"] = "Прибирати з черги через, хвилин",
+    ["Keywords (comma-separated)"] = "Ключові слова (через кому)",
+    ["Play sound when someone joins the queue"] = "Звук, коли хтось стає в чергу",
+    ["Announce the summon in group chat"] = "Повідомляти про призив у чат групи",
+    ["Group message"] = "Повідомлення в групу",
+    ["Whisper the player being summoned"] = "Шепнути гравцю, якого призиваєте",
+    ["Soulstone messages"] = "Повідомлення про Камінь душі",
+    ["Tell the group who has your Soulstone"] = "Писати в групу, на кому ваш Камінь душі",
+    ["Whisper the player who got it"] = "Шепнути гравцю, який його отримав",
+    ["Tell the group when it's about to run out"] = "Писати в групу, коли він скоро закінчиться",
+    ["Seconds before it runs out"] = "За скільки секунд до кінця",
+    ["Running-out message"] = "Повідомлення про кінець",
+    ["{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
+        "party chat, whichever you're in."] =
+        "{name} - гравець із Каменем душі, {time} - скільки лишилось. Повідомлення йдуть у чат підземелля, рейду " ..
+        "або групи, залежно від того, де ви.",
+    ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
+    ["Price, gold (0 = ask the buyer)"] = "Ціна, золото (0 = спитати покупця)",
+    ["Channel for the ad"] = "Канал для оголошення",
+    ["Buyer keywords (comma-separated)"] = "Слова покупців (через кому)",
+    ["Offer without a price"] = "Пропозиція без ціни",
+    ["Offer with a price"] = "Пропозиція з ціною",
+    ["Clickers sentence"] = "Речення про людей біля порталу",
+    ["Play sound when a new buyer shows up"] = "Звук, коли з'являється новий покупець",
+    ["Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
+        "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
+        "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
+        "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
+        "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by."] =
+        "Поки продаж увімкнено, гравці поза вашою групою, які пишуть слова покупців у публічному каналі, /say, " ..
+        "/yell чи шепотом, потрапляють у список. Клік по покупцю шепоче пропозицію, Shift + клік ще й запрошує " ..
+        "в групу; коли він приєднається, то перейде в чергу призиву. Кнопка «Оголошення» пише оголошення в канал " ..
+        "вище. Без вашого кліку нічого не надсилається. У текстах {name} - покупець, {zone} - ваша зона, {price} - " ..
+        "ціна, {clickers} - речення про людей біля порталу ({n}: скільки ще людей треба), його немає, коли двоє вже поруч.",
+    ["Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
+        "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
+        "once they're next to you or leave the group. The window shows only while someone is waiting."] =
+        "Учасники групи, які напишуть одне з ключових слів у групу, рейд або шепотом, стають у чергу. Клік по " ..
+        "гравцю бере його в ціль і починає Ritual of Summoning; правий клік прибирає з черги. Гравець виходить " ..
+        "із черги, коли він поруч з вами або покинув групу. Вікно видно, лише поки хтось чекає.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",
