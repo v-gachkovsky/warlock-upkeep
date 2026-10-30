@@ -119,6 +119,8 @@ All texts are editable, and nothing is sent without your click.
 
 Visit your class trainer once and the addon remembers what it teaches. After each level up it tells you in chat
 which new ranks you can learn and what they cost (`/wu trainer` any time). Forever, Classic Era and TBC.
+All texts are editable, and nothing is sent without your click. Both windows can be resized by their corner and
+scroll with the mouse wheel when the list is long.
 
 ---
 

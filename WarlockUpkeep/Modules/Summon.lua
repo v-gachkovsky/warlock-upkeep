@@ -6,8 +6,8 @@ local M = ns:NewModule("summon")
 -- A click on a row targets the player and casts Ritual of Summoning; a player leaves the queue once next to
 -- you, out of the group, after the timeout, or on a right click.
 
-local MAX_ROWS = 10
 local ROW_HEIGHT = 18
+local HEADER = 26 -- title line and bottom padding
 local WIDTH = 230
 -- After the cast, a player gets this long to accept and arrive before going back to the queue.
 local SUMMON_WAIT = 120
@@ -171,6 +171,38 @@ local function Elapsed(sec)
     return string.format("%d:%02d", math.floor(sec / 60), sec % 60)
 end
 
+-- Rows are secure buttons: made out of combat, as many as the window has room for.
+local function CreateRow(f, i)
+    local r = CreateFrame("Button", "WarlockUpkeep_SummonRow" .. i, f, "SecureActionButtonTemplate")
+    r:SetHeight(ROW_HEIGHT)
+    r:SetPoint("TOPLEFT", 4, -22 - (i - 1) * ROW_HEIGHT)
+    r:RegisterForClicks("AnyUp", "AnyDown")
+    r:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+    r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    r.name:SetPoint("LEFT", 2, 0)
+    r.name:SetJustifyH("LEFT")
+    r.time = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    r.time:SetPoint("RIGHT", -2, 0)
+    r.zone = r:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    r.zone:SetPoint("LEFT", r.name, "RIGHT", 6, 0)
+    r.zone:SetPoint("RIGHT", r.time, "LEFT", -6, 0)
+    r.zone:SetJustifyH("LEFT")
+    r.zone:SetWordWrap(false)
+    r:SetScript("PostClick", function(self, button, down)
+        if down or not self.entryName then return end
+        if button == "RightButton" then
+            M:Remove(self.entryName)
+        elseif button == "LeftButton" then
+            local _, e = M:Find(self.entryName)
+            if e then e.summonedAt = GetTime() end
+            M:Refresh()
+        end
+    end)
+    r:Hide()
+    f.rows[i] = r
+    return r
+end
+
 function M:CreateWindow()
     local f = CreateFrame("Frame", "WarlockUpkeep_Summon", UIParent)
     f:SetFrameStrata("MEDIUM")
@@ -189,41 +221,25 @@ function M:CreateWindow()
         GameTooltip:AddLine(ns.L["Summon queue"], 0.58, 0.51, 0.79)
         GameTooltip:AddLine(ns.L["Click a player: target and cast Ritual of Summoning."], 1, 1, 1)
         GameTooltip:AddLine(ns.L["Right click: remove from the queue."], 1, 1, 1)
-        if not Cfg().locked then GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6) end
+        if not Cfg().locked then
+            GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6)
+            GameTooltip:AddLine(ns.L["Drag the corner to resize"], 0.6, 0.6, 0.6)
+        end
         GameTooltip:Show()
     end)
     f:SetScript("OnLeave", GameTooltip_Hide)
 
     f.rows = {}
-    for i = 1, MAX_ROWS do
-        local r = CreateFrame("Button", "WarlockUpkeep_SummonRow" .. i, f, "SecureActionButtonTemplate")
-        r:SetSize(WIDTH - 8, ROW_HEIGHT)
-        r:SetPoint("TOPLEFT", 4, -22 - (i - 1) * ROW_HEIGHT)
-        r:RegisterForClicks("AnyUp", "AnyDown")
-        r:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-        r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-        r.name:SetPoint("LEFT", 2, 0)
-        r.name:SetJustifyH("LEFT")
-        r.time = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        r.time:SetPoint("RIGHT", -2, 0)
-        r.zone = r:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-        r.zone:SetPoint("LEFT", r.name, "RIGHT", 6, 0)
-        r.zone:SetPoint("RIGHT", r.time, "LEFT", -6, 0)
-        r.zone:SetJustifyH("LEFT")
-        r.zone:SetWordWrap(false)
-        r:SetScript("PostClick", function(self, button, down)
-            if down or not self.entryName then return end
-            if button == "RightButton" then
-                M:Remove(self.entryName)
-            elseif button == "LeftButton" then
-                local _, e = M:Find(self.entryName)
-                if e then e.summonedAt = GetTime() end
-                M:Refresh()
-            end
-        end)
-        r:Hide()
-        f.rows[i] = r
-    end
+    f.more = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    f.more:SetPoint("BOTTOMLEFT", 8, 6)
+    -- More players than fit: the mouse wheel scrolls (out of combat, like everything on the secure rows).
+    f:EnableMouseWheel(true)
+    f:SetScript("OnMouseWheel", function(_, delta)
+        if InCombatLockdown() then return end
+        M.offset = (M.offset or 0) - delta
+        M:Refresh()
+    end)
+    ns.MakeResizable(f, Cfg, 160, HEADER + ROW_HEIGHT, function() M:Refresh() end)
 
     local elapsed = 0
     f:SetScript("OnUpdate", function(self, dt)
@@ -250,10 +266,10 @@ function M:Rows()
 end
 
 function M:UpdateTimes()
-    local list, sample = self:Rows()
+    local _, sample = self:Rows()
     local now = GetTime()
-    for i, r in ipairs(self.frame.rows) do
-        local e = list[i]
+    for _, r in ipairs(self.frame.rows) do
+        local e = r.entry
         if e and r:IsShown() then
             if sample then
                 r.time:SetText(Elapsed(e.wait))
@@ -292,11 +308,16 @@ function M:Refresh()
     end
     local spell = ns.SpellName(D.ritualOfSummoning) or "Ritual of Summoning"
     f.title:SetText(ns.L["Summon queue"])
-    for i, r in ipairs(f.rows) do
-        local e = list[i]
+    if f.sizing then return end
+    local offset, visible, scroll = ns.ListSlice(#list, cfg.height, HEADER, ROW_HEIGHT, self.offset)
+    self.offset = offset
+    for i = 1, math.max(#f.rows, visible) do
+        local r = f.rows[i] or CreateRow(f, i)
+        local e = i <= visible and list[offset + i]
+        r.entry = e or nil
         if e then
             r.entryName = not sample and e.name or nil
-            r.name:SetText(string.format("%d. %s", i, e.name))
+            r.name:SetText(string.format("%d. %s", offset + i, e.name))
             r.name:SetTextColor(ClassColor(e.class))
             r.zone:SetText(sample and e.zone or "")
             if sample then
@@ -311,14 +332,17 @@ function M:Refresh()
             r:Hide()
         end
     end
-    f:SetHeight(26 + math.min(#list, MAX_ROWS) * ROW_HEIGHT)
+    f.more:SetText(scroll and string.format(ns.L["%d-%d of %d, scroll with the mouse wheel"],
+        offset + 1, offset + visible, #list) or "")
+    f:SetHeight(HEADER + (visible + (scroll and 1 or 0)) * ROW_HEIGHT)
+    f.grip:SetShown(not cfg.locked)
     f.bg:SetAlpha(cfg.bgAlpha)
     f:SetAlpha(ns.FrameAlpha())
     f:Show()
     self:UpdateTimes()
     -- Wide enough for the title and the info line (a longer translation, more shards); out of combat only,
     -- like the secure rows.
-    local width = math.max(WIDTH, f.title:GetStringWidth() + f.info:GetStringWidth() + 36)
+    local width = math.max(cfg.width, f.title:GetStringWidth() + f.info:GetStringWidth() + 36)
     f:SetWidth(width)
     for _, r in ipairs(f.rows) do r:SetWidth(width - 8) end
 end

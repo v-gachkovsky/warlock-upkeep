@@ -85,6 +85,7 @@ ns.defaults = {
     summon = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", 260, 60 },
+        width = 230, height = 206, -- resized by the corner; the height is the most, up to 10 players
         bgAlpha = 0.5,
         keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
         timeout = 10,
@@ -99,6 +100,7 @@ ns.defaults = {
     summonSell = {
         enabled = false, locked = false,
         point = { "CENTER", "CENTER", 260, -80 },
+        width = 300, height = 136, -- up to 6 buyers before the list scrolls
         price = 0,
         adChannel = "Trade",
         keywords = "wtb sum, wtb summ, wtb summon, wtb lock, lf sum, lf summ, lf summon, lf lock, lfw, "
