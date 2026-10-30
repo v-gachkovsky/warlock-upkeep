@@ -58,6 +58,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
   flyout on Retail action bars; pick one and the icon switches to it. A left click still equips, applies or
   creates the stone, and holding the right button and dragging still moves the icon. Not in combat; the setting
   stays too.
+- Every slider in the settings has a box next to it to type the value: Enter applies it (kept within the
+  slider's range), Escape puts back the current one.
 
 ### Changed
 - `/wu reset` resets the current profile.
@@ -65,10 +67,6 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
   sacrificed on purpose, like Grimoire of Sacrifice.
-- Every slider in the settings has a box next to it to type the value: Enter applies it (kept within the
-  slider's range), Escape puts back the current one.
-
-### Fixed
 - Settings: long (translated) labels wrap instead of running under the slider, list or field next to them, and a
   button next to a list grows to fit its text.
 
