@@ -240,6 +240,7 @@ ns.LOCALES.ukUA = {
 
     -- Settings: armor
     ["Demon Armor / Demon Skin"] = "Демонічна броня / Демонічна шкіра",
+    ["Armor"] = "Броня",
     ["Important: add Demon Skin and Demon Armor to the Cooldown Manager's Tracked Buffs. " ..
         "In combat the game hides your buffs from addons, and the Cooldown Manager is what lets " ..
         "this icon notice the armor being removed or recast during a fight."] =

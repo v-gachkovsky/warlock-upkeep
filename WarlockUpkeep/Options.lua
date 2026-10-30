@@ -646,7 +646,7 @@ function BuildContent()
 
     -- 1. Demon Armor
     if ns.modules.armor then
-        Page("armor", "Demon Armor / Demon Skin", "Interface\\Icons\\Spell_Shadow_RagingScream")
+        Page("armor", "Armor", "Interface\\Icons\\Spell_Shadow_RagingScream")
         IconSection("Demon Armor / Demon Skin", "armor", "Interface\\Icons\\Spell_Shadow_RagingScream", function(get)
             -- Clients that hide auras from addons in combat (Forever).
             if ns.SECRET_AURAS then
