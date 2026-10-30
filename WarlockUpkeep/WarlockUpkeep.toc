@@ -19,6 +19,7 @@ Modules\WeaponStone.lua
 Modules\Soulstone.lua
 Modules\Pet.lua
 Modules\Summon.lua
+Modules\SummonSell.lua
 Modules\Grimoires.lua
 Minimap.lua
 Options.lua

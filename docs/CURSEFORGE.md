@@ -93,6 +93,11 @@ order, with their zone and wait time, plus your shards and how many people stand
 click targets the player and starts Ritual of Summoning; right click removes them. Players drop off once they
 arrive or leave the group. The keywords are editable.
 
+**Selling summons** (`/wu sell`): a second window lists players looking for a summon in Trade, General, /say,
+/yell or whispers ("wtb sum", "lf lock"...). Click to whisper your offer (your price, or "how much would you
+pay?" with no price set), Shift + click to invite them too, and post a "WTS summon" ad to Trade with one button.
+All texts are editable, and nothing is sent without your click.
+
 ---
 
 ## Make it yours

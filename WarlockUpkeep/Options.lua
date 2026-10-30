@@ -539,6 +539,29 @@ local function BuildContent()
         Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
             "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
             "once they're next to you or leave the group. The window shows only while someone is waiting.")
+
+        local se = T("summonSell")
+        local function Text(label, get, set)
+            local e = Input(label, 250, function(text) set(text); Changed() end)
+            refreshers[#refreshers + 1] = function() e:SetText(get() or ""); e:SetCursorPosition(0) end
+        end
+        SubHeader("Selling summons")
+        Check("Selling summons (/wu sell)", function() return se().enabled end, function(v) se().enabled = v end)
+        Check("Lock position", function() return se().locked end, function(v) se().locked = v end)
+        Text("Price, gold (0 = ask the buyer)", function() return tostring(se().price) end,
+            function(v) se().price = math.max(0, math.floor(tonumber(v) or 0)) end)
+        Text("Channel for the ad", function() return se().adChannel end, function(v) se().adChannel = v end)
+        Text("Buyer keywords (comma-separated)", function() return se().keywords end, function(v) se().keywords = v end)
+        Text("Offer without a price", function() return se().templates.ask end, function(v) se().templates.ask = v end)
+        Text("Offer with a price", function() return se().templates.priced end, function(v) se().templates.priced = v end)
+        Text("Clickers sentence", function() return se().templates.clickers end, function(v) se().templates.clickers = v end)
+        Text("Ad", function() return se().templates.ad end, function(v) se().templates.ad = v end)
+        SoundRows(se, "Play sound when a new buyer shows up")
+        Note("Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
+            "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
+            "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
+            "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
+            "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by.")
     end
 
     -- 6. Grimoires

@@ -249,6 +249,20 @@ default). Someone just summoned shows *summoning* for up to 2 minutes and goes b
 arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
 combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
 
+**Selling summons.** Turn it on with `/wu sell` (or in the settings) and a second window lists players outside
+your group who look for a summon in a public channel, `/say`, `/yell` or a whisper ("wtb sum", "lf lock", "lfw",
+"need a summon"... editable). Their message is in the tooltip, together with the offer you'd send.
+
+- **Click** a buyer: whispers them the offer.
+- **Shift + click**: invites them too. Once they join the group, they move on to the summon queue.
+- **Right click**: removes them from the list. Quiet buyers drop off after 5 minutes.
+- **Ad**: posts your ad to the Trade channel (another channel can be set), at most once per 30 seconds.
+
+The offer depends on the price in the settings: with a price (in gold) it names it, with 0 it asks how much the
+buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
+`{clickers}` a sentence saying how many more people you need next to you to click the portal (left out once
+two stand by). Nothing is sent without your click.
+
 ## Look and behavior
 
 ### Language
@@ -430,6 +444,7 @@ WarlockUpkeep/
     ├── Soulstone.lua
     ├── Pet.lua
     ├── Summon.lua
+    ├── SummonSell.lua
     └── Grimoires.lua
 ```
 

@@ -154,6 +154,9 @@ local function Clickers()
     return n
 end
 
+-- Shared with the selling window (SummonSell.lua).
+M.UnitOf, M.Clickers = UnitOf, Clickers
+
 ------------------------------------------------------------------------
 -- Window
 ------------------------------------------------------------------------

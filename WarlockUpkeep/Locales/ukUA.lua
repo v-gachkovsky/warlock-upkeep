@@ -51,6 +51,20 @@ ns.LOCALES.ukUA = {
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
     ["Summon queue"] = "Черга призиву",
+    ["Selling summons"] = "Продаж призиву",
+    ["Click: whisper the offer. Shift + click: also invite."] = "Клік - шепнути пропозицію. Shift + клік - ще й запросити в групу.",
+    ["Right click: remove from the list."] = "Правий клік - прибрати зі списку.",
+    ["whispered"] = "написано",
+    ["invited"] = "запрошено",
+    ["Ad"] = "Оголошення",
+    ["Waiting for buyers..."] = "Чекаємо на покупців...",
+    ["Say"] = "Розмова",
+    ["Yell"] = "Крик",
+    ["Whisper"] = "Шепіт",
+    ["selling summons on."] = "продаж призиву увімкнено.",
+    ["selling summons off."] = "продаж призиву вимкнено.",
+    ["wait %d s before the next ad."] = "наступне оголошення можна дати через %d с.",
+    ["you're not in the %s channel."] = "ви не в каналі %s.",
     ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю - взяти в ціль і почати Ritual of Summoning.",
     ["Right click: remove from the queue."] = "Правий клік - прибрати з черги.",
     ["summoning"] = "призив",
@@ -209,6 +223,24 @@ ns.LOCALES.ukUA = {
     ["Remove from the queue after, minutes"] = "Прибирати з черги через, хвилин",
     ["Keywords (comma-separated)"] = "Ключові слова (через кому)",
     ["Play sound when someone joins the queue"] = "Звук, коли хтось стає в чергу",
+    ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
+    ["Price, gold (0 = ask the buyer)"] = "Ціна, золото (0 = спитати покупця)",
+    ["Channel for the ad"] = "Канал для оголошення",
+    ["Buyer keywords (comma-separated)"] = "Слова покупців (через кому)",
+    ["Offer without a price"] = "Пропозиція без ціни",
+    ["Offer with a price"] = "Пропозиція з ціною",
+    ["Clickers sentence"] = "Речення про людей біля порталу",
+    ["Play sound when a new buyer shows up"] = "Звук, коли з'являється новий покупець",
+    ["Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
+        "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
+        "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
+        "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
+        "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by."] =
+        "Поки продаж увімкнено, гравці поза вашою групою, які пишуть слова покупців у публічному каналі, /say, " ..
+        "/yell чи шепотом, потрапляють у список. Клік по покупцю шепоче пропозицію, Shift + клік ще й запрошує " ..
+        "в групу; коли він приєднається, то перейде в чергу призиву. Кнопка «Оголошення» пише оголошення в канал " ..
+        "вище. Без вашого кліку нічого не надсилається. У текстах {name} - покупець, {zone} - ваша зона, {price} - " ..
+        "ціна, {clickers} - речення про людей біля порталу ({n}: скільки ще людей треба), його немає, коли двоє вже поруч.",
     ["Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
         "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
         "once they're next to you or leave the group. The window shows only while someone is waiting."] =

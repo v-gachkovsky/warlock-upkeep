@@ -72,6 +72,24 @@ ns.defaults = {
         timeout = 10,
         sound = false, soundName = "READY_CHECK", -- someone joined the queue
     },
+    -- Selling summons to players outside the group. Off until turned on (/wu sell); price in gold, 0 = ask.
+    summonSell = {
+        enabled = false, locked = false,
+        point = { "CENTER", "CENTER", 260, -80 },
+        price = 0,
+        adChannel = "Trade",
+        keywords = "wtb sum, wtb summ, wtb summon, wtb lock, lf sum, lf summ, lf summon, lf lock, lfw, "
+            .. "need sum, need summ, need summon, need a summ, need a summon, any lock, summon to, summ to",
+        -- {name} {zone} {price} {clickers}; {clickers} is the `clickers` sentence ({n} people still needed)
+        -- or nothing once two stand by.
+        templates = {
+            ask = "Hi {name}! I can summon you, I'm at {zone}. {clickers} How much would you pay?",
+            priced = "Hi {name}! I can summon you for {price}, I'm at {zone}. {clickers}",
+            clickers = "I need {n} more next to me to click the portal.",
+            ad = "WTS summon to {zone}, whisper me!",
+        },
+        sound = false, soundName = "READY_CHECK", -- a new buyer
+    },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -235,7 +253,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()
@@ -763,6 +781,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
             local ok, err = pcall(ns.DebugAuras)
             if not ok then ns.Print("auras debug failed: %s", tostring(err)) end
         end
+    elseif msg == "sell" and ns.modules.summonSell then
+        ns.modules.summonSell:SetSelling(not ns.db.summonSell.enabled)
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then

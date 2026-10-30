@@ -13,6 +13,12 @@ and the project uses [Semantic Versioning](https://semver.org/).
   group members stand next to you to click the portal. Click a player to target them and cast Ritual of
   Summoning, right click to remove them. Players leave the queue once they're next to you, leave the group or
   wait longer than the timeout (10 minutes by default). Optional sound when someone joins.
+- **Selling summons** (`/wu sell` or the settings; off by default): a second window lists players outside the
+  group who look for a summon in public channels, /say, /yell or whispers ("wtb sum", "lf lock", "lfw"...;
+  editable). Click whispers them the offer, Shift + click also invites them, right click removes them; once in
+  the group they move on to the summon queue. The offer names your price, or asks how much the buyer would pay
+  when the price is 0. The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
+  30 seconds. All texts are editable ({name}, {zone}, {price}, {clickers}); nothing is sent without a click.
 
 ## [1.9.0] - 2026-10-30
 
