@@ -60,6 +60,11 @@ ns.LOCALES.ukUA = {
     ["invited"] = "запрошено",
     ["Ad"] = "Оголошення",
     ["Waiting for buyers..."] = "Чекаємо на покупців...",
+    ["Place:"] = "Місце:",
+    ["Where you summon to"] = "Куди ви призиваєте",
+    ["Goes into the offer and the ad as {zone}. Empty: the zone you're in. Cleared when you go to another zone."] =
+        "Підставляється в пропозицію та оголошення як {zone}. Порожньо - зона, де ви зараз. Очищується, коли ви " ..
+        "переходите в іншу зону.",
     ["Say"] = "Розмова",
     ["Yell"] = "Крик",
     ["selling summons on."] = "продаж призиву увімкнено.",

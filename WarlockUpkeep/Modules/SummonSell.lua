@@ -8,7 +8,7 @@ local M = ns:NewModule("summonSell")
 
 local MAX_BUYERS = 20
 local ROW_HEIGHT = 18
-local HEADER = 28 -- title line and bottom padding
+local HEADER = 50 -- title line, place line and bottom padding
 local WIDTH = 300
 local BUYER_TIMEOUT = 300 -- seconds a buyer stays listed after their last message
 local AD_COOLDOWN = 30
@@ -31,10 +31,10 @@ end
 ------------------------------------------------------------------------
 -- Messages
 ------------------------------------------------------------------------
-local function Zone()
-    local z = Safe(GetZoneText and GetZoneText())
-    return z or ""
-end
+local function AutoZone() return Safe(GetZoneText and GetZoneText()) or "" end
+
+-- {zone}: the place typed in the window ("BRD meeting stone"), else the zone you're in.
+local function Zone() return M.place or AutoZone() end
 
 -- People next to you still needed to click the portal (2 in all).
 local function ClickersNeeded()
@@ -183,7 +183,7 @@ local STATUS_TEXT = { whispered = "whispered", invited = "invited" }
 local function CreateRow(f, i)
     local r = CreateFrame("Button", nil, f)
     r:SetHeight(ROW_HEIGHT)
-    r:SetPoint("TOPLEFT", 4, -24 - (i - 1) * ROW_HEIGHT)
+    r:SetPoint("TOPLEFT", 4, -46 - (i - 1) * ROW_HEIGHT)
     r:RegisterForClicks("LeftButtonUp", "RightButtonUp")
     r:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
     r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -235,7 +235,44 @@ function M:CreateWindow()
     f.ad = SmallButton(f, "", 70, function() M:PostAd() end)
     f.ad:SetPoint("RIGHT", f.stop, "LEFT", -2, 0)
     f.empty = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-    f.empty:SetPoint("TOPLEFT", 8, -26)
+    f.empty:SetPoint("TOPLEFT", 8, -48)
+
+    -- Where you summon to, for {zone}: typed here or the zone you're in. Cleared in another zone.
+    f.placeLabel = f:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    f.placeLabel:SetPoint("TOPLEFT", 8, -30)
+    f.place = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
+    f.place:SetHeight(18)
+    f.place:SetPoint("LEFT", f.placeLabel, "RIGHT", 10, 0)
+    f.place:SetPoint("RIGHT", f, "RIGHT", -8, 0)
+    f.place:SetAutoFocus(false)
+    f.place:SetFontObject("GameFontHighlightSmall")
+    f.placeHint = f.place:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    f.placeHint:SetPoint("LEFT", 0, 0)
+    f.placeHint:SetPoint("RIGHT", 0, 0)
+    f.placeHint:SetJustifyH("LEFT")
+    f.placeHint:SetWordWrap(false)
+    local function Hint() f.placeHint:SetShown(f.place:GetText() == "" and not f.place:HasFocus()) end
+    f.place:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
+    f.place:SetScript("OnEscapePressed", function(self)
+        self:SetText(M.place or "")
+        self:ClearFocus()
+    end)
+    f.place:SetScript("OnEditFocusGained", Hint)
+    f.place:SetScript("OnEditFocusLost", function(self)
+        local text = self:GetText():match("^%s*(.-)%s*$")
+        M.place = text ~= "" and text or nil
+        self:SetText(M.place or "")
+        Hint()
+    end)
+    f.place:SetScript("OnTextChanged", Hint)
+    f.place:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(ns.L["Where you summon to"], 1, 1, 1)
+        GameTooltip:AddLine(ns.L["Goes into the offer and the ad as {zone}. Empty: the zone you're in. " ..
+            "Cleared when you go to another zone."], 0.8, 0.8, 0.8, true)
+        GameTooltip:Show()
+    end)
+    f.place:SetScript("OnLeave", GameTooltip_Hide)
     f.anchor = "TOPLEFT"
     ns.MakeMovable(f, Cfg)
     f:SetScript("OnEnter", function(self)
@@ -293,6 +330,9 @@ function M:Refresh()
     f.ad:SetText(ns.L["Ad"])
     f.ad:SetWidth(math.max(40, f.ad:GetFontString():GetStringWidth() + 20))
     f.empty:SetText(#list == 0 and ns.L["Waiting for buyers..."] or "")
+    f.placeLabel:SetText(ns.L["Place:"])
+    f.placeHint:SetText(AutoZone())
+    if not f.place:HasFocus() then f.place:SetText(M.place or "") end
     if f.sizing then return end
     local offset, visible, scroll = ns.ListSlice(math.max(1, #list), cfg.height, HEADER, ROW_HEIGHT, self.offset)
     self.offset = offset
@@ -345,6 +385,12 @@ function M:Init()
         end)
     end
     ns:RegisterEvent("GROUP_ROSTER_UPDATE", function() M:Prune(); M:Refresh() end)
+    ns:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
+        -- Losing focus keeps what's typed, so drop the focus first.
+        if M.frame and M.frame.place:HasFocus() then M.frame.place:ClearFocus() end
+        M.place = nil
+        M:Refresh()
+    end)
 end
 
 function M:ApplySettings()
