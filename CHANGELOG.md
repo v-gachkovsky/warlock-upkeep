@@ -81,6 +81,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
   *Default* button that resets just that text. Ctrl+Z (Cmd+Z on a Mac) undoes typing in any text box, also the
   selling window's *Place*, and Ctrl+Shift+Z or Ctrl+Y redoes it. *Reset all settings* sits under the page list
   and asks before it resets the profile.
+- The Ukrainian translation reads more naturally: *уламки душ* instead of *осколки*, *мітка* instead of
+  *лейба*, consistent "Клік: ..." hints, plain words instead of slang, and the README's option names match the
+  Ukrainian settings. A few English labels are clearer too ("Starts with this many seconds left", "Demon for
+  each click and modifier"), and the Soulstone preview note now says the right thing: 300x means 5 minutes pass
+  in a second.
 
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon

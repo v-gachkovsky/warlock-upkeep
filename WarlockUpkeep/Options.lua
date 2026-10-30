@@ -678,8 +678,8 @@ function BuildContent()
             recommended:SetText(string.format(L["Recommended now: |cffffd100%d|r  (%s%s+%d spare)"], n, list, list ~= "" and " " or "", sh().spare))
         end
         y = y - 22
-        Check("Low threshold = recommended amount", function() return sh().autoThreshold end, function(v) sh().autoThreshold = v end)
-        Slider("Highlight when fewer than", 0, 40, 1, function() return sh().threshold end, function(v) sh().threshold = v end)
+        Check("Use the recommended amount as the low threshold", function() return sh().autoThreshold end, function(v) sh().autoThreshold = v end)
+        Slider("Highlight when there are fewer than", 0, 40, 1, function() return sh().threshold end, function(v) sh().threshold = v end)
         Check("Show the threshold next to the count (current/threshold)", function() return sh().showThreshold end, function(v) sh().showThreshold = v end)
         SubHeader("Text")
         FontRows(sh, { { "Font size", "fontSize" } })
@@ -799,7 +799,7 @@ function BuildContent()
             local get = function() return lb().zones[z[1]] end
             SubHeader(z[2])
             Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
-            Slider("Starts at, seconds left", 5, 1800, 5, function() return get().seconds end, function(v) get().seconds = v end)
+            Slider("Starts with this many seconds left", 5, 1800, 5, function() return get().seconds end, function(v) get().seconds = v end)
             Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
             SoundRows(get, "Play sound when the zone starts")
         end
@@ -807,7 +807,7 @@ function BuildContent()
         SoundRows(function() return lb().expired end, "Play sound when the timer runs out")
         Slider("Preview timer speed, x", 1, 600, 1, function() return lb().previewSpeed end, function(v) lb().previewSpeed = v end)
         Note("The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
-            "(300x: a second per 5 minutes) and the sounds play on every cycle.")
+            "(300x: 5 minutes pass in a second) and the sounds play on every cycle.")
     end
 
     -- 5. Demon
@@ -825,13 +825,13 @@ function BuildContent()
             Check("Remind to cast Soul Link", function() return get().soulLink end, function(v) get().soulLink = v end)
             GlowAndSound(function() return get().states.soulLink end)
         end
-        SubHeader("Demon per click / modifier")
+        SubHeader("Demon for each click and modifier")
         local P = ns.modules.pet
         for _, slot in ipairs(P.SLOTS) do
             if P.SlotAvailable(slot) then
                 local values = function()
                     local list = {}
-                    if slot.key ~= "none" then list[1] = { value = "default", text = "Same as click" } end
+                    if slot.key ~= "none" then list[1] = { value = "default", text = "Same as a plain click" } end
                     for _, d in ipairs(ns.data.demons) do
                         list[#list + 1] = { value = d.key, text = P.DemonName(d.key) .. (ns.DemonSpell(d) and "" or " " .. L["(not learned)"]) }
                     end
@@ -850,7 +850,7 @@ function BuildContent()
         Check("Enable", function() return su().enabled end, function(v) su().enabled = v end)
         Check("Lock position", function() return su().locked end, function(v) su().locked = v end)
         Slider("Background opacity, %", 0, 100, 5, function() return math.floor(su().bgAlpha * 100 + 0.5) end, function(v) su().bgAlpha = v / 100 end)
-        Slider("Remove from the queue after, minutes", 1, 30, 1, function() return su().timeout end, function(v) su().timeout = v end)
+        Slider("Drop players from the queue after, minutes", 1, 30, 1, function() return su().timeout end, function(v) su().timeout = v end)
         local sd = ns.defaults.summon
         TextArea("Keywords (comma-separated)", function() return su().keywords end, function(v) su().keywords = v end,
             sd.keywords)
@@ -927,7 +927,7 @@ function BuildContent()
             local get = function() return en().zones[z[1]] end
             SubHeader(z[2])
             Check("Enable", function() return get().enabled end, function(v) get().enabled = v end)
-            Slider("Starts at, seconds left", 5, 300, 5, function() return get().seconds end, function(v) get().seconds = v end)
+            Slider("Starts with this many seconds left", 5, 300, 5, function() return get().seconds end, function(v) get().seconds = v end)
             Color("Timer color in this zone", function() return get().color end, function(v) get().color = v end)
             SoundRows(get, "Play sound when the zone starts")
         end
