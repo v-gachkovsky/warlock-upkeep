@@ -275,7 +275,8 @@ ns.LOCALES.ukUA = {
         "{name} - гравець із Каменем душі, {time} - скільки лишилось. Повідомлення йдуть у чат підземелля, рейду " ..
         "або групи, залежно від того, де ви.",
     ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
-    ["Price, gold (0 = ask the buyer)"] = "Ціна, золото (0 = спитати покупця)",
+    ["Price: 5 or 5g, 1g50s, 75s (0 = ask the buyer)"] = "Ціна: 5 або 5g, 1g50s, 75s (0 = спитати покупця)",
+    ["can't read the price \"%s\"."] = "не вдалося прочитати ціну \"%s\".",
     ["Channel for the ad"] = "Канал для оголошення",
     ["Buyer keywords (comma-separated)"] = "Слова покупців (через кому)",
     ["Offer without a price"] = "Пропозиція без ціни",

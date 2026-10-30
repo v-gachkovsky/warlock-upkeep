@@ -96,7 +96,7 @@ ns.defaults = {
             whisper = false, whisperText = "Summoning you now, please accept the summon.",
         },
     },
-    -- Selling summons to players outside the group. Off until turned on (/wu sell); price in gold, 0 = ask.
+    -- Selling summons to players outside the group. Off until turned on (/wu sell); price in copper, 0 = ask.
     summonSell = {
         enabled = false, locked = false,
         point = { "TOPLEFT", "CENTER", 110, -58 },

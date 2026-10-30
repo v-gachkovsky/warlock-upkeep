@@ -26,7 +26,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
   group who look for a summon in public channels, /say, /yell or whispers ("wtb sum", "lf lock", "lfw"...;
   editable). Click whispers them the offer, Shift + click also invites them, right click removes them; once in
   the group they move on to the summon queue. The offer names your price, or asks how much the buyer would pay
-  when the price is 0. The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
+  when the price is 0. The price takes a plain number of gold ("5") or gold, silver and copper ("1g50s", "75s",
+  "2g5c"). The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
   30 seconds. All texts are editable ({name}, {zone}, {price}, {clickers}); nothing is sent without a click.
   The window's *Place* field sets what {zone} says ("BRD meeting stone"); empty, it's the zone you're in, and it
   clears when you go to another zone.
