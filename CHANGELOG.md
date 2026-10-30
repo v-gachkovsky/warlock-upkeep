@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Soul Shard counter: extra shards.** New *Maximum shards* option (0 by default, no limit): above it the count
+  turns light blue, and **Shift + click** on the counter deletes the shards above the maximum, from ordinary
+  bags first so a Soul Pouch keeps its own. Not in combat.
+- **Soul Shard counter: full bags.** The counter lights up orange when a new shard has no free slot in your bags
+  (Drain Soul would lose it). On by default; the color and an optional sound are in the settings.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

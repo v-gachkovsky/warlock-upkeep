@@ -436,6 +436,17 @@ local function BuildContent()
         SubHeader("Low shards alert")
         GlowAndSound(sh)
         Color("Highlight color at the threshold", function() return sh().edgeGlowColor end, function(v) sh().edgeGlowColor = v end)
+        SubHeader("Extra shards")
+        Slider("Maximum shards (0 = no limit)", 0, 40, 1, function() return sh().maxShards end, function(v) sh().maxShards = v end)
+        Color("Text color above the maximum", function() return sh().overColor end, function(v) sh().overColor = v end)
+        Note("Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
+            "Soul Pouch keeps its shards. Not in combat.")
+        SubHeader("Full bags")
+        Check("Highlight when a new shard has no room in the bags", function() return sh().fullWarn end, function(v) sh().fullWarn = v end)
+        Color("Highlight color", function() return sh().fullGlowColor end, function(v) sh().fullGlowColor = v end)
+        Check("Play sound", function() return sh().fullSound end, function(v) sh().fullSound = v end)
+        Select("Sound", ns.GetSoundList, function() return sh().fullSoundName end, function(v) sh().fullSoundName = v end,
+            { text = "Test", onClick = function() TestSound(sh().fullSoundName) end })
     end
 
     -- 3. Healthstone
