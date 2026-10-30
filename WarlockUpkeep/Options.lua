@@ -5,7 +5,7 @@ local panel, scroll, nav, content, settingsButton
 local BuildContent
 local y = 0
 local refreshers = {}
-local LEFT, RIGHT = 20, 290
+local LEFT, RIGHT = 20, 260
 local WIDTH = 610 -- a page of settings; the list of pages runs down the left side
 
 local function Changed()
@@ -171,7 +171,7 @@ local function Select(text, values, get, set, extra)
     local ok, btn = pcall(CreateFrame, "DropdownButton", nil, content, "WowStyle1DropdownTemplate")
     local gap = 4
     if ok and btn and btn.SetupMenu then
-        btn:SetSize(170, 22)
+        btn:SetSize(230, 22)
         btn:SetPoint("TOPLEFT", RIGHT, y + 4)
         btn:SetupMenu(function(_, root)
             if root.SetScrollMode then root:SetScrollMode(400) end
@@ -184,7 +184,7 @@ local function Select(text, values, get, set, extra)
         selectCount = selectCount + 1 -- the old template needs a named frame
         btn = CreateFrame("Frame", "WarlockUpkeepSelect" .. selectCount, content, "UIDropDownMenuTemplate")
         btn:SetPoint("TOPLEFT", RIGHT - 16, y + 6)
-        UIDropDownMenu_SetWidth(btn, 150)
+        UIDropDownMenu_SetWidth(btn, 210)
         UIDropDownMenu_Initialize(btn, function(_, level)
             for _, item in ipairs(List()) do
                 local info = UIDropDownMenu_CreateInfo()
@@ -577,10 +577,10 @@ function BuildContent()
         { text = "Delete", onClick = function()
             if ns.DeleteProfile(ns.CurrentProfile()) then Rebuild() else ns.Print(L["the Default profile can't be deleted."]) end
         end })
-    Input("New profile (copy of the current one)", 170, function(text)
+    Input("New profile (copy of the current one)", 230, function(text)
         if ns.CreateProfile(text) then Rebuild() else ns.Print(L["enter a new, unused profile name."]) end
     end)
-    local io = Input("Export / import", 170, function() end)
+    local io = Input("Export / import", 230, function() end)
     io:SetMaxLetters(0)
     Button("Export", 80, function()
         io:SetText(ns.ExportProfile())
@@ -621,7 +621,7 @@ function BuildContent()
         end
         Changed()
     end
-    local input = Input("Sound file", 170, function(text) AddSound(text) end)
+    local input = Input("Sound file", 230, function(text) AddSound(text) end)
     local add = Button("Add", 60, function() AddSound(input:GetText()); input:SetText(""); input:ClearFocus() end)
     add:ClearAllPoints()
     add:SetPoint("LEFT", input, "RIGHT", 6, 0)
