@@ -4,6 +4,16 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Every slider in the settings has a box next to it to type the value: Enter applies it (kept within the
+  slider's range), Escape puts back the current one.
+
+### Fixed
+- Settings: long (translated) labels wrap instead of running under the slider, list or field next to them, and a
+  button next to a list grows to fit its text.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

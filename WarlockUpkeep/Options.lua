@@ -60,8 +60,20 @@ local function Check(text, get, set)
     y = y - math.max(26, fs:GetStringHeight() + 12)
 end
 
+-- Label of a row with a control on the right: long (translated) texts wrap instead of running under it.
+local function RowLabel(text)
+    local fs = Label(text)
+    fs:SetWidth(RIGHT - LEFT - 8)
+    fs:SetJustifyH("LEFT")
+    return fs
+end
+
+local function RowHeight(fs, height) return math.max(height, fs:GetStringHeight() + 12) end
+
+-- A slider with a box to type the value: Enter applies it (whole number, kept within the range), Escape
+-- or clicking away puts back the current value.
 local function Slider(text, min, max, step, get, set)
-    Label(text)
+    local fs = RowLabel(text)
     local s = CreateFrame("Slider", nil, content)
     s:SetOrientation("HORIZONTAL")
     s:SetSize(180, 16)
@@ -74,20 +86,36 @@ local function Slider(text, min, max, step, get, set)
     track:SetColorTexture(0, 0, 0, 0.6)
     track:SetPoint("LEFT"); track:SetPoint("RIGHT"); track:SetHeight(6)
     s:SetThumbTexture("Interface\\Buttons\\UI-SliderBar-Button-Horizontal")
-    local val = content:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    val:SetPoint("LEFT", s, "RIGHT", 8, 0)
-    s:SetScript("OnValueChanged", function(self, v)
-        v = math.floor(v / step + 0.5) * step
-        val:SetText(v)
-        if not self.refreshing and v ~= get() then set(v); ns:ApplyAll() end
-    end)
-    refreshers[#refreshers + 1] = function()
+    local val = CreateFrame("EditBox", nil, content, "InputBoxTemplate")
+    val:SetSize(42, 20)
+    val:SetPoint("LEFT", s, "RIGHT", 14, 0)
+    val:SetAutoFocus(false)
+    val:SetJustifyH("CENTER")
+    local function Refresh()
         s.refreshing = true
         s:SetValue(get())
         s.refreshing = nil
         val:SetText(get())
+        val:SetCursorPosition(0)
     end
-    y = y - 26
+    s:SetScript("OnValueChanged", function(self, v)
+        if self.refreshing then return end
+        v = math.floor(v / step + 0.5) * step
+        val:SetText(v)
+        if v ~= get() then set(v); ns:ApplyAll() end
+    end)
+    val:SetScript("OnEnterPressed", function(self)
+        local v = tonumber(self:GetText())
+        if v then
+            v = math.min(max, math.max(min, math.floor(v + 0.5)))
+            if v ~= get() then set(v); ns:ApplyAll() end
+        end
+        self:ClearFocus()
+    end)
+    val:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+    val:SetScript("OnEditFocusLost", Refresh)
+    refreshers[#refreshers + 1] = Refresh
+    y = y - RowHeight(fs, 26)
 end
 
 local function Color(text, get, set)
@@ -135,7 +163,7 @@ end
 -- the others the old UIDropDownMenu.
 local selectCount = 0
 local function Select(text, values, get, set, extra)
-    Label(text)
+    local fs = RowLabel(text)
     local function List() return type(values) == "function" and values() or values end
     local function Pick(value) set(value); Changed() end
     local ok, btn = pcall(CreateFrame, "DropdownButton", nil, content, "WowStyle1DropdownTemplate")
@@ -175,12 +203,12 @@ local function Select(text, values, get, set, extra)
     end
     if extra then
         local e = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
-        e:SetSize(50, 22)
         e:SetPoint("LEFT", btn, "RIGHT", gap, 0)
         e:SetText(L[extra.text])
+        e:SetSize(math.max(50, e:GetFontString():GetStringWidth() + 24), 22) -- fits a longer translation
         e:SetScript("OnClick", extra.onClick)
     end
-    y = y - 28
+    y = y - RowHeight(fs, 28)
 end
 
 local function Button(text, width, onClick, x)
@@ -217,14 +245,14 @@ local function SoundRows(getTbl, soundText)
 end
 
 local function Input(text, width, onEnter)
-    Label(text)
+    local fs = RowLabel(text)
     local e = CreateFrame("EditBox", nil, content, "InputBoxTemplate")
     e:SetSize(width, 20)
     e:SetPoint("TOPLEFT", RIGHT + 6, y + 3)
     e:SetAutoFocus(false)
     e:SetScript("OnEnterPressed", function(self) onEnter(self:GetText()); self:ClearFocus() end)
     e:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-    y = y - 28
+    y = y - RowHeight(fs, 28)
     return e
 end
 
