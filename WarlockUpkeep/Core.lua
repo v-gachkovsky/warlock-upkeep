@@ -122,8 +122,14 @@ ns.defaults = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", 0, 120 },
         font = "Fonts\\FRIZQT__.TTF", outline = "OUTLINE", size = 14, bgAlpha = 0.3,
-        color = { 1, 1, 1, 1 }, warnColor = { 1, 0.2, 0.2, 1 }, warnSeconds = 30,
-        sound = false, soundName = "RAID_WARNING", -- when the warning starts
+        -- Timer zones by seconds left, as on the Soulstone label; `crit` wins where they overlap.
+        color = { 1, 1, 1, 1 },
+        zones = {
+            warn = { enabled = true, seconds = 60, color = { 1, 0.82, 0, 1 }, sound = false, soundName = "RAID_WARNING" },
+            crit = { enabled = true, seconds = 30, color = { 1, 0.2, 0.2, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+        expired = { sound = false, soundName = "RAID_WARNING" },
+        previewSpeed = 30, -- preview timer: seconds per real second (5 minutes in 10 seconds)
     },
     -- New ranks at the class trainer: a chat message after a level up.
     trainer = { enabled = true, sound = false, soundName = "LEVEL_UP" },

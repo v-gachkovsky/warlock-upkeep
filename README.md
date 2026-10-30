@@ -246,8 +246,10 @@ out but Soul Link isn't on (on by default), and the click casts it. Both reminde
 (purple) and sound, and show out of combat only.
 
 **Enslave Demon timer** (Subjugate Demon in Classic Era). While a demon is enslaved, a small movable label shows
-how long it stays under control (up to 5 minutes) and turns red in the last 30 seconds, with an optional sound.
-It can break free earlier.
+how long it stays under control (up to 5 minutes). It can break free earlier. Like the Soulstone label, the timer
+has a warning zone (yellow from 60 seconds left) and a critical one (red from 30), each with its own threshold,
+color and optional sound, plus a sound when the timer runs out. In preview the timer runs 30 times faster and
+starts over at 0, so you can see the colors and hear the sounds.
 
 ### 7. Grimoires
 

@@ -330,6 +330,13 @@ ns.LOCALES.ukUA = {
         "such a text into the box and press Import to replace the current profile's settings with it."] =
         "Кожен персонаж використовує один профіль. «Експорт» кладе налаштування поточного профілю в поле текстом; " ..
         "вставте такий текст у поле й натисніть «Імпорт», щоб замінити ним налаштування поточного профілю.",
+    ["Timer: the demon is free"] = "Таймер: демон вирвався",
+    ["Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier. " ..
+        "The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
+        "(30x: 5 minutes in 10 seconds) and the sounds play on every cycle."] =
+        "Показує, скільки ще поневолений демон буде під контролем (до 5 хвилин). Він може вирватися й раніше. " ..
+        "Де зони перетинаються, діє критична. У попередньому перегляді таймер біжить швидше на вказану вище " ..
+        "швидкість (30x: 5 хвилин за 10 секунд), а звуки грають на кожному колі.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

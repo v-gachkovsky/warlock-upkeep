@@ -69,6 +69,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - `/wu reset` resets the current profile.
+  stays under control. Like the Soulstone label it has a warning and a critical zone (yellow from 60 seconds,
+  red from 30; seconds, colors and sounds adjustable) and a sound when the timer runs out; in preview it runs
+  fast and restarts.
 
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
