@@ -393,11 +393,17 @@ local modifierDown = {
 -- Stores the position as an offset of the frame's center from UIParent's center.
 -- StartMoving anchors frames to the screen, which can differ from UIParent
 -- (e.g. the Mac notch safe area), so the raw GetPoint() result would drift.
+-- Frames with frame.anchor = "TOPLEFT" (list windows that change height with their content) keep their top
+-- left corner instead, so they grow down and to the right without moving.
 local function SavePoint(frame, cfg)
     local cx, cy = frame:GetCenter()
     local ux, uy = UIParent:GetCenter()
     if not cx or not ux then return end
     local ratio = UIParent:GetEffectiveScale() / frame:GetEffectiveScale()
+    if frame.anchor == "TOPLEFT" then
+        cfg.point = { "TOPLEFT", "CENTER", frame:GetLeft() - ux * ratio, frame:GetTop() - uy * ratio }
+        return
+    end
     cfg.point = { "CENTER", "CENTER", cx - ux * ratio, cy - uy * ratio }
 end
 
@@ -491,6 +497,53 @@ function ns.MakeMovable(frame, getCfg, isIcon)
     end)
 end
 
+-- A size grip in the bottom-right corner of a list window, shown while it's unlocked. The size goes to
+-- cfg.width / cfg.height and the window stays where it was. Not in combat: windows with secure rows can't
+-- change size then.
+function ns.MakeResizable(frame, getCfg, minWidth, minHeight, onDone)
+    frame:SetResizable(true)
+    if frame.SetResizeBounds then frame:SetResizeBounds(minWidth, minHeight) else frame:SetMinResize(minWidth, minHeight) end
+    local grip = CreateFrame("Button", nil, frame)
+    grip:SetSize(16, 16)
+    grip:SetPoint("BOTTOMRIGHT", -1, 1)
+    grip:SetFrameLevel(frame:GetFrameLevel() + 10)
+    grip:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+    grip:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+    grip:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+    grip:SetScript("OnMouseDown", function()
+        if InCombatLockdown() then return end
+        -- Pin the top left corner where it is, so only the dragged corner moves.
+        local left, top = frame:GetLeft(), frame:GetTop()
+        frame:ClearAllPoints()
+        frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
+        frame.sizing = true
+        frame:StartSizing("BOTTOMRIGHT")
+    end)
+    grip:SetScript("OnMouseUp", function()
+        if not frame.sizing then return end
+        frame:StopMovingOrSizing()
+        frame.sizing = nil
+        local cfg = getCfg()
+        cfg.width = math.floor(frame:GetWidth() + 0.5)
+        cfg.height = math.floor(frame:GetHeight() + 0.5)
+        if frame.SetUserPlaced then frame:SetUserPlaced(false) end
+        SavePoint(frame, cfg)
+        ns.ApplyPoint(frame, cfg.point)
+        if onDone then onDone() end
+    end)
+    frame.grip = grip
+    return grip
+end
+
+-- The part of a list that fits in a window `height` tall (rows below `header`): the offset of the first row
+-- shown (clamped), how many rows show and whether the list scrolls, which takes one more line for the position.
+function ns.ListSlice(total, height, header, rowHeight, offset)
+    local fit = math.max(1, math.floor((height - header) / rowHeight))
+    if total <= fit then return 0, total, false end
+    local visible = math.max(1, fit - 1)
+    return math.max(0, math.min(offset or 0, total - visible)), visible, true
+end
+
 function ns.ApplyDragButton(frame)
     if frame.isIcon and ns.db and ns.db.moveWith == "right" then
         frame:RegisterForDrag("RightButton")
@@ -500,7 +553,7 @@ function ns.ApplyDragButton(frame)
 end
 
 function ns.ApplyPoint(frame, point)
-    if frame.moving then return end
+    if frame.moving or frame.sizing then return end
     frame:ClearAllPoints()
     frame:SetPoint(point[1], UIParent, point[2], point[3], point[4])
 end
@@ -666,6 +719,7 @@ function ns.CreateActionIcon(key, title)
     bg:SetColorTexture(0, 0, 0, 1)
     bg:SetPoint("TOPLEFT", -1, 1)
     bg:SetPoint("BOTTOMRIGHT", 1, -1)
+    b.bg = bg
 
     b.icon = b:CreateTexture(nil, "ARTWORK")
     b.icon:SetAllPoints()
@@ -680,5 +734,146 @@ function ns.CreateActionIcon(key, title)
     b:SetScript("OnLeave", GameTooltip_Hide)
 
     table.insert(ns.icons, b)
+    ns.SkinWithMasque(b)
     return b
+end
+
+-- Masque skins the icons when it's installed (one "WarlockUpkeep!" group in its settings); the plain black
+-- border then gives way to the skin.
+local masqueGroup
+function ns.SkinWithMasque(b)
+    local Masque = LibStub and LibStub("Masque", true)
+    if not Masque then return end
+    masqueGroup = masqueGroup or Masque:Group("WarlockUpkeep!")
+    b.bg:Hide()
+    masqueGroup:AddButton(b, { Icon = b.icon, Highlight = b:GetHighlightTexture() })
+end
+
+-- A Retail-style flyout: a column of choices above an icon, opened by a right click on it (a right-button
+-- drag still moves the icon). entries() returns { texture, tipItem, note, selected, disabled, onClick }
+-- per choice. Not in combat; a click anywhere else closes it.
+function ns.CreateFlyout(owner, entries)
+    local f = CreateFrame("Frame", nil, owner)
+    f:SetFrameStrata("DIALOG")
+    f:Hide()
+    f.buttons = {}
+
+    local function Button_OnEnter(b)
+        GameTooltip:SetOwner(b, "ANCHOR_RIGHT")
+        if b.entry.tipItem then GameTooltip:SetItemByID(b.entry.tipItem) end
+        if b.entry.note then GameTooltip:AddLine(b.entry.note, 1, 0.3, 0.3) end
+        GameTooltip:Show()
+    end
+    local function Button_OnClick(b)
+        if b.entry.disabled then return end
+        f:Hide()
+        b.entry.onClick()
+    end
+    local function MakeButton(i)
+        local b = CreateFrame("Button", nil, f)
+        local bg = b:CreateTexture(nil, "BACKGROUND")
+        bg:SetColorTexture(0, 0, 0, 1)
+        bg:SetPoint("TOPLEFT", -1, 1)
+        bg:SetPoint("BOTTOMRIGHT", 1, -1)
+        b.icon = b:CreateTexture(nil, "ARTWORK")
+        b.icon:SetAllPoints()
+        b.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        b.selected = b:CreateTexture(nil, "OVERLAY")
+        b.selected:SetTexture("Interface\\Buttons\\CheckButtonHilight")
+        b.selected:SetBlendMode("ADD")
+        b.selected:SetAllPoints()
+        b:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
+        b:SetScript("OnEnter", Button_OnEnter)
+        b:SetScript("OnLeave", GameTooltip_Hide)
+        b:SetScript("OnClick", Button_OnClick)
+        f.buttons[i] = b
+        return b
+    end
+
+    function f:Toggle()
+        if self:IsShown() or InCombatLockdown() then
+            self:Hide()
+            return
+        end
+        local list, size, gap = entries(), owner:GetWidth(), 4
+        for i, e in ipairs(list) do
+            local b = self.buttons[i] or MakeButton(i)
+            b.entry = e
+            b:SetSize(size, size)
+            b:ClearAllPoints()
+            b:SetPoint("BOTTOM", self, "BOTTOM", 0, (i - 1) * (size + gap))
+            b.icon:SetTexture(e.texture or ns.QUESTION_ICON)
+            b.icon:SetDesaturated(e.disabled and true or false)
+            b.selected:SetShown(e.selected and true or false)
+            b:Show()
+        end
+        for i = #list + 1, #self.buttons do self.buttons[i]:Hide() end
+        self:SetSize(size, #list * (size + gap) - gap)
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOM", owner, "TOP", 0, gap + 2)
+        self:Show()
+    end
+
+    f:SetScript("OnShow", function(self)
+        pcall(self.RegisterEvent, self, "GLOBAL_MOUSE_DOWN")
+        self:RegisterEvent("PLAYER_REGEN_DISABLED")
+    end)
+    f:SetScript("OnHide", function(self) self:UnregisterAllEvents() end)
+    f:SetScript("OnEvent", function(self, event, button)
+        if event == "GLOBAL_MOUSE_DOWN" then
+            if self:IsMouseOver() then return end
+            if button == "RightButton" and owner:IsMouseOver() then return end -- the owner's click toggles it
+        end
+        self:Hide()
+    end)
+
+    -- A right click is a press and release without moving; with movement it's a drag.
+    owner:HookScript("OnMouseDown", function(_, button)
+        if button == "RightButton" then f.downX, f.downY = GetCursorPosition() end
+    end)
+    owner:HookScript("OnMouseUp", function(_, button)
+        if button ~= "RightButton" or not f.downX then return end
+        local x, y = GetCursorPosition()
+        local moved = math.abs(x - f.downX) + math.abs(y - f.downY) > 5
+        f.downX, f.downY = nil, nil
+        if not moved and not owner.moving then f:Toggle() end
+    end)
+    return f
+end
+
+-- Undo for an edit box: Ctrl+Z (Cmd+Z on a Mac) steps back through what was typed since it got focus,
+-- Ctrl+Shift+Z or Ctrl+Y forward again. A burst of typing is one step.
+local UNDO_STEPS = 100
+function ns.AddUndo(e)
+    local undo, redo, last, typedAt, applying = {}, {}, "", 0, false
+    e:HookScript("OnEditFocusGained", function(self)
+        undo, redo, last, typedAt = {}, {}, self:GetText(), 0
+    end)
+    e:HookScript("OnTextChanged", function(self, userInput)
+        local text = self:GetText()
+        if applying or text == last then return end
+        if userInput then
+            if GetTime() - typedAt > 1 then
+                undo[#undo + 1] = last
+                if #undo > UNDO_STEPS then table.remove(undo, 1) end
+            end
+            typedAt = GetTime()
+            wipe(redo)
+        end
+        last = text
+    end)
+    e:HookScript("OnKeyDown", function(self, key)
+        if key ~= "Z" and key ~= "Y" then return end
+        if not (IsControlKeyDown() or (IsMetaKeyDown and IsMetaKeyDown())) then return end
+        local back = key == "Z" and not IsShiftKeyDown()
+        local from, to = back and undo or redo, back and redo or undo
+        local text = table.remove(from)
+        if not text then return end
+        to[#to + 1] = self:GetText()
+        applying = true
+        self:SetText(text)
+        applying = false
+        last, typedAt = text, 0
+        self:SetCursorPosition(#text)
+    end)
 end

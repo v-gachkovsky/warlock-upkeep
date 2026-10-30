@@ -26,11 +26,27 @@ ns.data = {
 
     -- Grimoire of Sacrifice buff (Mists, Retail): the demon is sacrificed on purpose.
     petSacrificeBuffs = { 108503, 196099 },
+    -- Demonic Sacrifice talent (Classic Era, TBC, Forever) and its buffs per demon: also a demon sacrificed on purpose.
+    demonicSacrifice = 18788,
+    demonicSacrificeBuffs = { 18789, 18790, 18791, 18792, 35701 },
+    -- Soul Link talent and its buff on the caster.
+    soulLink = 19028,
+    soulLinkBuffs = { 25228, 19028 },
+    -- Enslave Demon (Subjugate Demon in Classic Era, TBC, Mists and Retail): the debuff on the demon lasts up to
+    -- 5 minutes, 10 in Retail.
+    enslaveDemon = { 1098, 11725, 11726 },
+    enslaveDuration = select(4, GetBuildInfo()) >= 100000 and 600 or 300,
 
     -- The counter shows once Soul Shards can be gained.
     drainSoul = { 1120, 8288, 8289, 11675, 27217 },
 
     ritualOfSummoning = 698,
+
+    -- Reagents bought from vendors (Forever, Classic Era, TBC; none from Cataclysm on).
+    reagents = {
+        { key = "infernal", item = 5565,  spell = 1122,  name = "Infernal Stone" },   -- Inferno
+        { key = "figurine", item = 16583, spell = 18540, name = "Demonic Figurine" }, -- Ritual of Doom
+    },
 
     -- Before Cataclysm every stone costs one Soul Shard to create.
     -- Mists and Retail only keep Create Healthstone (6201, item 5512).

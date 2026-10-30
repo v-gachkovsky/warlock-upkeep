@@ -41,7 +41,13 @@ ns.defaults = {
     grimoires = { merchant = true, tooltip = true }, -- mark grimoires the demons already know
     customSounds = {}, -- { name = "alarm", path = "Interface\\WarlockUpkeepSounds\\alarm.ogg" }
     armor = Icon(-135, 160),
-    healthstone = Icon(-90, 160),
+    healthstone = Icon(-90, 160, {
+        -- With a Healthstone in the bags: the icon shows to use it when health drops below `percent`.
+        lowHealth = { enabled = true, percent = 20 },
+        states = {
+            low = { glow = true, glowColor = { 0.1, 1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+    }),
     -- Firestone or Spellstone (Forever, Classic Era, TBC): only one can be on at a time, so one icon for the chosen.
     weaponStone = Icon(-180, 160, {
         stone = "firestone",
@@ -54,6 +60,12 @@ ns.defaults = {
     soulstone = Icon(-45, 160, {
         createWhileApplied = false,
         hideWhenOthers = false, -- no icon while another warlock's Soulstone is on you
+        -- Messages about your Soulstone: {name} is the player, {time} the time left (m:ss).
+        announce = {
+            group = false, groupText = "Soulstone on {name}.",
+            whisper = false, whisperText = "You have my Soulstone. It lasts {time}.",
+            expire = false, expireText = "My Soulstone on {name} runs out in {time}.", expireSeconds = 60,
+        },
         states = {
             use    = { glow = true, glowColor = { 1, 0.82, 0, 1 }, sound = false, soundName = "READY_CHECK" },
             create = { glow = true, glowColor = { 1, 0.1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
@@ -62,7 +74,74 @@ ns.defaults = {
     pet = Icon(0, 160, {
         -- "none" = plain click; other keys are modifier prefixes. Value "default" = same as plain click.
         bindings = { none = "imp", shift = "voidwalker", ctrl = "succubus", alt = "felhunter", meta = "default" },
+        -- With the demon out: remind to sacrifice it (Demonic Sacrifice) or to cast Soul Link, once learned.
+        sacrifice = false, soulLink = true,
+        states = {
+            sacrifice = { glow = true, glowColor = { 0.7, 0.3, 1, 1 }, sound = false, soundName = "RAID_WARNING" },
+            soulLink  = { glow = true, glowColor = { 0.7, 0.3, 1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
     }),
+    -- Summon queue window (Ritual of Summoning). Keywords: comma-separated, whole words; timeout in minutes.
+    summon = {
+        enabled = true, locked = false,
+        point = { "TOPLEFT", "CENTER", 145, 163 },
+        width = 230, height = 170, -- resized by the corner; 8 players before the list scrolls
+        bgAlpha = 0.5,
+        keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
+        timeout = 10,
+        sound = false, soundName = "READY_CHECK", -- someone joined the queue
+        -- When Ritual of Summoning starts: a line to the group and a whisper to the player ({name}).
+        announce = {
+            group = false, groupText = "Summoning {name}, please click the portal!",
+            whisper = false, whisperText = "Summoning you now, please accept the summon.",
+        },
+        -- Too few people at the portal when the ritual starts: {n} more needed. A sold summon's call also goes
+        -- to /say, /yell and the selling window's ad channel, and takes the selling placeholders ({zone}...).
+        clickersCall = {
+            enabled = true,
+            groupText = "Need {n} more next to me to click the summoning portal!",
+            -- Only group members can click the portal, so strangers who'd help need an invite.
+            publicText = "Summoning at {zone}: need {n} more to click the portal, whisper me for an invite!",
+            party = true, say = true, yell = true, trade = true,
+        },
+    },
+    -- Selling summons to players outside the group. Off until turned on (/wu sell); price in copper, 0 = ask.
+    summonSell = {
+        enabled = false, locked = false,
+        point = { "TOPLEFT", "CENTER", 110, -58 },
+        width = 300, height = 158, -- up to 6 buyers before the list scrolls
+        price = 0,
+        adChannel = "Trade",
+        keywords = "wtb sum, wtb summ, wtb summon, wtb lock, lf sum, lf summ, lf summon, lf lock, lfw, "
+            .. "need sum, need summ, need summon, need a summ, need a summon, any lock, summon to, summ to",
+        -- {name} {zone} {price} {clickers}; {clickers} is the `clickers` sentence ({n} people still needed)
+        -- or nothing once two stand by.
+        templates = {
+            ask = "Hi {name}! I can summon you, I'm at {zone}. {clickers} How much would you pay?",
+            priced = "Hi {name}! I can summon you for {price}, I'm at {zone}. {clickers}",
+            clickers = "I need {n} more next to me to click the portal.",
+            ad = "WTS summon to {zone}, whisper me!",
+        },
+        sound = false, soundName = "READY_CHECK", -- a new buyer
+    },
+    -- Reagents to keep in the bags; bought at vendors up to these amounts (0 = don't buy).
+    reagents = { autoBuy = true, keep = { infernal = 1, figurine = 0 } },
+    -- Enslave Demon timer label.
+    enslave = {
+        enabled = true, locked = false,
+        point = { "CENTER", "CENTER", 0, 120 },
+        font = "Fonts\\FRIZQT__.TTF", outline = "OUTLINE", size = 14, bgAlpha = 0.3,
+        -- Timer zones by seconds left, as on the Soulstone label; `crit` wins where they overlap.
+        color = { 1, 1, 1, 1 },
+        zones = {
+            warn = { enabled = true, seconds = 60, color = { 1, 0.82, 0, 1 }, sound = false, soundName = "RAID_WARNING" },
+            crit = { enabled = true, seconds = 30, color = { 1, 0.2, 0.2, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+        expired = { sound = false, soundName = "RAID_WARNING" },
+        previewSpeed = 30, -- preview timer: seconds per real second (5 minutes in 10 seconds)
+    },
+    -- New ranks at the class trainer: a chat message after a level up.
+    trainer = { enabled = true, sound = false, soundName = "LEVEL_UP" },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -90,14 +169,17 @@ ns.defaults = {
         spare = 1, includeRitual = false,
         glow = true, glowColor = { 1, 0.2, 0.2, 1 }, edgeGlowColor = { 1, 0.82, 0, 1 },
         sound = false, soundName = "RAID_WARNING",
+        maxShards = 0, overColor = { 0.6, 0.8, 1, 1 }, -- limit for Shift + click cleanup; 0 = no limit
+        -- Bags full: a new shard would be lost.
+        fullWarn = true, fullGlowColor = { 1, 0.5, 0, 1 }, fullSound = false, fullSoundName = "RAID_WARNING",
     },
 }
 
-local function CopyDefaults(src, dst)
+function ns.CopyDefaults(src, dst)
     for k, v in pairs(src) do
         if type(v) == "table" then
             if type(dst[k]) ~= "table" then dst[k] = {} end
-            CopyDefaults(v, dst[k])
+            ns.CopyDefaults(v, dst[k])
         elseif dst[k] == nil then
             dst[k] = v
         end
@@ -105,11 +187,12 @@ local function CopyDefaults(src, dst)
     return dst
 end
 
+-- Resets the current profile.
 function ns:ResetDB()
-    local locale = WarlockUpkeepDB.locale -- the language survives a reset
-    wipe(WarlockUpkeepDB)
-    CopyDefaults(self.defaults, WarlockUpkeepDB)
-    WarlockUpkeepDB.locale = locale
+    local locale = self.db.locale -- the language survives a reset
+    wipe(self.db)
+    ns.CopyDefaults(self.defaults, self.db)
+    self.db.locale = locale
     self:ApplyAll()
 end
 
@@ -226,7 +309,7 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "enslave", "minimap" }) do
         self.db[key].locked = locked
     end
     self:ApplyAll()
@@ -618,9 +701,13 @@ ns:RegisterEvent("ADDON_LOADED", function(_, name)
     if name ~= ADDON then return end
     WarlockUpkeepDB = WarlockUpkeepDB or {}
     WarlockUpkeepCharDB = WarlockUpkeepCharDB or {}
-    CopyDefaults(ns.defaults, WarlockUpkeepDB)
-    ns.db = WarlockUpkeepDB
+    -- Settings live in named profiles; each character picks one ("Default" unless set). Settings saved
+    -- before profiles existed become the Default profile.
+    if type(WarlockUpkeepDB.profiles) ~= "table" then
+        WarlockUpkeepDB = { profiles = { Default = WarlockUpkeepDB } }
+    end
     ns.cdb = WarlockUpkeepCharDB
+    ns.SelectProfile(ns.cdb.profile)
 end)
 
 ns:RegisterEvent("PLAYER_LOGIN", function()
@@ -705,6 +792,20 @@ ns:RegisterEvent("PLAYER_DEAD", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_ALIVE", function() ns:ScheduleUpdate() end)
 ns:RegisterEvent("PLAYER_UNGHOST", function() ns:ScheduleUpdate() end)
 
+-- Sends `text` to the group chat that fits: instance, raid or party. Nothing outside a group.
+function ns.SendToGroup(text)
+    if not text or text == "" then return end
+    local channel
+    if LE_PARTY_CATEGORY_INSTANCE and IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        channel = "INSTANCE_CHAT"
+    elseif IsInRaid() then
+        channel = "RAID"
+    elseif IsInGroup() then
+        channel = "PARTY"
+    end
+    if channel then SendChatMessage(text:sub(1, 255), channel) end
+end
+
 function ns.IsDead()
     return ns.Bool(UnitIsDeadOrGhost, "player") or false
 end
@@ -754,6 +855,10 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
             local ok, err = pcall(ns.DebugAuras)
             if not ok then ns.Print("auras debug failed: %s", tostring(err)) end
         end
+    elseif msg == "sell" and ns.modules.summonSell then
+        ns.modules.summonSell:SetSelling(not ns.db.summonSell.enabled)
+    elseif msg == "trainer" and ns.PrintTrainer then
+        ns.PrintTrainer()
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then

@@ -14,10 +14,16 @@ M.SLOTS = {
 -- Seconds the demon gets to come back after landing or dismounting.
 local PET_RETURN_DELAY = 3
 
--- Grimoire of Sacrifice: no demon on purpose (followed through combat like the armor buff).
-local sacrifice = ns.NewBuffTracker(D.petSacrificeBuffs, nil, "sacrifice")
+-- Grimoire of Sacrifice or Demonic Sacrifice: no demon on purpose (followed through combat like the armor buff).
+local sacrificeIDs = {}
+for _, id in ipairs(D.petSacrificeBuffs) do sacrificeIDs[#sacrificeIDs + 1] = id end
+for _, id in ipairs(D.demonicSacrificeBuffs) do sacrificeIDs[#sacrificeIDs + 1] = id end
+local sacrifice = ns.NewBuffTracker(sacrificeIDs, nil, "sacrifice")
 local isSacrifice = {}
-for _, id in ipairs(D.petSacrificeBuffs) do isSacrifice[id] = true end
+for _, id in ipairs(sacrificeIDs) do isSacrifice[id] = true end
+local soulLink = ns.NewBuffTracker(D.soulLinkBuffs, nil, "soulLink")
+local isSoulLink = {}
+for _, id in ipairs(D.soulLinkBuffs) do isSoulLink[id] = true end
 
 local demonByKey = {}
 for _, d in ipairs(D.demons) do demonByKey[d.key] = d end
@@ -64,6 +70,13 @@ end
 function M:Init()
     self.button = ns.CreateActionIcon("pet", "Summon Demon")
     self.button.hint = function(tt)
+        if M.button.state == "sacrifice" then
+            tt:AddLine(ns.L["Demonic Sacrifice is not active. Click to sacrifice your demon."], 1, 0.82, 0)
+            return
+        elseif M.button.state == "soulLink" then
+            tt:AddLine(ns.L["Soul Link is not active. Click to cast it."], 1, 0.82, 0)
+            return
+        end
         tt:AddLine(ns.L["No demon summoned."], 0, 1, 0)
         local bindings = ns.db.pet.bindings
         for _, slot in ipairs(M.SLOTS) do
@@ -86,11 +99,17 @@ function M:Init()
     ns:RegisterEvent("UNIT_AURA", function(_, unit, info)
         if ns.IsSecret(unit) or unit ~= "player" then return end
         sacrifice:OnAuraUpdate(info)
+        soulLink:OnAuraUpdate(info)
         M:Update()
     end)
     ns:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED", function(_, unit, _, spellID)
-        if unit == "player" and not ns.IsSecret(spellID) and isSacrifice[spellID] then
+        if unit ~= "player" or ns.IsSecret(spellID) then return end
+        -- The talent's cast gives the buff a moment later; the buff's own ID may come as well.
+        if isSacrifice[spellID] or spellID == D.demonicSacrifice then
             sacrifice:Cast()
+            M:Update()
+        elseif isSoulLink[spellID] then
+            soulLink:Cast()
             M:Update()
         end
     end)
@@ -147,10 +166,31 @@ function M:Update()
             self.awayHadPet, self.backAt = nil, nil
         end
     end
+    local realPet = hasPet and not self.awayHadPet
     if self.awayHadPet then hasPet = true end
+    local sacrificed = sacrifice:Read() == true
+    if not hasPet then hasPet = sacrificed end
     if not hasPet then
-        hasPet = sacrifice:Read() == true
+        b:SetState("missing")
+        self:UpdateModifierIcon()
+        return
     end
-    b:SetState(not hasPet and "missing" or nil)
+
+    -- A demon is out: talents that want something done with it. Only out of combat, where the icon's action
+    -- can still change from summoning to the talent.
+    local cfg = ns.db.pet
+    if realPet and not InCombatLockdown() and not ns.OnTaxi() and not ns.Bool(IsMounted) then
+        if cfg.sacrifice and ns.IsKnown(D.demonicSacrifice) and not sacrificed then
+            b:SetSpell(D.demonicSacrifice)
+            b:SetState("sacrifice")
+            return
+        end
+        if cfg.soulLink and ns.IsKnown(D.soulLink) and soulLink:Read() == false then
+            b:SetSpell(D.soulLink)
+            b:SetState("soulLink")
+            return
+        end
+    end
+    b:SetState(nil)
     self:UpdateModifierIcon()
 end

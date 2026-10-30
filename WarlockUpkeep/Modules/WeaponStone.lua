@@ -13,6 +13,26 @@ local function Ranks() return D.stones[Cfg().stone] or D.stones.firestone end
 
 local function StoneName() return ns.L[Cfg().stone == "spellstone" and "Spellstone" or "Firestone"] end
 
+-- Right-click flyout: both stones, the chosen one marked; a stone not learned yet can't be picked.
+local function FlyoutEntries()
+    local list = {}
+    for _, key in ipairs({ "firestone", "spellstone" }) do
+        local ranks = D.stones[key]
+        local spell, rank = ns.HighestKnown(ranks)
+        local item = ranks[rank or 1].items[1]
+        list[#list + 1] = {
+            texture = ns.ItemIcon(item), tipItem = item,
+            selected = Cfg().stone == key, disabled = not spell,
+            note = not spell and ns.L["Not learned yet."] or nil,
+            onClick = function()
+                Cfg().stone = key
+                ns:UpdateAll()
+            end,
+        }
+    end
+    return list
+end
+
 local function IsEquipped(item)
     local f = (C_Item and C_Item.IsEquippedItem) or IsEquippedItem
     return f and ns.Bool(f, item)
@@ -62,7 +82,9 @@ function M:Init()
         else
             tt:AddLine(string.format(ns.L["%s is not equipped. Click to equip it."], name), 1, 0.82, 0)
         end
+        tt:AddLine(ns.L["Right click: choose Firestone or Spellstone."], 0.6, 0.8, 1)
     end
+    self.flyout = ns.CreateFlyout(self.button, FlyoutEntries)
     if not IMBUE then return end
     local function Used(key)
         self.usedKey, self.usedAt = key, GetTime()

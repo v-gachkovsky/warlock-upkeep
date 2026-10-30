@@ -4,6 +4,97 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.10.0] - 2026-10-30
+
+### Added
+- **Healthstone at low health**: with a Healthstone in your bags, the icon shows with its own highlight (green by
+  default) when your health drops below a threshold (20% by default), also in combat, and a click uses the
+  strongest Healthstone you have. No reminder while the Healthstone is on cooldown. The threshold, color and
+  sound are in the Healthstone settings; the reminder can be turned off there.
+- **Soul Shard counter: extra shards.** New *Maximum shards* option (0 by default, no limit): above it the count
+  turns light blue, and **Shift + click** on the counter deletes the shards above the maximum, from ordinary
+  bags first so a Soul Pouch keeps its own. Not in combat.
+- **Soul Shard counter: full bags.** The counter lights up orange when a new shard has no free slot in your bags
+  (Drain Soul would lose it). On by default; the color and an optional sound are in the settings.
+- **Summon queue**: group members who ask for a summon in party, raid or instance chat or in a whisper ("123",
+  "summ", "summon"...; the keywords are editable, whole words only) join a queue window in the order they
+  asked, with their class color, zone (in a raid) and wait time. The header shows your Soul Shards and how many
+  group members stand next to you to click the portal. Click a player to target them and cast Ritual of
+  Summoning, right click to remove them. Players leave the queue once they're next to you, leave the group or
+  wait longer than the timeout (10 minutes by default). Optional sound when someone joins. In Mists and Retail,
+  where one ritual leaves a portal for 5 minutes, a click only targets the player while your portal stands (the
+  header shows how long it has left), and Shift + click casts a new ritual.
+- **Selling summons** (`/wu sell` or the settings; off by default): a second window lists players outside the
+  group who look for a summon in public channels, /say, /yell or whispers ("wtb sum", "lf lock", "lfw"...;
+  editable). Click whispers them the offer, Shift + click also invites them, right click removes them; once in
+  the group they move on to the summon queue. The offer names your price, or asks how much the buyer would pay
+  when the price is 0. The price takes a plain number of gold ("5") or gold, silver and copper ("1g50s", "75s",
+  "2g5c"). The *Ad* button posts a "WTS summon" ad to Trade (or another channel), at most once per
+  30 seconds. All texts are editable ({name}, {zone}, {price}, {clickers}); nothing is sent without a click.
+  The window's *Place* field sets what {zone} says ("BRD meeting stone"); empty, it's the zone you're in, and it
+  clears when you go to another zone.
+- Both summon windows can be resized by their bottom-right corner while unlocked, and scroll with the mouse
+  wheel when more players are listed than fit; the queue scrolls out of combat only. Preview fills them with
+  enough sample players to try the scrolling.
+- **Not enough people at the portal**: when you start a summon from the queue and fewer than two group members
+  stand next to you, the addon asks for help ("Need 1 more next to me to click the summoning portal!"). For your
+  group it goes to the group chat; for a summon you sold it also goes to /say, /yell and the ad channel (Trade),
+  asking players around to whisper you for an invite. On by default, each channel and both texts adjustable,
+  at most once per 15 seconds.
+- **Summon announcements** (off by default): when Ritual of Summoning starts, a line to the group chat ("Summoning
+  {name}, please click the portal!") and a whisper to the player ("Summoning you now, please accept the summon.").
+  Both texts are editable.
+- **Soulstone messages** (off by default, texts editable): when you apply a Soulstone, tell the group who has it
+  and whisper that player; a set time before it runs out (60 seconds by default), tell the group. `{name}` is
+  the player and `{time}` the time left.
+- **Reagents** (WoW Forever, Classic Era, TBC): once you know Inferno or Ritual of Doom, the Soul Shard counter's
+  tooltip shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them they're bought up to
+  the amount to keep (1 Infernal Stone and no Figurines by default; 0 = never), as far as your money goes. New
+  *Reagents* settings page.
+- **Demon talents** (WoW Forever, Classic Era, TBC): with Soul Link learned, the demon icon reminds you when
+  your demon is out but Soul Link isn't on (click to cast it; on by default). Optionally it reminds you to
+  sacrifice your demon with Demonic Sacrifice (off by default). Both have their own highlight and sound and
+  show out of combat only.
+- **Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client): a movable
+  label with the time your enslaved demon stays under control, up to 5 minutes (10 in Retail). Like the
+  Soulstone label it has a warning and a critical zone (yellow from 60 seconds, red from 30; seconds, colors and
+  sounds adjustable) and a sound when the timer runs out; in preview it runs fast and restarts.
+- **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
+  teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
+  prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
+- **Masque**: with Masque installed, the icons take its skins (group *WarlockUpkeep!*).
+- **LibDataBroker** feed for display addons (Titan Panel, ElvUI, Bazooka...): the Soul Shard count as text (red
+  when low), shards and the Soulstone target in the tooltip, and the minimap button's clicks.
+- **Profiles**: settings belong to a named profile, and each character picks one (*Default* unless set). New
+  profiles copy the current one; any profile but *Default* can be deleted. **Export** turns the current profile
+  into a text string to copy, **Import** loads such a string into the current profile (only settings the addon
+  knows are taken; the string can't run code). Settings saved before are kept as the *Default* profile.
+- **Firestone / Spellstone: stone menu.** A right click on the icon opens a menu with both stones, like the demon
+  flyout on Retail action bars; pick one and the icon switches to it. A left click still equips, applies or
+  creates the stone, and holding the right button and dragging still moves the icon. Not in combat; the setting
+  stays too.
+- Every slider in the settings has a box next to it to type the value: Enter applies it (kept within the
+  slider's range), Escape puts back the current one.
+
+### Changed
+- `/wu reset` resets the current profile.
+- **The settings window** is wider and split into pages, picked from a list on the left. Messages and keyword
+  lists have wide boxes that wrap long texts, with the placeholders each text takes listed under it and a
+  *Default* button that resets just that text. Ctrl+Z (Cmd+Z on a Mac) undoes typing in any text box, also the
+  selling window's *Place*, and Ctrl+Shift+Z or Ctrl+Y redoes it. *Reset all settings* sits under the page list
+  and asks before it resets the profile.
+- The Ukrainian translation reads more naturally: *уламки душ* instead of *осколки*, *мітка* instead of
+  *лейба*, consistent "Клік: ..." hints, plain words instead of slang, and the README's option names match the
+  Ukrainian settings. A few English labels are clearer too ("Starts with this many seconds left", "Demon for
+  each click and modifier"), and the Soulstone preview note now says the right thing: 300x means 5 minutes pass
+  in a second.
+
+### Fixed
+- The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
+  sacrificed on purpose, like Grimoire of Sacrifice.
+- Settings: long (translated) labels wrap instead of running under the slider, list or field next to them, and a
+  button next to a list grows to fit its text.
+
 ## [1.9.0] - 2026-10-30
 
 ### Added

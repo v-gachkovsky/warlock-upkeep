@@ -26,6 +26,7 @@
   - [Soulstone](#5-soulstone)
   - [Demon](#6-demon)
   - [Grimoires](#7-grimoires)
+  - [Summon queue](#8-summon-queue)
 - [Look and behavior](#look-and-behavior)
   - [Highlight](#highlight)
   - [Opacity and combat](#opacity-and-combat)
@@ -101,12 +102,13 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | # | Feature | Shown when | Click |
 |---|---------|------------|-------|
 | 1 | **Armor** | No Demon Skin / Demon Armor | Casts your strongest armor |
-| 2 | **Soul Shards** | Always (counter) | Not clickable |
-| 3 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
+| 2 | **Soul Shards** | Always (counter) | Shift + click deletes shards above the maximum |
+| 3 | **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 6 | **Demon** | No pet out | Summons the assigned demon |
 | 7 | **Grimoires** | At vendors and in tooltips | — |
+| 8 | **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
 ### 1. Armor
 
@@ -123,8 +125,7 @@ and disappears when you recast it (see [Client limitations](#client-limitations)
 
 A counter of the shards in your bags. It turns red and lights up when you have fewer than the low threshold
 (below), and turns yellow and lights up when the count equals it (one more shard used and it's low). With
-*Show the threshold next to the count* (off by default) it reads `have/threshold`. It isn't clickable,
-since a shard has no action. With *Keep showing on a mount or flight path* (on by default) it stays on screen
+*Show the threshold next to the count* (off by default) it reads `have/threshold`. With *Keep showing on a mount or flight path* (on by default) it stays on screen
 when the General options hide everything else there.
 
 **The recommended amount** is made up of:
@@ -140,9 +141,24 @@ items (Forever, Classic Era, TBC); in Mists and Retail shards are a resource sho
 
 The highlight threshold equals the recommended amount by default, but you can set it manually.
 
+**Extra shards.** Set *Maximum shards* (0 by default, no limit) and the count turns light blue above it.
+**Shift + click** on the counter then deletes the extra shards: from ordinary bags first, so a Soul Pouch
+keeps its own. Not in combat.
+
+**Full bags.** When a new shard has no free slot in your bags (Drain Soul would lose it), the counter lights up
+orange (on by default; color and sound in the settings).
+**Reagents** (Forever, Classic Era, TBC). Once you know Inferno or Ritual of Doom, the counter's tooltip also
+shows your Infernal Stones and Demonic Figurines, and at a vendor that sells them the addon buys them up to the
+amount to keep (1 Infernal Stone and no Figurines by default; 0 means never). It buys only what you can pay for
+and prints what it bought. Turn it off under *Reagents* in the settings.
+
 ### 3. Healthstone
 
 The icon appears when there's no Healthstone in your bags. Clicking it creates the strongest Healthstone available.
+
+**Low health.** With a Healthstone in your bags, the icon shows with a green highlight when your health drops below
+20% (the percentage, color and sound are in the settings), also in combat. Clicking it uses the strongest
+Healthstone you have. There's no reminder while the Healthstone is on cooldown.
 
 ### 4. Firestone / Spellstone
 
@@ -152,6 +168,10 @@ stone (outside preview). Like the Soulstone, it has two states with their own hi
 
 - **the stone is in your bags but not on**: click to put it on;
 - **no stone in your bags**: click to create the strongest one you know.
+
+**Right click** on the icon opens a menu with both stones, like the demon menu on Retail action bars: pick the
+other one and the icon switches to it (a stone you haven't learned is greyed out). Holding the right button and
+dragging still moves the icon. Not in combat. The stone can also be picked in the settings.
 
 In **Classic Era and TBC** the stone works while held in the off-hand, so "on" means equipped, and the click
 equips it in place of your off-hand item. On **WoW Forever** the stone imbues your main-hand weapon instead, so
@@ -197,6 +217,11 @@ and the sounds play on every cycle, so you can hear them.
 **Hardcore realms.** Nobody can be brought back to life there, so the addon has no Soulstone icon or label on
 them and replaces the Soulstone settings with a note, although trainers still teach the spell.
 
+**Messages** (all off by default, texts editable): when you apply a Soulstone the addon can tell the group who
+has it ("Soulstone on {name}."), whisper that player ("You have my Soulstone. It lasts {time}.") and, a set
+time before it runs out (60 seconds by default), tell the group ("My Soulstone on {name} runs out in {time}.").
+The messages go to the instance, raid or party chat, whichever you're in.
+
 ### 6. Demon
 
 The demon icon appears when you have no pet. Each click variant can be bound to its own demon:
@@ -213,6 +238,18 @@ Available demons: Imp, Voidwalker, Succubus, Incubus, Felhunter, Felguard.
 
 While you ride, fly or take a flight path, the game may dismiss the demon for a while. If it was out when you
 set off, the icon stays hidden until a few seconds after you land or dismount, so the demon has time to come back.
+
+**Talents** (Forever, Classic Era, TBC). With **Demonic Sacrifice** active, the icon doesn't ask for a demon, just
+like with Grimoire of Sacrifice. Optionally (off by default) it reminds you to sacrifice the demon you've
+summoned, and the click casts Demonic Sacrifice. With **Soul Link** learned, it reminds you when your demon is
+out but Soul Link isn't on (on by default), and the click casts it. Both reminders have their own highlight
+(purple) and sound, and show out of combat only.
+
+**Enslave Demon timer** (Subjugate Demon in Classic Era, TBC, Mists and Retail; every client). While a demon is
+enslaved, a small movable label shows how long it stays under control (up to 5 minutes, 10 in Retail). It can break free earlier. Like the Soulstone label, the timer
+has a warning zone (yellow from 60 seconds left) and a critical one (red from 30), each with its own threshold,
+color and optional sound, plus a sound when the timer runs out. In preview the timer runs 30 times faster and
+starts over at 0, so you can see the colors and hear the sounds.
 
 ### 7. Grimoires
 
@@ -232,6 +269,67 @@ remembers its spells (per character) and updates them whenever that demon is out
 grimoire. The settings list the demons checked so far. Both the vendor marks and the tooltip lines can be
 turned off.
 
+### 8. Summon queue
+
+Group members who ask for a summon in party, raid or instance chat or in a whisper ("123", "summ", "summon",
+"sum pls"... the list is editable) join a small queue window, in the order they asked. A row shows the player in
+their class color, their zone (in a raid) and how long they've been waiting; the header shows your Soul Shards
+and how many group members stand next to you to click the portal (2 are needed).
+
+- **Click** a player: targets them and casts Ritual of Summoning.
+- **Right click**: removes them from the queue.
+
+In **Mists and Retail** one ritual leaves a portal that stands for 5 minutes and summons anyone in the group, one
+by one. While your portal stands, a click on a player only targets them (then you click the portal), the header
+shows how long the portal has left, and **Shift + click** casts a new ritual if you need one.
+
+A player leaves the queue once they're next to you, leave the group, or after the timeout (10 minutes by
+default). Someone just summoned shows *summoning* for up to 2 minutes and goes back to waiting if they don't
+arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
+combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
+
+While the window is unlocked, drag its bottom-right corner to resize it (8 players fit by default). With more
+players than fit, a line at the bottom shows which ones you see, and the mouse wheel scrolls the list (out of
+combat). The window grows down and to the right, its top left corner stays put. Preview shows enough sample
+players to try the scrolling. The selling window below works the same way.
+
+**Not enough people at the portal.** When you click a player in the queue and fewer than two group members stand
+next to you, the addon asks for help (on by default): your group's summons ask the group chat ("Need 1 more next
+to me to click the summoning portal!"); a summon you sold also asks `/say`, `/yell` and the ad channel (Trade),
+since only group members can click the portal: "Summoning at {zone}: need 1 more to click the portal, whisper me
+for an invite!". The texts and each channel are in the settings; at most once per 15 seconds. The game lets
+addons write to `/say`, `/yell` and channels only on a click, which is why this goes out with the click on the
+queue.
+
+**Announcements** (off by default): when Ritual of Summoning starts, from the queue or cast by hand, the addon
+can post a line to the group chat ("Summoning {name}, please click the portal!") and whisper the player
+("Summoning you now, please accept the summon."). Both texts are editable; `{name}` is the player.
+
+**Selling summons.** Turn it on with `/wu sell` (or in the settings) and a second window lists players outside
+your group who look for a summon in a public channel, `/say`, `/yell` or a whisper ("wtb sum", "lf lock", "lfw",
+"need a summon"... editable). Their message is in the tooltip, together with the offer you'd send.
+
+- **Click** a buyer: whispers them the offer.
+- **Shift + click**: invites them too. Once they join the group, they move on to the summon queue.
+- **Right click**: removes them from the list. Quiet buyers drop off after 5 minutes.
+- **Ad**: posts your ad to the Trade channel (another channel can be set), at most once per 30 seconds.
+- **Place**: what `{zone}` says in the offer and the ad, for example "BRD meeting stone". Left empty, it's the
+  zone you're in; it clears when you go to another zone.
+
+The offer depends on the price in the settings: with a price it names it (a plain number is gold: "5"; or gold,
+silver and copper: "1g50s", "75s", "2g5c", "50c"), with 0 it asks how much the buyer would pay. All texts are
+editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and `{clickers}` a sentence saying how
+many more people you need next to you to click the portal (left out once two stand by). Nothing is sent without
+your click.
+
+### New ranks at the trainer
+
+Forever, Classic Era and TBC. The game lists what a trainer teaches only while its window is open, so the
+addon remembers that list (per character) whenever you visit your class trainer, together with the level each
+rank needs. After a level up it prints what you can learn now and what it costs, e.g. *new at your trainer
+(35s): Shadow Bolt (Rank 5), Immolate (Rank 4).* `/wu trainer` prints the same at any time. Visit the trainer
+once for it to start; the message and an optional sound can be turned off in the settings.
+
 ## Look and behavior
 
 ### Language
@@ -239,6 +337,14 @@ turned off.
 The addon speaks English or Ukrainian: pick it with **Language** at the top of General. The texts switch right away
 (settings, tooltips, chat messages). English is the default: there is no Ukrainian game client, so the language
 doesn't follow the client's. Spell, item and demon summon names come from the game in the client's language.
+
+### Profiles
+
+All settings belong to a **profile**; each character uses one (*Default* unless you pick another under General).
+*New profile* copies the current one under a new name, *Delete* removes the current one (not *Default*). To
+share settings, press **Export**: the profile turns into a text string, selected in the box, ready to copy.
+Paste such a string into the box and press **Import** to load it into the current profile. Settings from before
+profiles existed become the *Default* profile.
 
 ### Highlight
 
@@ -318,6 +424,13 @@ and your own files:
 
 The shard counter and the Soulstone label have a background opacity setting from 0 to 100%.
 
+### Masque and data brokers
+
+With **Masque** installed, the icons take its skins: pick one for the *WarlockUpkeep!* group in Masque's
+settings. Display addons that use **LibDataBroker** (Titan Panel, ElvUI, Bazooka, ChocolateBar...) get a
+*WarlockUpkeep* feed: your Soul Shards as text (red when low), the shards and the Soulstone target in its
+tooltip, and the same clicks as the minimap button.
+
 ## Controls
 
 ### Commands
@@ -329,9 +442,18 @@ The shard counter and the Soulstone label have a background opacity setting from
 | `/wu unlock` | Unlocks all elements |
 | `/wu preview` | Shows all icons so you can position them, including spells not learned yet |
 | `/wu combat` | Toggles combat simulation |
-| `/wu reset` | Resets the settings |
+| `/wu reset` | Resets the settings of the current profile |
 | `/wu auras` | Prints diagnostics of your buffs and recent aura events (useful for bug reports) |
 | `/wu grimoires` | Prints what each demon is remembered to know and the summoned demon's spellbook (for bug reports) |
+| `/wu trainer` | Prints the ranks waiting at your class trainer and their cost |
+
+### Settings window
+
+The settings are split into pages: pick one from the list on the left. Messages and keyword lists get a wide box
+that wraps long texts, with the placeholders the text takes listed under it ({name}, {zone}, {price}...) and a
+*Default* button that puts back the original text of that one message. Ctrl+Z (Cmd+Z on a Mac) undoes typing,
+Ctrl+Shift+Z or Ctrl+Y redoes it. A text is saved when you press Enter or click elsewhere; Escape puts back the
+saved one. *Reset all settings* under the page list resets the whole current profile, after asking.
 
 **Combat simulation** lets you see out of combat exactly how everything behaves in a fight: opacity,
 highlight, hidden icons and click-through. Icons that aren't needed stay in place invisible, as in combat.
@@ -412,6 +534,8 @@ WarlockUpkeep/
     ├── WeaponStone.lua
     ├── Soulstone.lua
     ├── Pet.lua
+    ├── Summon.lua
+    ├── SummonSell.lua
     └── Grimoires.lua
 ```
 

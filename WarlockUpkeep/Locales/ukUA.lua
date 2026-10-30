@@ -14,6 +14,11 @@ ns.LOCALES.ukUA = {
     ["can't create the name font: %s"] = "не вдалося створити шрифт для імені: %s",
     ["can't play %s. Custom files need a full game restart after adding them."] = "не вдається відтворити %s. Після додавання власних файлів гру треба повністю перезапустити.",
     ["already added: %s"] = "уже додано: %s",
+    ["the Default profile can't be deleted."] = "профіль Default не можна видалити.",
+    ["enter a new, unused profile name."] = "введіть нову назву профілю, якої ще немає.",
+    ["the profile string is selected: copy it with Ctrl+C (Cmd+C on a Mac)."] = "рядок профілю виділено: скопіюйте його Ctrl+C (Cmd+C на Mac).",
+    ["profile imported into %s."] = "профіль імпортовано в %s.",
+    ["can't import: %s."] = "не вдалося імпортувати: %s.",
     ["added %s, but it can't be played yet: check the name or restart the game."] = "додано %s, але поки не відтворюється: перевірте назву або перезапустіть гру.",
 
     -- Minimap button
@@ -30,26 +35,74 @@ ns.LOCALES.ukUA = {
     ["Firestone"] = "Камінь вогню",
     ["Spellstone"] = "Камінь чар",
     ["Firestone / Spellstone"] = "Камінь вогню / Камінь чар",
-    ["Summon Demon"] = "Призов демона",
-    ["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."] = "Немає Демонічної шкіри / Демонічної броні / Броні скверни. Клік - накласти.",
-    ["No Healthstone in bags. Click to create the strongest one."] = "У сумках немає Каменя здоров'я. Клік - створити найсильніший.",
-    ["No Soulstone in bags. Click to create the strongest one."] = "У сумках немає Каменя душі. Клік - створити найсильніший.",
-    ["No %s in bags. Click to create the strongest one."] = "У сумках немає: %s. Клік - створити найсильніший.",
-    ["%s is not applied to your weapon. Click to apply it."] = "%s не накладено на зброю. Клік - накласти.",
-    ["%s is not equipped. Click to equip it."] = "%s не вдягнено. Клік - вдягнути.",
-    ["Soulstone is not applied. Click to use it on your"] = "Камінь душі не накладено. Клік - використати на",
+    ["Summon Demon"] = "Виклик демона",
+    ["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."] = "Немає Демонічної шкіри, Демонічної броні чи Броні скверни. Клік: накласти.",
+    ["No Healthstone in bags. Click to create the strongest one."] = "У сумках немає Каменя здоров'я. Клік: створити найсильніший.",
+    ["Low health. Click to use your Healthstone."] = "Мало здоров'я. Клік: використати Камінь здоров'я.",
+    ["No Soulstone in bags. Click to create the strongest one."] = "У сумках немає Каменя душі. Клік: створити найсильніший.",
+    ["No %s in bags. Click to create the strongest one."] = "У сумках немає такого каменя (%s). Клік: створити найсильніший.",
+    ["%s is not applied to your weapon. Click to apply it."] = "%s не накладено на зброю. Клік: накласти.",
+    ["%s is not equipped. Click to equip it."] = "%s не вдягнено. Клік: вдягнути.",
+    ["Right click: choose Firestone or Spellstone."] = "Правий клік: вибрати Камінь вогню чи Камінь чар.",
+    ["Not learned yet."] = "Ще не вивчено.",
+    ["Soulstone is not applied. Click to use it on your"] = "Камінь душі не накладено. Клік: використати на",
     ["friendly target (or yourself if none)."] = "дружню ціль (або на себе, якщо цілі немає).",
     ["Soulstone target"] = "Ціль Каменя душі",
     ["No demon summoned."] = "Демона не призвано.",
+    ["Demonic Sacrifice is not active. Click to sacrifice your demon."] = "Demonic Sacrifice не діє. Клік: принести демона в жертву.",
+    ["Soul Link is not active. Click to cast it."] = "Soul Link не діє. Клік: накласти.",
     ["Not learned yet (shown in preview only)."] = "Ще не вивчено (видно лише в попередньому перегляді).",
-    ["%s to move"] = "%s - пересунути",
-    ["Soul Shards"] = "Осколки душ",
+    ["%s to move"] = "%s: пересунути",
+    ["Soul Shards"] = "Уламки душ",
     ["In bags"] = "У сумках",
     ["Recommended"] = "Рекомендовано",
-    ["Demon summon"] = "Призов демона",
+    ["Demon summon"] = "Виклик демона",
     ["Spare"] = "Запас",
     ["Low threshold"] = "Поріг нестачі",
     ["Drag to move"] = "Перетягніть, щоб пересунути",
+    ["Maximum"] = "Максимум",
+    ["Bags are full: a new Soul Shard has nowhere to go."] = "Сумки повні: новому уламку душі нема куди лягти.",
+    ["Shift + click to delete %d extra Soul Shards."] = "Shift + клік: видалити зайві уламки душ (%d).",
+    ["can't delete Soul Shards in combat."] = "не можна видаляти уламки душ у бою.",
+    ["deleted %d extra Soul Shards."] = "видалено зайвих уламків душ: %d.",
+    ["Summon queue"] = "Черга призиву",
+    ["Drag the corner to resize"] = "Потягніть за кут, щоб змінити розмір",
+    ["%d-%d of %d, scroll with the mouse wheel"] = "%d-%d з %d, гортайте коліщатком миші",
+    ["Selling summons"] = "Продаж призиву",
+    ["Click: whisper the offer. Shift + click: also invite."] = "Клік: шепнути пропозицію. Shift + клік: ще й запросити в групу.",
+    ["Right click: remove from the list."] = "Правий клік: прибрати зі списку.",
+    ["whispered"] = "надіслано",
+    ["invited"] = "запрошено",
+    ["Ad"] = "Оголошення",
+    ["Waiting for buyers..."] = "Чекаємо на покупців...",
+    ["Place:"] = "Місце:",
+    ["Where you summon to"] = "Куди ви призиваєте",
+    ["Goes into the offer and the ad as {zone}. Empty: the zone you're in. Cleared when you go to another zone."] =
+        "Підставляється в пропозицію та оголошення як {zone}. Порожньо - зона, де ви зараз. Очищується, коли ви " ..
+        "переходите в іншу зону.",
+    ["Say"] = "/say",
+    ["Yell"] = "/yell",
+    ["selling summons on."] = "продаж призиву увімкнено.",
+    ["selling summons off."] = "продаж призиву вимкнено.",
+    ["wait %d s before the next ad."] = "наступне оголошення можна дати через %d с.",
+    ["you're not in the %s channel."] = "ви не в каналі %s.",
+    ["Your portal is up. Click a player to target them, then click the portal."] =
+        "Ваш портал стоїть. Клікніть гравця, щоб узяти його в ціль, а тоді клікніть портал.",
+    ["Shift + click: cast Ritual of Summoning again."] = "Shift + клік: знову почати Ritual of Summoning.",
+    ["Portal: %s"] = "Портал: %s",
+    ["Click a player: target and cast Ritual of Summoning."] = "Клік по гравцю: взяти в ціль і почати Ritual of Summoning.",
+    ["Right click: remove from the queue."] = "Правий клік: прибрати з черги.",
+    ["summoning"] = "призив",
+    ["Shards: %d"] = "Уламки: %d",
+    ["Clickers: %d/2"] = "Біля порталу: %d/2",
+    ["Reagents"] = "Реагенти",
+    ["Infernal Stone"] = "Камінь інфернала",
+    ["Demonic Figurine"] = "Демонічна статуетка",
+    ["bought %d x %s."] = "куплено: %d × %s.",
+    ["not enough money for %s."] = "не вистачає грошей на %s.",
+    ["new at your trainer (%s): %s."] = "нове у вашого тренера (%s): %s.",
+    ["visit your class trainer once so the addon learns what it teaches."] = "зайдіть раз до свого класового тренера, щоб аддон дізнався, чого він навчає.",
+    ["nothing new at your trainer for now."] = "поки в тренера нічого нового.",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -67,11 +120,11 @@ ns.LOCALES.ukUA = {
 
     -- Lists
     ["English"] = "English",
-    ["Right-drag"] = "Права кнопка миші",
-    ["Shift + left-drag"] = "Shift + ліва кнопка миші",
-    ["Ctrl + left-drag"] = "Ctrl + ліва кнопка миші",
-    ["Alt + left-drag"] = "Alt + ліва кнопка миші",
-    ["Cmd + left-drag"] = "Cmd + ліва кнопка миші",
+    ["Right-drag"] = "Перетягування правою кнопкою",
+    ["Shift + left-drag"] = "Shift + перетягування лівою",
+    ["Ctrl + left-drag"] = "Ctrl + перетягування лівою",
+    ["Alt + left-drag"] = "Alt + перетягування лівою",
+    ["Cmd + left-drag"] = "Cmd + перетягування лівою",
     ["Click"] = "Клік",
     ["Shift + Click"] = "Shift + клік",
     ["Ctrl + Click"] = "Ctrl + клік",
@@ -103,7 +156,7 @@ ns.LOCALES.ukUA = {
     ["%s (custom)"] = "%s (власний)",
     ["(none)"] = "(немає)",
     ["(not learned)"] = "(не вивчено)",
-    ["Same as click"] = "Як для кліку",
+    ["Same as a plain click"] = "Як звичайний клік",
 
     -- Settings: general
     ["Open settings (/wu)"] = "Відкрити налаштування (/wu)",
@@ -113,15 +166,15 @@ ns.LOCALES.ukUA = {
     ["Simulate combat (opacity, highlight, hiding, click-through)"] = "Імітація бою (непрозорість, підсвітка, приховування, кліки крізь іконки)",
     ["Show minimap button"] = "Показувати кнопку біля мінімапи",
     ["Lock minimap button position"] = "Закріпити кнопку біля мінімапи",
-    ["Move icons with"] = "Пересування іконок",
-    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту на таксі",
+    ["Move icons with"] = "Чим пересувати іконки",
+    ["Hide all icons while on a flight path"] = "Ховати всі іконки під час польоту",
     ["Hide all icons while mounted"] = "Ховати всі іконки, поки ви на маунті",
     ["These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
         "see \"Keep showing on a mount or flight path\" in its section."] =
-        "Ці опції ховають також лейбу Каменя душі та лічильник осколків душ. Лічильник можна лишити на екрані: " ..
-        "опція \"Показувати на маунті й таксі\" в його розділі.",
-    ["These also hide the Soulstone label."] = "Ці опції ховають також лейбу Каменя душі.",
-    ["Keep showing on a mount or flight path"] = "Показувати на маунті й таксі",
+        "Ці опції ховають також мітку Каменя душі та лічильник уламків душ. Лічильник можна лишити на екрані: " ..
+        "опція \"Показувати на маунті й під час польоту\" в його розділі.",
+    ["These also hide the Soulstone label."] = "Ці опції ховають також мітку Каменя душі.",
+    ["Keep showing on a mount or flight path"] = "Показувати на маунті й під час польоту",
     ["Snap frames to each other (top / bottom / center, side by side)"] = "Прилипання рамок одна до одної (верх / низ / центр, поруч)",
     ["Snap distance"] = "Відстань прилипання",
     ["Gap between snapped frames"] = "Проміжок між рамками",
@@ -144,13 +197,24 @@ ns.LOCALES.ukUA = {
     ["Fill opacity, %"] = "Непрозорість заливки, %",
     ["Lock all"] = "Закріпити все",
     ["Unlock all"] = "Відкріпити все",
-    ["Reset settings"] = "Скинути налаштування",
+    ["Reset all settings"] = "Скинути всі налаштування",
+    ["Reset all settings of the \"%s\" profile to the defaults?"] = "Скинути всі налаштування профілю «%s» до стандартних?",
+    ["Profiles"] = "Профілі",
+    ["Default"] = "Скинути",
+    ["the player with your Soulstone"] = "гравець із вашим Каменем душі",
+    ["the time left (m:ss)"] = "скільки лишилося (хв:сек)",
+    ["the player being summoned"] = "гравець, якого ви призиваєте",
+    ["the buyer"] = "покупець",
+    ["the place typed in the selling window, or your zone"] = "місце з вікна продажу або ваша зона",
+    ["your price, like 1g50s"] = "ваша ціна, наприклад 1g50s",
+    ["the clickers sentence below, left out once two stand by"] = "речення про людей біля порталу (нижче), його немає, коли поруч уже двоє",
+    ["how many more people you need"] = "скільки ще людей потрібно",
     ["Icons: left click performs the action; they are moved as set in \"Move icons with\" (only when unlocked). " ..
         "If a modifier is used for moving, clicks with that modifier do nothing while the icon is unlocked. " ..
         "Labels and the shard counter are moved with left-drag. Changes made in combat apply after combat."] =
         "Іконки: лівий клік виконує дію; пересуваються так, як задано в \"Пересування іконок\" (лише відкріплені). " ..
         "Якщо для пересування задано модифікатор, кліки з ним нічого не роблять, поки іконку відкріплено. " ..
-        "Лейби та лічильник осколків пересуваються перетягуванням лівою кнопкою. Зміни, зроблені в бою, застосуються після бою.",
+        "Мітки та лічильник уламків пересуваються перетягуванням лівою кнопкою. Зміни, зроблені в бою, застосуються після бою.",
 
     -- Settings: sounds
     ["Custom sounds"] = "Власні звуки",
@@ -163,10 +227,10 @@ ns.LOCALES.ukUA = {
     ["Sound file"] = "Звуковий файл",
     ["Add"] = "Додати",
     ["Added files"] = "Додані файли",
-    ["Remove selected"] = "Видалити обраний",
+    ["Remove selected"] = "Видалити вибраний",
     ["Play sound"] = "Програвати звук",
     ["Sound"] = "Звук",
-    ["Test"] = "Тест",
+    ["Test"] = "Прослухати",
     ["Highlight (glow)"] = "Підсвітка",
     ["Highlight color"] = "Колір підсвітки",
     ["Enable"] = "Увімкнути",
@@ -176,6 +240,7 @@ ns.LOCALES.ukUA = {
 
     -- Settings: armor
     ["Demon Armor / Demon Skin"] = "Демонічна броня / Демонічна шкіра",
+    ["Armor"] = "Броня",
     ["Important: add Demon Skin and Demon Armor to the Cooldown Manager's Tracked Buffs. " ..
         "In combat the game hides your buffs from addons, and the Cooldown Manager is what lets " ..
         "this icon notice the armor being removed or recast during a fight."] =
@@ -184,14 +249,14 @@ ns.LOCALES.ukUA = {
         "помітити, що броню знято або накладено знову під час бою.",
 
     -- Settings: shards
-    ["Soul Shard counter"] = "Лічильник осколків душ",
-    ["Show shard icon"] = "Показувати іконку осколка",
+    ["Soul Shard counter"] = "Лічильник уламків душ",
+    ["Show shard icon"] = "Показувати іконку уламка",
     ["Background opacity, %"] = "Непрозорість фону, %",
-    ["Spare shards"] = "Запасні осколки",
-    ["Count Ritual of Summoning in recommended amount"] = "Враховувати Ритуал призову в рекомендованій кількості",
+    ["Spare shards"] = "Запасні уламки",
+    ["Count Ritual of Summoning in recommended amount"] = "Враховувати Ritual of Summoning у рекомендованій кількості",
     ["Recommended now: |cffffd100%d|r  (%s%s+%d spare)"] = "Рекомендовано зараз: |cffffd100%d|r  (%s%s+%d запас)",
-    ["Low threshold = recommended amount"] = "Поріг нестачі = рекомендована кількість",
-    ["Highlight when fewer than"] = "Підсвітка, коли менше ніж",
+    ["Use the recommended amount as the low threshold"] = "Поріг нестачі дорівнює рекомендованій кількості",
+    ["Highlight when there are fewer than"] = "Підсвічувати, коли уламків менше ніж",
     ["Show the threshold next to the count (current/threshold)"] = "Показувати поріг поруч із кількістю (є/поріг)",
     ["Text"] = "Текст",
     ["Font size"] = "Розмір шрифту",
@@ -199,13 +264,110 @@ ns.LOCALES.ukUA = {
     ["Highlight color at the threshold"] = "Колір підсвітки на порозі",
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
-    ["Low shards alert"] = "Сповіщення про нестачу осколків",
+    ["Low shards alert"] = "Сповіщення про нестачу уламків",
+    ["Extra shards"] = "Зайві уламки",
+    ["Maximum shards (0 = no limit)"] = "Максимум уламків (0 = без ліміту)",
+    ["Text color above the maximum"] = "Колір тексту понад максимум",
+    ["Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
+        "Soul Pouch keeps its shards. Not in combat."] =
+        "Shift + клік по лічильнику видаляє уламки понад максимум: спершу зі звичайних сумок, тож Soul Pouch " ..
+        "зберігає свої. Не в бою.",
+    ["Full bags"] = "Повні сумки",
+    ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому уламку нема місця в сумках",
+    ["Drop players from the queue after, minutes"] = "Прибирати гравців із черги через, хв",
+    ["Keywords (comma-separated)"] = "Ключові слова (через кому)",
+    ["Play sound when someone joins the queue"] = "Звук, коли хтось стає в чергу",
+    ["Announce the summon in group chat"] = "Повідомляти про призив у чат групи",
+    ["Group message"] = "Повідомлення в групу",
+    ["Whisper the player being summoned"] = "Шепнути гравцю, якого призиваєте",
+    ["Not enough people at the portal"] = "Замало людей біля порталу",
+    ["Ask for help when fewer than 2 stand next to you"] = "Кликати на допомогу, коли поруч менше двох",
+    ["Message to the group"] = "Повідомлення групі",
+    ["Message for a sold summon"] = "Повідомлення для проданого призиву",
+    ["Sold summon: to the party or raid"] = "Проданий призив: у групу чи рейд",
+    ["Sold summon: to /say"] = "Проданий призив: у /say",
+    ["Sold summon: to /yell"] = "Проданий призив: у /yell",
+    ["Sold summon: to the ad channel (Trade)"] = "Проданий призив: у канал оголошень (Trade)",
+    ["Sent when you click a player in the queue and fewer than two group members stand next to you, at most " ..
+        "once per 15 seconds. Your group's summons ask the group; a summon you sold asks everyone around too."] =
+        "Надсилається, коли ви клікаєте гравця в черзі, а поруч менше двох учасників групи, і не частіше ніж раз " ..
+        "на 15 секунд. Для своєї групи кличе групу, а для проданого призиву ще й усіх довкола.",
+    ["Soulstone messages"] = "Повідомлення про Камінь душі",
+    ["Tell the group who has your Soulstone"] = "Писати в групу, на кому ваш Камінь душі",
+    ["Whisper the player who got it"] = "Шепнути гравцю, який його отримав",
+    ["Tell the group when it's about to run out"] = "Писати в групу, коли він скоро закінчиться",
+    ["Seconds before it runs out"] = "За скільки секунд до кінця",
+    ["Running-out message"] = "Повідомлення про кінець",
+    ["The messages go to the instance, raid or party chat, whichever you're in."] =
+        "Повідомлення йдуть у чат підземелля, рейду чи групи, залежно від того, де ви.",
+    ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
+    ["Price: 5 or 5g, 1g50s, 75s (0 = ask the buyer)"] = "Ціна: 5 або 5g, 1g50s, 75s (0 = спитати покупця)",
+    ["can't read the price \"%s\"."] = "не вдалося прочитати ціну \"%s\".",
+    ["Channel for the ad"] = "Канал для оголошення",
+    ["Buyer keywords (comma-separated)"] = "Слова покупців (через кому)",
+    ["Offer without a price"] = "Пропозиція без ціни",
+    ["Offer with a price"] = "Пропозиція з ціною",
+    ["Clickers sentence"] = "Речення про людей біля порталу",
+    ["Play sound when a new buyer shows up"] = "Звук, коли з'являється новий покупець",
+    ["Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
+        "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
+        "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
+        "sent without your click."] =
+        "Поки продаж увімкнено, гравці поза вашою групою, які пишуть слова покупців у публічному каналі, /say, " ..
+        "/yell чи шепотом, потрапляють у список. Клік по покупцю шепоче пропозицію, Shift + клік ще й запрошує " ..
+        "в групу; коли він приєднається, то перейде в чергу призиву. Кнопка «Оголошення» пише оголошення в канал " ..
+        "вище. Без вашого кліку нічого не надсилається.",
+    ["Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
+        "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
+        "once they're next to you or leave the group. The window shows only while someone is waiting."] =
+        "Учасники групи, які напишуть одне з ключових слів у групу, рейд або шепотом, стають у чергу. Клік по " ..
+        "гравцю бере його в ціль і починає Ritual of Summoning; правий клік прибирає з черги. Гравець виходить " ..
+        "із черги, коли він поруч з вами або покинув групу. Вікно видно, лише поки хтось чекає.",
+    ["Buy reagents at vendors automatically"] = "Автоматично купувати реагенти в продавців",
+    ["%s: keep in bags"] = "%s: тримати в сумках",
+    ["At a vendor that sells them, reagents for the spells you know are bought up to these amounts (0: never). " ..
+        "The Soul Shard counter's tooltip shows how many you have."] =
+        "У продавця, який їх продає, реагенти для заклинань, які ви знаєте, докуповуються до цієї кількості (0 - " ..
+        "ніколи). Скільки їх у вас, видно в підказці лічильника уламків.",
+    ["Talents"] = "Таланти",
+    ["Remind to sacrifice the demon (Demonic Sacrifice)"] = "Нагадувати принести демона в жертву (Demonic Sacrifice)",
+    ["Remind to cast Soul Link"] = "Нагадувати накласти Soul Link",
+    ["%s timer"] = "Таймер: %s",
+    ["Timer: the demon is free"] = "Таймер: демон вирвався",
+    ["Shows how long your demon stays under your control (up to %d minutes). It can break " ..
+        "free earlier. The critical zone wins where the zones overlap. In preview mode the timer runs faster by " ..
+        "the speed above (30x: a minute in 2 seconds) and the sounds play on every cycle."] =
+        "Показує, скільки ще демон буде під вашим контролем (до %d хв). Він може вирватися й раніше. Де зони " ..
+        "перетинаються, діє критична. У попередньому перегляді таймер біжить швидше на вказану вище швидкість " ..
+        "(30x: хвилина за 2 секунди), а звуки грають на кожному колі.",
+    ["New ranks at the trainer"] = "Нові ранги в тренера",
+    ["Tell me after a level up what I can learn"] = "Після нового рівня писати, що можна вивчити",
+    ["The game lists what a trainer teaches only while its window is open, so visit your class trainer once: " ..
+        "the addon remembers the ranks you can't learn yet and their levels. /wu trainer shows what's waiting now."] =
+        "Гра показує, чого навчає тренер, лише поки відкрите його вікно, тож зайдіть раз до класового тренера: аддон " ..
+        "запам'ятає ранги, які поки не можна вивчити, і їхні рівні. /wu trainer показує, що чекає зараз.",
+    ["Profile"] = "Профіль",
+    ["Delete"] = "Видалити",
+    ["New profile (copy of the current one)"] = "Новий профіль (копія поточного)",
+    ["Export / import"] = "Експорт / імпорт",
+    ["Export"] = "Експорт",
+    ["Import"] = "Імпорт",
+    ["Each character uses one profile. Export puts the current profile's settings into the box as text; paste " ..
+        "such a text into the box and press Import to replace the current profile's settings with it."] =
+        "Кожен персонаж використовує один профіль. «Експорт» кладе налаштування поточного профілю в поле текстом; " ..
+        "вставте такий текст у поле й натисніть «Імпорт», щоб замінити ним налаштування поточного профілю.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",
     ["Remind to create a new Soulstone while one is applied"] = "Нагадувати створити новий Камінь душі, поки накладено попередній",
     ["State: Soulstone in bags but not applied"] = "Стан: Камінь душі в сумках, але не накладений",
     ["State: no Soulstone in bags"] = "Стан: у сумках немає Каменя душі",
+    ["State: no Healthstone in bags"] = "Стан: у сумках немає Каменя здоров'я",
+    ["State: low health"] = "Стан: мало здоров'я",
+    ["Remind to use the Healthstone at low health"] = "Нагадувати використати Камінь здоров'я, коли мало здоров'я",
+    ["Health below, %"] = "Здоров'я нижче, %",
+    ["Shows the icon while a Healthstone is in your bags and off cooldown; a click uses the strongest one."] =
+        "Іконка з'являється, якщо Камінь здоров'я є в сумках і не на перезарядці; клік використовує найсильніший.",
     ["Stone"] = "Камінь",
     ["Remind while another temporary enchant (an oil) is on the weapon"] = "Нагадувати, коли на зброї інше тимчасове зачарування (олія)",
     ["The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
@@ -218,34 +380,34 @@ ns.LOCALES.ukUA = {
     ["State: stone in bags but not applied to the weapon"] = "Стан: камінь у сумках, але не накладений на зброю",
     ["State: stone in bags but not equipped"] = "Стан: камінь у сумках, але не вдягнений",
     ["State: no stone in bags"] = "Стан: у сумках немає каменя",
-    ["Soulstone target label"] = "Лейба цілі Каменя душі",
-    ["Show label (name + timer) when used on another player"] = "Показувати лейбу (ім'я + таймер), коли накладено на іншого гравця",
+    ["Soulstone target label"] = "Мітка цілі Каменя душі",
+    ["Show label (name + timer) when used on another player"] = "Показувати мітку (ім'я + таймер), коли накладено на іншого гравця",
     ["Show timer (without name) when Soulstone is on yourself (yours or another warlock's)"] = "Показувати таймер (без імені), коли Камінь душі на вас (ваш чи іншого чорнокнижника)",
-    ["Lock label position"] = "Закріпити позицію лейби",
+    ["Lock label position"] = "Закріпити позицію мітки",
     ["Show Soulstone icon left of the timer"] = "Показувати іконку Каменя душі ліворуч від таймера",
     ["Name size"] = "Розмір імені",
     ["Timer size"] = "Розмір таймера",
     ["Timer color"] = "Колір таймера",
     ["Timer: warning zone"] = "Таймер: зона попередження",
     ["Timer: critical zone"] = "Таймер: критична зона",
-    ["Starts at, seconds left"] = "Початок, секунд до кінця",
+    ["Starts with this many seconds left"] = "Починається, коли лишається секунд",
     ["Timer color in this zone"] = "Колір таймера в цій зоні",
     ["Play sound when the zone starts"] = "Програвати звук на початку зони",
     ["Timer: Soulstone ran out"] = "Таймер: Камінь душі закінчився",
     ["Play sound when the timer runs out"] = "Програвати звук, коли таймер закінчиться",
     ["Preview timer speed, x"] = "Швидкість у перегляді, x",
     ["The critical zone wins where the zones overlap. In preview mode the timer runs faster by the speed above " ..
-        "(300x: a second per 5 minutes) and the sounds play on every cycle."] =
-        "Там, де зони перетинаються, діє критична зона. У попередньому перегляді таймер іде швидше на вказану вище швидкість " ..
-        "(300x: секунда за 5 хвилин), а звуки грають на кожному колі.",
+        "(300x: 5 minutes pass in a second) and the sounds play on every cycle."] =
+        "Де зони перетинаються, діє критична. У попередньому перегляді таймер біжить швидше на вказану вище " ..
+        "швидкість (300x: 5 хвилин минають за секунду), а звуки грають на кожному колі.",
     ["Hardcore realm: nobody can be brought back to life here, so the Soulstone icon and label are off " ..
         "and the Soulstone isn't counted in the recommended shards."] =
-        "Хардкор-реалм: тут нікого не можна воскресити, тому іконку й лейбу Каменя душі вимкнено, " ..
-        "а Камінь душі не входить у рекомендовану кількість осколків.",
+        "Хардкорний сервер: тут нікого не можна воскресити, тому іконку й мітку Каменя душі вимкнено, " ..
+        "а Камінь душі не входить у рекомендовану кількість уламків.",
 
     -- Settings: demon
-    ["Demon (pet)"] = "Демон (пет)",
-    ["Demon per click / modifier"] = "Демон для кліку / модифікатора",
+    ["Demon (pet)"] = "Демон",
+    ["Demon for each click and modifier"] = "Який демон на клік і з модифікаторами",
 
     -- Settings: grimoires
     ["Grimoires"] = "Гримуари",

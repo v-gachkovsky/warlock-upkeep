@@ -20,11 +20,14 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 |------|------------|-------|
 | **Armor** | Demon Skin / Demon Armor is missing | Casts your strongest armor |
 | **Soul Shards** | Always (counter) | — |
+| **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
+| **Soul Shards** | Always (counter) | Shift + click deletes extra shards |
 | **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equips, applies or creates the stone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
 | **Grimoires** | At vendors and in tooltips | — |
+| **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
 ### Armor
 
@@ -47,14 +50,22 @@ below it, with a highlight in the same color. The threshold equals the recommend
 
 You can also set the warning threshold manually.
 
+Set a maximum and **Shift + click** the counter to delete the shards above it (ordinary bags first, so your Soul
+Pouch keeps its shards). The counter also lights up orange when your bags have no room for a new shard.
+Infernal Stones and Demonic Figurines show in the counter's tooltip once you know Inferno or Ritual of Doom, and
+the addon buys them at vendors up to the amount you choose.
+
 ### Healthstone
 
 Appears when there's no Healthstone in your bags. Click to create the strongest one you know.
 
+It also lights up green when your health drops below 20% (adjustable, also the color and sound) and a Healthstone
+is ready in your bags: click to use it, in combat too.
+
 ### Firestone / Spellstone
 
-Forever, Classic Era and TBC. Pick your stone in the settings (Firestone by default); the icon shows once you
-can create it. Yellow when the stone is in your
+Forever, Classic Era and TBC. Pick your stone with a **right click** on the icon (a menu like the Retail demon
+flyout) or in the settings (Firestone by default); the icon shows once you can create it. Yellow when the stone is in your
 bags but not on, red when there's none. In Classic Era and TBC the click equips the stone in your off-hand; on
 WoW Forever it imbues your main-hand weapon (by default no reminder while another temporary enchant, such as
 an oil, is on it).
@@ -72,11 +83,18 @@ opacity are all configurable.
 On Hardcore realms nobody can be brought back to life, so there's no Soulstone icon or label there, although
 trainers still teach the spell.
 
+Optionally, the addon tells the group who has your Soulstone, whispers that player, and warns the group shortly
+before it runs out (all texts editable).
+
 ### Demon
 
 Appears when you have no pet. Bind a different demon to **Click, Shift, Ctrl, Alt and Cmd (Mac)**: Imp,
 Voidwalker, Succubus, Incubus, Felhunter or Felguard. It stays hidden while you ride, fly or take a flight path
 if your demon was out when you set off, since the game dismisses it for a while.
+
+It also knows your talents: no demon reminder while Demonic Sacrifice is active (optionally, a reminder to
+sacrifice), and a reminder to cast Soul Link when your demon is out without it. An Enslave Demon timer shows how
+long your enslaved demon stays under control.
 
 ### Grimoires
 
@@ -85,11 +103,33 @@ each one: learned grimoires get a check mark and turn grey (books for demons you
 (also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
 keeps them up to date. WoW Forever, Classic Era and TBC.
 
+### Summon queue
+
+Write "123" or "summ" in party or raid chat and you're in the queue: a small window lists everyone waiting, in
+order, with their zone and wait time, plus your shards and how many people stand by to click the portal. One
+click targets the player and starts Ritual of Summoning; right click removes them. Players drop off once they
+arrive or leave the group. The keywords are editable. Optionally, the addon tells the group to click the portal
+and whispers the player to accept (both texts editable).
+
+**Selling summons** (`/wu sell`): a second window lists players looking for a summon in Trade, General, /say,
+/yell or whispers ("wtb sum", "lf lock"...). Click to whisper your offer (your price, or "how much would you
+pay?" with no price set), Shift + click to invite them too, and post a "WTS summon" ad to Trade with one button.
+Type the place ("BRD meeting stone") in the window, or leave it to the zone you're in. Too few people at the
+portal? The addon asks your group for help, and for a summon you sold also /say, /yell and Trade.
+All texts are editable, and nothing is sent without your click. Both windows can be resized by their corner and
+scroll with the mouse wheel when the list is long.
+
+### New ranks at the trainer
+
+Visit your class trainer once and the addon remembers what it teaches. After each level up it tells you in chat
+which new ranks you can learn and what they cost (`/wu trainer` any time). Forever, Classic Era and TBC.
+
 ---
 
 ## Make it yours
 
 - **Language**: English or Ukrainian, switched in the settings.
+- **Profiles** per character, with export and import as a text string to share your setup.
 - **Every feature** can be turned on or off individually.
 - **Every icon** can be resized, moved, locked, and given its own highlight color and alert sound.
 - **Highlight styles**: *Proc* (the Cooldown Manager animation, default), *Running lines* or *Pulsing border*.
@@ -98,6 +138,7 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
   Snap distance and spacing are adjustable.
 - **Background opacity** for the shard counter and the Soulstone label.
 - **Sounds**: 14 game sounds, LibSharedMedia sounds, or **your own .ogg / .mp3 files** for every alert.
+- **Masque** skins for the icons and a **LibDataBroker** feed (Titan Panel, ElvUI, Bazooka...) with your shards.
 
 ## Built for combat
 
@@ -120,7 +161,8 @@ keeps them up to date. WoW Forever, Classic Era and TBC.
 | `/wu lock` / `/wu unlock` | Lock or unlock all elements |
 | `/wu preview` | Show all icons to position them |
 | `/wu combat` | Toggle combat simulation |
-| `/wu reset` | Reset settings |
+| `/wu trainer` | Ranks waiting at your class trainer |
+| `/wu reset` | Reset the current profile |
 
 ## Minimap button
 
