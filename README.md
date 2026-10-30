@@ -282,9 +282,10 @@ default). Someone just summoned shows *summoning* for up to 2 minutes and goes b
 arrive. The window shows only while someone is waiting (and in preview), and the queue can't change in
 combat. Keywords match whole words only: *summ* matches "summ pls!" but not "summary".
 
-While the window is unlocked, drag its bottom-right corner to resize it: the height you set is the most it grows
-to (10 players by default). With more players than fit, a line at the bottom shows which ones you see, and the
-mouse wheel scrolls the list (out of combat). The selling window below works the same way.
+While the window is unlocked, drag its bottom-right corner to resize it (8 players fit by default). With more
+players than fit, a line at the bottom shows which ones you see, and the mouse wheel scrolls the list (out of
+combat). The window grows down and to the right, its top left corner stays put. Preview shows enough sample
+players to try the scrolling. The selling window below works the same way.
 
 **Announcements** (off by default): when Ritual of Summoning starts, from the queue or cast by hand, the addon
 can post a line to the group chat ("Summoning {name}, please click the portal!") and whisper the player

@@ -258,6 +258,18 @@ local SAMPLE = {
     { name = "Thrall", class = "SHAMAN", zone = "Orgrimmar", wait = 135 },
     { name = "Jaina", class = "MAGE", zone = "Stormwind City", wait = 100 },
     { name = "Uther", class = "PALADIN", zone = "Westfall", wait = 20 },
+    -- More than fit by default, to try the scrolling.
+    { name = "Sylvanas", class = "HUNTER", zone = "Tirisfal Glades", wait = 610 },
+    { name = "Tyrande", class = "PRIEST", zone = "Darnassus", wait = 540 },
+    { name = "Garrosh", class = "WARRIOR", zone = "Ashenvale", wait = 470 },
+    { name = "Malfurion", class = "DRUID", zone = "Moonglade", wait = 400 },
+    { name = "Valeera", class = "ROGUE", zone = "Stranglethorn Vale", wait = 330 },
+    { name = "Guldan", class = "WARLOCK", zone = "Blasted Lands", wait = 290 },
+    { name = "Cairne", class = "WARRIOR", zone = "Thunder Bluff", wait = 250 },
+    { name = "Anduin", class = "PRIEST", zone = "Elwynn Forest", wait = 210 },
+    { name = "Rexxar", class = "HUNTER", zone = "Feralas", wait = 170 },
+    { name = "Muradin", class = "WARRIOR", zone = "Ironforge", wait = 60 },
+    { name = "Voljin", class = "SHAMAN", zone = "Durotar", wait = 5 },
 }
 
 function M:Rows()
@@ -335,7 +347,7 @@ function M:Refresh()
     end
     f.more:SetText(scroll and string.format(ns.L["%d-%d of %d, scroll with the mouse wheel"],
         offset + 1, offset + visible, #list) or "")
-    f:SetHeight(HEADER + (visible + (scroll and 1 or 0)) * ROW_HEIGHT)
+    f:SetHeight(cfg.height)
     f.grip:SetShown(not cfg.locked)
     f.bg:SetAlpha(cfg.bgAlpha)
     f:SetAlpha(ns.FrameAlpha())
