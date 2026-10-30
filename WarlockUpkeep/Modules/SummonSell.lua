@@ -267,6 +267,14 @@ end
 local SAMPLE = {
     { name = "Thrall", class = "SHAMAN", text = "wtb sum to BRD 5g", source = "Trade" },
     { name = "Jaina", class = "MAGE", text = "LF lock summon ZF", source = "LookingForGroup", status = "whispered" },
+    -- More than fit by default, to try the scrolling.
+    { name = "Uther", class = "PALADIN", text = "need summ to Strat pls", source = "General", status = "invited" },
+    { name = "Sylvanas", class = "HUNTER", text = "wtb summon UBRS", source = "Trade" },
+    { name = "Tyrande", class = "PRIEST", text = "any lock for summ? 3g", source = "Trade" },
+    { name = "Garrosh", class = "WARRIOR", text = "lfw ST", source = "Say" },
+    { name = "Malfurion", class = "DRUID", text = "WTB SUM MARAUDON", source = "Yell" },
+    { name = "Valeera", class = "ROGUE", text = "need a summon to Scholo", source = "Whisper" },
+    { name = "Rexxar", class = "HUNTER", text = "lf lock Dire Maul", source = "General" },
 }
 
 function M:Refresh()
@@ -305,7 +313,7 @@ function M:Refresh()
     end
     f.more:SetText(scroll and string.format(ns.L["%d-%d of %d, scroll with the mouse wheel"],
         offset + 1, offset + visible, #list) or "")
-    f:SetHeight(HEADER + (visible + (scroll and 1 or 0)) * ROW_HEIGHT)
+    f:SetHeight(cfg.height)
     f.grip:SetShown(not cfg.locked)
     -- Wide enough for the title and the buttons in a longer translation.
     local width = math.max(cfg.width, f.title:GetStringWidth() + f.ad:GetWidth() + f.stop:GetWidth() + 24)

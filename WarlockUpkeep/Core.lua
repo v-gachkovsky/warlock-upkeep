@@ -73,7 +73,7 @@ ns.defaults = {
     summon = {
         enabled = true, locked = false,
         point = { "TOPLEFT", "CENTER", 145, 163 },
-        width = 230, height = 206, -- resized by the corner; the height is the most, up to 10 players
+        width = 230, height = 170, -- resized by the corner; 8 players before the list scrolls
         bgAlpha = 0.5,
         keywords = "123, summ, summon, sum pls, summ pls, sum plz, summ plz",
         timeout = 10,
