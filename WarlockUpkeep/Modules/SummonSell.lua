@@ -6,8 +6,9 @@ local M = ns:NewModule("summonSell")
 -- ("wtb sum", "lf lock"...) are listed. Click whispers them an offer, Shift + click also invites them;
 -- once in the group they go on to the summon queue. Nothing is sent without a click.
 
-local MAX_ROWS = 6
+local MAX_BUYERS = 20
 local ROW_HEIGHT = 18
+local HEADER = 28 -- title line and bottom padding
 local WIDTH = 300
 local BUYER_TIMEOUT = 300 -- seconds a buyer stays listed after their last message
 local AD_COOLDOWN = 30
@@ -96,7 +97,7 @@ function M:OnMessage(text, sender, source, guid)
         end
         b = { name = name, class = class }
         table.insert(self.buyers, 1, b)
-        while #self.buyers > MAX_ROWS do table.remove(self.buyers) end
+        while #self.buyers > MAX_BUYERS do table.remove(self.buyers) end
         if ns.ready and Cfg().sound then ns.PlaySound(Cfg().soundName) end
     end
     b.text, b.source, b.at = text, source, GetTime()
@@ -179,6 +180,46 @@ end
 
 local STATUS_TEXT = { whispered = "whispered", invited = "invited" }
 
+local function CreateRow(f, i)
+    local r = CreateFrame("Button", nil, f)
+    r:SetHeight(ROW_HEIGHT)
+    r:SetPoint("TOPLEFT", 4, -24 - (i - 1) * ROW_HEIGHT)
+    r:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    r:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+    r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    r.name:SetPoint("LEFT", 2, 0)
+    r.status = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    r.status:SetPoint("RIGHT", -2, 0)
+    r.text = r:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    r.text:SetPoint("LEFT", r.name, "RIGHT", 6, 0)
+    r.text:SetPoint("RIGHT", r.status, "LEFT", -6, 0)
+    r.text:SetJustifyH("LEFT")
+    r.text:SetWordWrap(false)
+    r:SetScript("OnClick", function(self, button)
+        local _, b = M:Find(self.buyer)
+        if not b then return end
+        if button == "RightButton" then M:Remove(b.name); return end
+        if IsShiftKeyDown() then M:Invite(b) end
+        M:Whisper(b)
+        M:Refresh()
+    end)
+    r:SetScript("OnEnter", function(self)
+        local _, b = M:Find(self.buyer)
+        if not b then return end
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(b.name, ClassColor(b.class))
+        GameTooltip:AddLine(b.text, 1, 1, 1, true)
+        GameTooltip:AddLine(string.format("[%s]", b.source or ""), 0.6, 0.6, 0.6)
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine(Offer(b.name), 0.6, 0.8, 1, true)
+        GameTooltip:Show()
+    end)
+    r:SetScript("OnLeave", GameTooltip_Hide)
+    r:Hide()
+    f.rows[i] = r
+    return r
+end
+
 function M:CreateWindow()
     local f = CreateFrame("Frame", "WarlockUpkeep_SummonSell", UIParent)
     f:SetFrameStrata("MEDIUM")
@@ -201,50 +242,23 @@ function M:CreateWindow()
         GameTooltip:AddLine(ns.L["Selling summons"], 0.58, 0.51, 0.79)
         GameTooltip:AddLine(ns.L["Click: whisper the offer. Shift + click: also invite."], 1, 1, 1)
         GameTooltip:AddLine(ns.L["Right click: remove from the list."], 1, 1, 1)
-        if not Cfg().locked then GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6) end
+        if not Cfg().locked then
+            GameTooltip:AddLine(ns.L["Drag to move"], 0.6, 0.6, 0.6)
+            GameTooltip:AddLine(ns.L["Drag the corner to resize"], 0.6, 0.6, 0.6)
+        end
         GameTooltip:Show()
     end)
     f:SetScript("OnLeave", GameTooltip_Hide)
 
     f.rows = {}
-    for i = 1, MAX_ROWS do
-        local r = CreateFrame("Button", nil, f)
-        r:SetSize(WIDTH - 8, ROW_HEIGHT)
-        r:SetPoint("TOPLEFT", 4, -24 - (i - 1) * ROW_HEIGHT)
-        r:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-        r:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
-        r.name = r:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-        r.name:SetPoint("LEFT", 2, 0)
-        r.status = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-        r.status:SetPoint("RIGHT", -2, 0)
-        r.text = r:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-        r.text:SetPoint("LEFT", r.name, "RIGHT", 6, 0)
-        r.text:SetPoint("RIGHT", r.status, "LEFT", -6, 0)
-        r.text:SetJustifyH("LEFT")
-        r.text:SetWordWrap(false)
-        r:SetScript("OnClick", function(self, button)
-            local _, b = M:Find(self.buyer)
-            if not b then return end
-            if button == "RightButton" then M:Remove(b.name); return end
-            if IsShiftKeyDown() then M:Invite(b) end
-            M:Whisper(b)
-            M:Refresh()
-        end)
-        r:SetScript("OnEnter", function(self)
-            local _, b = M:Find(self.buyer)
-            if not b then return end
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(b.name, ClassColor(b.class))
-            GameTooltip:AddLine(b.text, 1, 1, 1, true)
-            GameTooltip:AddLine(string.format("[%s]", b.source or ""), 0.6, 0.6, 0.6)
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(Offer(b.name), 0.6, 0.8, 1, true)
-            GameTooltip:Show()
-        end)
-        r:SetScript("OnLeave", GameTooltip_Hide)
-        r:Hide()
-        f.rows[i] = r
-    end
+    f.more = f:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+    f.more:SetPoint("BOTTOMLEFT", 8, 6)
+    f:EnableMouseWheel(true)
+    f:SetScript("OnMouseWheel", function(_, delta)
+        M.offset = (M.offset or 0) - delta
+        M:Refresh()
+    end)
+    ns.MakeResizable(f, Cfg, 200, HEADER + ROW_HEIGHT, function() M:Refresh() end)
     f:Hide()
     self.frame = f
 end
@@ -270,8 +284,12 @@ function M:Refresh()
     f.ad:SetText(ns.L["Ad"])
     f.ad:SetWidth(math.max(40, f.ad:GetFontString():GetStringWidth() + 20))
     f.empty:SetText(#list == 0 and ns.L["Waiting for buyers..."] or "")
-    for i, r in ipairs(f.rows) do
-        local b = list[i]
+    if f.sizing then return end
+    local offset, visible, scroll = ns.ListSlice(math.max(1, #list), cfg.height, HEADER, ROW_HEIGHT, self.offset)
+    self.offset = offset
+    for i = 1, math.max(#f.rows, visible) do
+        local r = f.rows[i] or CreateRow(f, i)
+        local b = i <= visible and list[offset + i]
         if b then
             r.buyer = not sample and b.name or nil
             r.name:SetText(b.name)
@@ -284,9 +302,12 @@ function M:Refresh()
             r:Hide()
         end
     end
-    f:SetHeight(28 + math.max(1, #list) * ROW_HEIGHT)
+    f.more:SetText(scroll and string.format(ns.L["%d-%d of %d, scroll with the mouse wheel"],
+        offset + 1, offset + visible, #list) or "")
+    f:SetHeight(HEADER + (visible + (scroll and 1 or 0)) * ROW_HEIGHT)
+    f.grip:SetShown(not cfg.locked)
     -- Wide enough for the title and the buttons in a longer translation.
-    local width = math.max(WIDTH, f.title:GetStringWidth() + f.ad:GetWidth() + f.stop:GetWidth() + 24)
+    local width = math.max(cfg.width, f.title:GetStringWidth() + f.ad:GetWidth() + f.stop:GetWidth() + 24)
     f:SetWidth(width)
     for _, r in ipairs(f.rows) do r:SetWidth(width - 8) end
     f.bg:SetAlpha(ns.db.summon.bgAlpha)

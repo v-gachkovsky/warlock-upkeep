@@ -491,6 +491,49 @@ function ns.MakeMovable(frame, getCfg, isIcon)
     end)
 end
 
+-- A size grip in the bottom-right corner of a list window, shown while it's unlocked. The size goes to
+-- cfg.width / cfg.height and the window stays where it was. Not in combat: windows with secure rows can't
+-- change size then.
+function ns.MakeResizable(frame, getCfg, minWidth, minHeight, onDone)
+    frame:SetResizable(true)
+    if frame.SetResizeBounds then frame:SetResizeBounds(minWidth, minHeight) else frame:SetMinResize(minWidth, minHeight) end
+    local grip = CreateFrame("Button", nil, frame)
+    grip:SetSize(16, 16)
+    grip:SetPoint("BOTTOMRIGHT", -1, 1)
+    grip:SetFrameLevel(frame:GetFrameLevel() + 10)
+    grip:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+    grip:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+    grip:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+    grip:SetScript("OnMouseDown", function()
+        if InCombatLockdown() then return end
+        frame.sizing = true
+        frame:StartSizing("BOTTOMRIGHT")
+    end)
+    grip:SetScript("OnMouseUp", function()
+        if not frame.sizing then return end
+        frame:StopMovingOrSizing()
+        frame.sizing = nil
+        local cfg = getCfg()
+        cfg.width = math.floor(frame:GetWidth() + 0.5)
+        cfg.height = math.floor(frame:GetHeight() + 0.5)
+        if frame.SetUserPlaced then frame:SetUserPlaced(false) end
+        SavePoint(frame, cfg)
+        ns.ApplyPoint(frame, cfg.point)
+        if onDone then onDone() end
+    end)
+    frame.grip = grip
+    return grip
+end
+
+-- The part of a list that fits in a window `height` tall (rows below `header`): the offset of the first row
+-- shown (clamped), how many rows show and whether the list scrolls, which takes one more line for the position.
+function ns.ListSlice(total, height, header, rowHeight, offset)
+    local fit = math.max(1, math.floor((height - header) / rowHeight))
+    if total <= fit then return 0, total, false end
+    local visible = math.max(1, fit - 1)
+    return math.max(0, math.min(offset or 0, total - visible)), visible, true
+end
+
 function ns.ApplyDragButton(frame)
     if frame.isIcon and ns.db and ns.db.moveWith == "right" then
         frame:RegisterForDrag("RightButton")
