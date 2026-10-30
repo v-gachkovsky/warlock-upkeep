@@ -303,6 +303,7 @@ The offer depends on the price in the settings: with a price (in gold) it names 
 buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
 `{clickers}` a sentence saying how many more people you need next to you to click the portal (left out once
 two stand by). Nothing is sent without your click.
+
 ### New ranks at the trainer
 
 Forever, Classic Era and TBC. The game lists what a trainer teaches only while its window is open, so the
