@@ -123,6 +123,8 @@ ns.defaults = {
         color = { 1, 1, 1, 1 }, warnColor = { 1, 0.2, 0.2, 1 }, warnSeconds = 30,
         sound = false, soundName = "RAID_WARNING", -- when the warning starts
     },
+    -- New ranks at the class trainer: a chat message after a level up.
+    trainer = { enabled = true, sound = false, soundName = "LEVEL_UP" },
     soulstoneLabel = {
         enabled = true, locked = false,
         point = { "CENTER", "CENTER", -45, 120 },
@@ -834,6 +836,8 @@ SlashCmdList.WARLOCKUPKEEP = function(msg)
         end
     elseif msg == "sell" and ns.modules.summonSell then
         ns.modules.summonSell:SetSelling(not ns.db.summonSell.enabled)
+    elseif msg == "trainer" and ns.PrintTrainer then
+        ns.PrintTrainer()
     elseif msg == "grimoires" and ns.DebugGrimoires then
         ns.DebugGrimoires()
     elseif msg == "reset" then

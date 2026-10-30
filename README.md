@@ -295,6 +295,13 @@ The offer depends on the price in the settings: with a price (in gold) it names 
 buyer would pay. All texts are editable: `{name}` is the buyer, `{zone}` your zone, `{price}` the price and
 `{clickers}` a sentence saying how many more people you need next to you to click the portal (left out once
 two stand by). Nothing is sent without your click.
+### New ranks at the trainer
+
+Forever, Classic Era and TBC. The game lists what a trainer teaches only while its window is open, so the
+addon remembers that list (per character) whenever you visit your class trainer, together with the level each
+rank needs. After a level up it prints what you can learn now and what it costs, e.g. *new at your trainer
+(35s): Shadow Bolt (Rank 5), Immolate (Rank 4).* `/wu trainer` prints the same at any time. Visit the trainer
+once for it to start; the message and an optional sound can be turned off in the settings.
 
 ## Look and behavior
 
@@ -396,6 +403,7 @@ The shard counter and the Soulstone label have a background opacity setting from
 | `/wu reset` | Resets the settings |
 | `/wu auras` | Prints diagnostics of your buffs and recent aura events (useful for bug reports) |
 | `/wu grimoires` | Prints what each demon is remembered to know and the summoned demon's spellbook (for bug reports) |
+| `/wu trainer` | Prints the ranks waiting at your class trainer and their cost |
 
 **Combat simulation** lets you see out of combat exactly how everything behaves in a fight: opacity,
 highlight, hidden icons and click-through. Icons that aren't needed stay in place invisible, as in combat.

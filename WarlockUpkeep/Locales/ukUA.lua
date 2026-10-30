@@ -82,6 +82,9 @@ ns.LOCALES.ukUA = {
     ["Demonic Figurine"] = "Демонічна статуетка",
     ["bought %d x %s."] = "куплено %d x %s.",
     ["not enough money for %s."] = "не вистачає грошей на %s.",
+    ["new at your trainer (%s): %s."] = "нове у вашого тренера (%s): %s.",
+    ["visit your class trainer once so the addon learns what it teaches."] = "зайдіть раз до свого класового тренера, щоб аддон дізнався, чого він навчає.",
+    ["nothing new at your trainer for now."] = "поки в тренера нічого нового.",
 
     -- Grimoires
     ["Imp"] = "Імп",
@@ -296,6 +299,12 @@ ns.LOCALES.ukUA = {
     ["Play sound when the warning starts"] = "Звук, коли починається попередження",
     ["Shows how long your enslaved demon stays under control (up to 5 minutes). It can break free earlier."] =
         "Показує, скільки ще поневолений демон буде під контролем (до 5 хвилин). Він може вирватися й раніше.",
+    ["New ranks at the trainer"] = "Нові ранги в тренера",
+    ["Tell me after a level up what I can learn"] = "Після нового рівня писати, що можна вивчити",
+    ["The game lists what a trainer teaches only while its window is open, so visit your class trainer once: " ..
+        "the addon remembers the ranks you can't learn yet and their levels. /wu trainer shows what's waiting now."] =
+        "Гра показує, чого навчає тренер, лише поки відкрите його вікно, тож зайдіть раз до класового тренера: аддон " ..
+        "запам'ятає ранги, які поки не можна вивчити, і їхні рівні. /wu trainer показує, що чекає зараз.",
 
     -- Settings: soulstone
     ["Hide while another warlock's Soulstone is on you"] = "Ховати, поки на вас Камінь душі іншого чорнокнижника",

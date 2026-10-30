@@ -23,5 +23,6 @@ Modules\SummonSell.lua
 Modules\Enslave.lua
 Modules\Grimoires.lua
 Modules\Reagents.lua
+Modules\Trainer.lua
 Minimap.lua
 Options.lua

@@ -115,6 +115,10 @@ and whispers the player to accept (both texts editable).
 /yell or whispers ("wtb sum", "lf lock"...). Click to whisper your offer (your price, or "how much would you
 pay?" with no price set), Shift + click to invite them too, and post a "WTS summon" ad to Trade with one button.
 All texts are editable, and nothing is sent without your click.
+### New ranks at the trainer
+
+Visit your class trainer once and the addon remembers what it teaches. After each level up it tells you in chat
+which new ranks you can learn and what they cost (`/wu trainer` any time). Forever, Classic Era and TBC.
 
 ---
 
@@ -151,6 +155,7 @@ All texts are editable, and nothing is sent without your click.
 | `/wu lock` / `/wu unlock` | Lock or unlock all elements |
 | `/wu preview` | Show all icons to position them |
 | `/wu combat` | Toggle combat simulation |
+| `/wu trainer` | Ranks waiting at your class trainer |
 | `/wu reset` | Reset settings |
 
 ## Minimap button

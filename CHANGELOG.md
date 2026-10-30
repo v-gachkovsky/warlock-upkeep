@@ -48,6 +48,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon
   sacrificed on purpose, like Grimoire of Sacrifice.
+- **New ranks at the trainer** (WoW Forever, Classic Era, TBC): the addon remembers what your class trainer
+  teaches (per character, read whenever you open the trainer, with the level each rank needs) and after a level up
+  prints what you can learn now and what it costs. `/wu trainer` prints the same at any time. Optional sound.
 
 ## [1.9.0] - 2026-10-30
 
