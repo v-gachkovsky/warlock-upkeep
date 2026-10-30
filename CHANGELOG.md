@@ -76,6 +76,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - `/wu reset` resets the current profile.
+- **The settings window** is wider and split into pages, picked from a list on the left. Messages and keyword
+  lists have wide boxes that wrap long texts, with the placeholders each text takes listed under it and a
+  *Default* button that resets just that text. Ctrl+Z (Cmd+Z on a Mac) undoes typing in any text box, also the
+  selling window's *Place*, and Ctrl+Shift+Z or Ctrl+Y redoes it. *Reset all settings* sits under the page list
+  and asks before it resets the profile.
 
 ### Fixed
 - The demon icon asked for a demon while the Demonic Sacrifice buff was on; now it counts as a demon

@@ -443,6 +443,14 @@ tooltip, and the same clicks as the minimap button.
 | `/wu grimoires` | Prints what each demon is remembered to know and the summoned demon's spellbook (for bug reports) |
 | `/wu trainer` | Prints the ranks waiting at your class trainer and their cost |
 
+### Settings window
+
+The settings are split into pages: pick one from the list on the left. Messages and keyword lists get a wide box
+that wraps long texts, with the placeholders the text takes listed under it ({name}, {zone}, {price}...) and a
+*Default* button that puts back the original text of that one message. Ctrl+Z (Cmd+Z on a Mac) undoes typing,
+Ctrl+Shift+Z or Ctrl+Y redoes it. A text is saved when you press Enter or click elsewhere; Escape puts back the
+saved one. *Reset all settings* under the page list resets the whole current profile, after asking.
+
 **Combat simulation** lets you see out of combat exactly how everything behaves in a fight: opacity,
 highlight, hidden icons and click-through. Icons that aren't needed stay in place invisible, as in combat.
 With click-through on, icons can't be moved or clicked until the simulation is turned off.

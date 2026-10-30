@@ -840,3 +840,40 @@ function ns.CreateFlyout(owner, entries)
     end)
     return f
 end
+
+-- Undo for an edit box: Ctrl+Z (Cmd+Z on a Mac) steps back through what was typed since it got focus,
+-- Ctrl+Shift+Z or Ctrl+Y forward again. A burst of typing is one step.
+local UNDO_STEPS = 100
+function ns.AddUndo(e)
+    local undo, redo, last, typedAt, applying = {}, {}, "", 0, false
+    e:HookScript("OnEditFocusGained", function(self)
+        undo, redo, last, typedAt = {}, {}, self:GetText(), 0
+    end)
+    e:HookScript("OnTextChanged", function(self, userInput)
+        local text = self:GetText()
+        if applying or text == last then return end
+        if userInput then
+            if GetTime() - typedAt > 1 then
+                undo[#undo + 1] = last
+                if #undo > UNDO_STEPS then table.remove(undo, 1) end
+            end
+            typedAt = GetTime()
+            wipe(redo)
+        end
+        last = text
+    end)
+    e:HookScript("OnKeyDown", function(self, key)
+        if key ~= "Z" and key ~= "Y" then return end
+        if not (IsControlKeyDown() or (IsMetaKeyDown and IsMetaKeyDown())) then return end
+        local back = key == "Z" and not IsShiftKeyDown()
+        local from, to = back and undo or redo, back and redo or undo
+        local text = table.remove(from)
+        if not text then return end
+        to[#to + 1] = self:GetText()
+        applying = true
+        self:SetText(text)
+        applying = false
+        last, typedAt = text, 0
+        self:SetCursorPosition(#text)
+    end)
+end
