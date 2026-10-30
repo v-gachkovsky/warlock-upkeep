@@ -1,10 +1,12 @@
 local ADDON, ns = ...
 local L = ns.L
 
-local panel, scroll, content, settingsButton
+local panel, scroll, nav, content, settingsButton
+local BuildContent
 local y = 0
 local refreshers = {}
-local LEFT, RIGHT = 20, 230
+local LEFT, RIGHT = 20, 290
+local WIDTH = 610 -- a page of settings; the list of pages runs down the left side
 
 local function Changed()
     ns:ApplyAll()
@@ -51,7 +53,7 @@ local function Check(text, get, set)
     cb:SetPoint("TOPLEFT", LEFT - 4, y + 4)
     local fs = cb:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
     fs:SetPoint("LEFT", cb, "RIGHT", 2, 0)
-    fs:SetWidth(440)
+    fs:SetWidth(WIDTH - LEFT - 50)
     fs:SetJustifyH("LEFT")
     fs:SetText(L[text])
     cb:SetScript("OnClick", function(self) set(self:GetChecked() and true or false); Changed() end)
@@ -222,7 +224,7 @@ end
 
 local function Note(text)
     local fs = Label(text, LEFT, "GameFontDisableSmall")
-    fs:SetWidth(440)
+    fs:SetWidth(WIDTH - LEFT - 20)
     fs:SetJustifyH("LEFT")
     y = y - (fs:GetStringHeight() + 12)
 end
@@ -252,9 +254,87 @@ local function Input(text, width, onEnter)
     e:SetAutoFocus(false)
     e:SetScript("OnEnterPressed", function(self) onEnter(self:GetText()); self:ClearFocus() end)
     e:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+    ns.AddUndo(e)
     y = y - RowHeight(fs, 28)
     return e
 end
+
+-- A message or a word list: a box over the whole row that wraps long texts. Saved on Enter or when it loses
+-- focus; Escape puts back the saved text. Chat messages have no line breaks, so they're dropped. default: the
+-- text the Default button puts back. legend: the placeholders the text takes, { { "{name}", "the buyer" }, ... }.
+local function TextArea(text, get, set, default, legend)
+    Label(text)
+    local reset
+    if default then
+        reset = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
+        reset:SetText(L["Default"])
+        reset:SetSize(math.max(70, reset:GetFontString():GetStringWidth() + 20), 20)
+        reset:SetPoint("TOPRIGHT", content, "TOPLEFT", WIDTH - 20, y + 4)
+    end
+    y = y - 22
+    local box = CreateFrame("Frame", nil, content, "BackdropTemplate")
+    box:SetPoint("TOPLEFT", LEFT, y)
+    box:SetSize(WIDTH - LEFT - 20, 50)
+    box:SetBackdrop({
+        bgFile = "Interface\\ChatFrame\\ChatFrameBackground", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+        edgeSize = 12, insets = { left = 3, right = 3, top = 3, bottom = 3 },
+    })
+    box:SetBackdropColor(0, 0, 0, 0.5)
+    box:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+    local e = CreateFrame("EditBox", nil, box)
+    e:SetMultiLine(true)
+    e:SetAutoFocus(false)
+    e:SetFontObject("ChatFontNormal")
+    e:SetPoint("TOPLEFT", 8, -7)
+    e:SetPoint("BOTTOMRIGHT", -8, 7)
+    e:SetWidth(WIDTH - LEFT - 36)
+    box:EnableMouse(true)
+    box:SetScript("OnMouseDown", function() e:SetFocus() end)
+    e:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
+    e:SetScript("OnEscapePressed", function(self) self:SetText(get() or ""); self:ClearFocus() end)
+    e:SetScript("OnEditFocusLost", function(self)
+        local v = self:GetText():gsub("[\r\n]+", " ")
+        self:SetText(v)
+        if v ~= get() then set(v); Changed() end
+    end)
+    -- A multi-line box may take Enter as a line break: that ends the editing too.
+    e:HookScript("OnTextChanged", function(self, userInput)
+        if userInput and self:GetText():find("\n") then self:ClearFocus() end
+    end)
+    ns.AddUndo(e)
+    refreshers[#refreshers + 1] = function()
+        if not e:HasFocus() then e:SetText(get() or ""); e:SetCursorPosition(0) end
+    end
+    if reset then
+        reset:SetScript("OnClick", function()
+            e:ClearFocus()
+            set(default)
+            Changed()
+        end)
+    end
+    y = y - 54
+    if legend then
+        local parts = {}
+        for _, l in ipairs(legend) do parts[#parts + 1] = "|cffffd100" .. l[1] .. "|r - " .. L[l[2]] end
+        local fs = content:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+        fs:SetPoint("TOPLEFT", LEFT + 2, y)
+        fs:SetWidth(WIDTH - LEFT - 20)
+        fs:SetJustifyH("LEFT")
+        fs:SetText(table.concat(parts, "     "))
+        y = y - fs:GetStringHeight() - 4
+    end
+    y = y - 10
+end
+
+-- Placeholders of the message texts, for the legends under them.
+local P_NAME_SS = { "{name}", "the player with your Soulstone" }
+local P_TIME = { "{time}", "the time left (m:ss)" }
+local P_NAME_SUMMON = { "{name}", "the player being summoned" }
+local P_NAME_BUYER = { "{name}", "the buyer" }
+local P_ZONE = { "{zone}", "the place typed in the selling window, or your zone" }
+local P_PRICE = { "{price}", "your price, like 1g50s" }
+local P_CLICKERS = { "{clickers}", "the clickers sentence below, left out once two stand by" }
+local P_N = { "{n}", "how many more people you need" }
 
 local function GlowAndSound(getTbl, glowText, soundText)
     Check(glowText or "Highlight (glow)", function() return getTbl().glow end, function(v) getTbl().glow = v end)
@@ -280,6 +360,96 @@ local function FontRows(get, sizes)
 end
 
 ------------------------------------------------------------------------
+-- Pages: one group of settings at a time, picked from the list on the left
+------------------------------------------------------------------------
+local pages, navButtons = {}, {}
+local currentPage
+local ORDER = { "general", "profiles", "armor", "shards", "healthstone", "weaponStone", "soulstone", "pet",
+    "enslave", "summon", "sell", "trainer", "grimoires", "sounds" }
+
+local function FinishPage()
+    if content then content:SetHeight(-y + 20) end
+end
+
+-- Starts a page: the rows that follow go on it.
+local function Page(key, title, icon)
+    FinishPage()
+    content = CreateFrame("Frame", nil, scroll)
+    content:SetSize(WIDTH, 100)
+    content:Hide()
+    y = 0
+    pages[key] = { frame = content, title = title, icon = icon }
+end
+
+local function ShowPage(key)
+    if not pages[key] then
+        for _, k in ipairs(ORDER) do
+            if pages[k] then key = k; break end
+        end
+    end
+    currentPage = key
+    for k, p in pairs(pages) do p.frame:SetShown(k == key) end
+    scroll:SetScrollChild(pages[key].frame)
+    scroll:SetVerticalScroll(0)
+    for k, b in pairs(navButtons) do b.selected:SetShown(k == key) end
+end
+
+local function BuildNav()
+    for _, b in pairs(navButtons) do b:Hide() end
+    wipe(navButtons)
+    local top = -6
+    for _, key in ipairs(ORDER) do
+        local p = pages[key]
+        if p then
+            local b = CreateFrame("Button", nil, nav)
+            b:SetSize(nav:GetWidth() - 8, 24)
+            b:SetPoint("TOPLEFT", 4, top)
+            b.icon = b:CreateTexture(nil, "ARTWORK")
+            b.icon:SetSize(18, 18)
+            b.icon:SetPoint("LEFT", 4, 0)
+            b.icon:SetTexture(p.icon)
+            if p.icon ~= ns.LOGO then b.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92) end
+            b.text = b:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+            b.text:SetPoint("LEFT", b.icon, "RIGHT", 6, 0)
+            b.text:SetPoint("RIGHT", -4, 0)
+            b.text:SetJustifyH("LEFT")
+            b.text:SetWordWrap(false)
+            b.text:SetText(L[p.title])
+            b.selected = b:CreateTexture(nil, "BACKGROUND")
+            b.selected:SetAllPoints()
+            b.selected:SetColorTexture(0.58, 0.51, 0.79, 0.35)
+            b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight", "ADD")
+            b:SetScript("OnClick", function() ShowPage(key) end)
+            navButtons[key] = b
+            top = top - 26
+        end
+    end
+    nav.reset:SetText(L["Reset all settings"])
+end
+
+-- Every setting of the current profile back to the defaults, after a confirmation.
+local function ConfirmReset()
+    if InCombatLockdown() then ns.Print(L["cannot reset in combat."]); return end
+    StaticPopupDialogs.WARLOCKUPKEEP_RESET = {
+        text = L["Reset all settings of the \"%s\" profile to the defaults?"],
+        button1 = YES, button2 = NO,
+        OnAccept = function()
+            if InCombatLockdown() then ns.Print(L["cannot reset in combat."]); return end
+            ns:ResetDB()
+            ns.Print(L["settings reset."])
+            -- The language may have changed back too.
+            C_Timer.After(0, function()
+                BuildContent()
+                if settingsButton then settingsButton:SetText(L["Open settings (/wu)"]) end
+                Changed()
+            end)
+        end,
+        timeout = 0, whileDead = true, hideOnEscape = true, preferredIndex = 3,
+    }
+    StaticPopup_Show("WARLOCKUPKEEP_RESET", ns.CurrentProfile())
+end
+
+------------------------------------------------------------------------
 -- Build
 ------------------------------------------------------------------------
 local function Build()
@@ -295,9 +465,9 @@ local function Build()
     -- leaves this window open; hide it directly instead.
     local close = f.CloseButton or _G["WarlockUpkeepOptionsCloseButton"]
     if close then close:SetScript("OnClick", function() f:Hide() end) end
-    f:SetSize(540, 620)
+    f:SetSize(880, 640)
     f:SetPoint("CENTER")
-    f:SetFrameStrata("DIALOG")
+    f:SetFrameStrata("HIGH") -- below the confirmation popups
     f:SetMovable(true)
     f:EnableMouse(true)
     f:RegisterForDrag("LeftButton")
@@ -315,22 +485,32 @@ local function Build()
     logo:SetPoint("RIGHT", title, "LEFT", -4, 0)
     logo:SetTexture(ns.LOGO)
 
+    nav = CreateFrame("Frame", nil, f, "BackdropTemplate")
+    nav:SetPoint("TOPLEFT", 10, -30)
+    nav:SetPoint("BOTTOMLEFT", 10, 10)
+    nav:SetWidth(210)
+    nav:SetBackdrop({ bgFile = "Interface\\ChatFrame\\ChatFrameBackground" })
+    nav:SetBackdropColor(0, 0, 0, 0.35)
+    nav.reset = CreateFrame("Button", nil, nav, "UIPanelButtonTemplate")
+    nav.reset:SetSize(194, 22)
+    nav.reset:SetPoint("BOTTOM", 0, 8)
+    nav.reset:SetScript("OnClick", ConfirmReset)
+
     scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 10, -30)
+    scroll:SetPoint("TOPLEFT", nav, "TOPRIGHT", 8, 0)
     scroll:SetPoint("BOTTOMRIGHT", -32, 10)
     f:SetScript("OnShow", function() for _, r in ipairs(refreshers) do r() end end)
 end
 
--- Settings rows. Built again in a new frame when the language changes.
-local function BuildContent()
-    if content then content:Hide() end
+-- Settings rows, page by page. Built again in new frames when the language changes.
+function BuildContent()
+    for _, p in pairs(pages) do p.frame:Hide() end
+    wipe(pages)
+    content = nil
     wipe(refreshers)
-    y = 0
-    content = CreateFrame("Frame", nil, scroll)
-    content:SetSize(490, 100)
-    scroll:SetScrollChild(content)
 
     -- General
+    Page("general", "General", ns.LOGO)
     Header("General", ns.LOGO)
     Select("Language", ns.LANGUAGES, function() return ns.db.locale end, function(v)
         ns.db.locale = v
@@ -348,6 +528,46 @@ local function BuildContent()
             Changed()
         end)
     end
+
+    Check("Preview mode (show all icons for positioning)", function() return ns.db.preview end, function(v) ns.db.preview = v end)
+    Check("Simulate combat (opacity, highlight, hiding, click-through)", function() return ns.db.previewCombat end, function(v) ns.db.previewCombat = v end)
+    Check("Show minimap button", function() return not ns.db.minimap.hide end, function(v) ns.db.minimap.hide = not v end)
+    Check("Lock minimap button position", function() return ns.db.minimap.locked end, function(v) ns.db.minimap.locked = v end)
+    Select("Move icons with", ns.GetMoveModes, function() return ns.db.moveWith end, function(v) ns.db.moveWith = v end)
+    Check("Hide all icons while on a flight path", function() return ns.db.hideOnTaxi end, function(v) ns.db.hideOnTaxi = v end)
+    Check("Hide all icons while mounted", function() return ns.db.hideOnMount end, function(v) ns.db.hideOnMount = v end)
+    if ns.modules.shards then
+        Note("These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
+            "see \"Keep showing on a mount or flight path\" in its section.")
+    else
+        Note("These also hide the Soulstone label.")
+    end
+    Check("Snap frames to each other (top / bottom / center, side by side)", function() return ns.db.snap.enabled end, function(v) ns.db.snap.enabled = v end)
+    Slider("Snap distance", 2, 30, 1, function() return ns.db.snap.distance end, function(v) ns.db.snap.distance = v end)
+    Slider("Gap between snapped frames", 0, 20, 1, function() return ns.db.snap.gap end, function(v) ns.db.snap.gap = v end)
+    SubHeader("Combat")
+    Check("Highlight in combat", function() return ns.db.combat.glow end, function(v) ns.db.combat.glow = v end)
+    Check("Click-through in combat (target / turn the camera through icons)", function() return ns.db.combat.clickThrough end, function(v) ns.db.combat.clickThrough = v end)
+    Check("Hide icons in combat", function() return ns.db.combat.hide end, function(v) ns.db.combat.hide = v end)
+    Slider("Opacity in combat, %", ns.MIN_COMBAT_ALPHA * 100, 100, 5, function() return math.floor(ns.db.combat.alpha * 100 + 0.5) end, function(v) ns.db.combat.alpha = v / 100 end)
+    Slider("Opacity out of combat, %", 0, 100, 5, function() return math.floor(ns.db.combat.idleAlpha * 100 + 0.5) end, function(v) ns.db.combat.idleAlpha = v / 100 end)
+    Note("Click-through can't change during a fight (the game locks mouse input in combat): it applies after combat. " ..
+        "Hiding applies at once, but icons hidden when the fight started stay hidden until it ends. " ..
+        "Without click-through, icons are clickable in combat, and a faded-out icon still takes clicks at its spot.")
+    SubHeader("Appearance")
+    Select("Highlight type", ns.GLOW_MODES, function() return ns.db.glowMode end, function(v) ns.db.glowMode = v end)
+    Select("Outline style", ns.GLOW_STYLES, function() return ns.db.glowStyle end, function(v) ns.db.glowStyle = v end)
+    Slider("Fill opacity, %", 5, 100, 5, function() return math.floor(ns.db.fillAlpha * 100 + 0.5) end, function(v) ns.db.fillAlpha = v / 100 end)
+    Button("Lock all", 110, function() ns:SetAllLocked(true); Changed() end)
+    Button("Unlock all", 110, function() ns:SetAllLocked(false); Changed() end, LEFT + 116)
+    y = y - 30
+    Note("Icons: left click performs the action; they are moved as set in \"Move icons with\" (only when unlocked). " ..
+        "If a modifier is used for moving, clicks with that modifier do nothing while the icon is unlocked. " ..
+        "Labels and the shard counter are moved with left-drag. Changes made in combat apply after combat.")
+
+    -- Profiles
+    Page("profiles", "Profiles", "Interface\\Icons\\INV_Misc_Note_01")
+    Header("Profiles", "Interface\\Icons\\INV_Misc_Note_01")
     local function ProfileList()
         local list = {}
         for _, name in ipairs(ns.ProfileNames()) do list[#list + 1] = { value = name, text = name } end
@@ -382,47 +602,8 @@ local function BuildContent()
     Note("Each character uses one profile. Export puts the current profile's settings into the box as text; paste " ..
         "such a text into the box and press Import to replace the current profile's settings with it.")
 
-    Check("Preview mode (show all icons for positioning)", function() return ns.db.preview end, function(v) ns.db.preview = v end)
-    Check("Simulate combat (opacity, highlight, hiding, click-through)", function() return ns.db.previewCombat end, function(v) ns.db.previewCombat = v end)
-    Check("Show minimap button", function() return not ns.db.minimap.hide end, function(v) ns.db.minimap.hide = not v end)
-    Check("Lock minimap button position", function() return ns.db.minimap.locked end, function(v) ns.db.minimap.locked = v end)
-    Select("Move icons with", ns.GetMoveModes, function() return ns.db.moveWith end, function(v) ns.db.moveWith = v end)
-    Check("Hide all icons while on a flight path", function() return ns.db.hideOnTaxi end, function(v) ns.db.hideOnTaxi = v end)
-    Check("Hide all icons while mounted", function() return ns.db.hideOnMount end, function(v) ns.db.hideOnMount = v end)
-    if ns.modules.shards then
-        Note("These also hide the Soulstone label and the Soul Shard counter. The counter can stay on screen: " ..
-            "see \"Keep showing on a mount or flight path\" in its section.")
-    else
-        Note("These also hide the Soulstone label.")
-    end
-    Check("Snap frames to each other (top / bottom / center, side by side)", function() return ns.db.snap.enabled end, function(v) ns.db.snap.enabled = v end)
-    Slider("Snap distance", 2, 30, 1, function() return ns.db.snap.distance end, function(v) ns.db.snap.distance = v end)
-    Slider("Gap between snapped frames", 0, 20, 1, function() return ns.db.snap.gap end, function(v) ns.db.snap.gap = v end)
-    SubHeader("Combat")
-    Check("Highlight in combat", function() return ns.db.combat.glow end, function(v) ns.db.combat.glow = v end)
-    Check("Click-through in combat (target / turn the camera through icons)", function() return ns.db.combat.clickThrough end, function(v) ns.db.combat.clickThrough = v end)
-    Check("Hide icons in combat", function() return ns.db.combat.hide end, function(v) ns.db.combat.hide = v end)
-    Slider("Opacity in combat, %", ns.MIN_COMBAT_ALPHA * 100, 100, 5, function() return math.floor(ns.db.combat.alpha * 100 + 0.5) end, function(v) ns.db.combat.alpha = v / 100 end)
-    Slider("Opacity out of combat, %", 0, 100, 5, function() return math.floor(ns.db.combat.idleAlpha * 100 + 0.5) end, function(v) ns.db.combat.idleAlpha = v / 100 end)
-    Note("Click-through can't change during a fight (the game locks mouse input in combat): it applies after combat. " ..
-        "Hiding applies at once, but icons hidden when the fight started stay hidden until it ends. " ..
-        "Without click-through, icons are clickable in combat, and a faded-out icon still takes clicks at its spot.")
-    SubHeader("Appearance")
-    Select("Highlight type", ns.GLOW_MODES, function() return ns.db.glowMode end, function(v) ns.db.glowMode = v end)
-    Select("Outline style", ns.GLOW_STYLES, function() return ns.db.glowStyle end, function(v) ns.db.glowStyle = v end)
-    Slider("Fill opacity, %", 5, 100, 5, function() return math.floor(ns.db.fillAlpha * 100 + 0.5) end, function(v) ns.db.fillAlpha = v / 100 end)
-    Button("Lock all", 110, function() ns:SetAllLocked(true); Changed() end)
-    Button("Unlock all", 110, function() ns:SetAllLocked(false); Changed() end, LEFT + 116)
-    Button("Reset settings", 130, function()
-        if InCombatLockdown() then ns.Print(L["cannot reset in combat."]); return end
-        ns:ResetDB(); Changed()
-    end, LEFT + 232)
-    y = y - 30
-    Note("Icons: left click performs the action; they are moved as set in \"Move icons with\" (only when unlocked). " ..
-        "If a modifier is used for moving, clicks with that modifier do nothing while the icon is unlocked. " ..
-        "Labels and the shard counter are moved with left-drag. Changes made in combat apply after combat.")
-
     -- Custom sounds: the player's own files, offered in every sound list.
+    Page("sounds", "Custom sounds", "Interface\\Icons\\INV_Misc_Drum_01")
     Header("Custom sounds", "Interface\\Icons\\INV_Misc_Drum_01")
     Note("Put .ogg or .mp3 files into World of Warcraft/<client>/Interface/WarlockUpkeepSounds/ and fully restart " ..
         "the game (a /reload doesn't find new files). Then add each file here by its name, e.g. alarm.ogg, " ..
@@ -465,6 +646,7 @@ local function BuildContent()
 
     -- 1. Demon Armor
     if ns.modules.armor then
+        Page("armor", "Demon Armor / Demon Skin", "Interface\\Icons\\Spell_Shadow_RagingScream")
         IconSection("Demon Armor / Demon Skin", "armor", "Interface\\Icons\\Spell_Shadow_RagingScream", function(get)
             -- Clients that hide auras from addons in combat (Forever).
             if ns.SECRET_AURAS then
@@ -478,6 +660,7 @@ local function BuildContent()
 
     -- 2. Soul Shards
     if ns.modules.shards then
+        Page("shards", "Soul Shard counter", "Interface\\Icons\\INV_Misc_Gem_Amethyst_02")
         local sh = T("shards")
         Header("Soul Shard counter", "Interface\\Icons\\INV_Misc_Gem_Amethyst_02")
         Check("Enable", function() return sh().enabled end, function(v) sh().enabled = v end)
@@ -534,6 +717,7 @@ local function BuildContent()
     end
 
     -- 3. Healthstone
+    Page("healthstone", "Healthstone", "Interface\\Icons\\INV_Stone_04")
     IconSection("Healthstone", "healthstone", "Interface\\Icons\\INV_Stone_04", function(get)
         SubHeader("State: no Healthstone in bags")
         GlowAndSound(get)
@@ -547,6 +731,7 @@ local function BuildContent()
 
     -- 3b. Firestone / Spellstone (Forever, Classic Era, TBC)
     if ns.modules.weaponStone then
+        Page("weaponStone", "Firestone / Spellstone", ns.ItemIcon(13699) or "Interface\\Icons\\INV_Misc_Gem_Bloodstone_02")
         IconSection("Firestone / Spellstone", "weaponStone", ns.ItemIcon(13699) or "Interface\\Icons\\INV_Misc_Gem_Bloodstone_02", function(get)
             Select("Stone", { { value = "firestone", text = "Firestone" }, { value = "spellstone", text = "Spellstone" } },
                 function() return get().stone end, function(v) get().stone = v end)
@@ -567,6 +752,7 @@ local function BuildContent()
     end
 
     -- 4. Soulstone
+    Page("soulstone", "Soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem")
     if ns.Hardcore() then
         Header("Soulstone", "Interface\\Icons\\Spell_Shadow_SoulGem")
         Note("Hardcore realm: nobody can be brought back to life here, so the Soulstone icon and label are off " ..
@@ -587,8 +773,8 @@ local function BuildContent()
         end)
         local an = function() return ns.db.soulstone.announce end
         local function Text(label, key)
-            local e = Input(label, 250, function(text) an()[key] = text; Changed() end)
-            refreshers[#refreshers + 1] = function() e:SetText(an()[key] or ""); e:SetCursorPosition(0) end
+            TextArea(label, function() return an()[key] end, function(v) an()[key] = v end,
+                ns.defaults.soulstone.announce[key], { P_NAME_SS, P_TIME })
         end
         SubHeader("Soulstone messages")
         Check("Tell the group who has your Soulstone", function() return an().group end, function(v) an().group = v end)
@@ -598,8 +784,7 @@ local function BuildContent()
         Check("Tell the group when it's about to run out", function() return an().expire end, function(v) an().expire = v end)
         Slider("Seconds before it runs out", 10, 300, 10, function() return an().expireSeconds end, function(v) an().expireSeconds = v end)
         Text("Running-out message", "expireText")
-        Note("{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
-            "party chat, whichever you're in.")
+        Note("The messages go to the instance, raid or party chat, whichever you're in.")
         local lb = T("soulstoneLabel")
         SubHeader("Soulstone target label")
         Check("Show label (name + timer) when used on another player", function() return lb().enabled end, function(v) lb().enabled = v end)
@@ -625,6 +810,7 @@ local function BuildContent()
     end
 
     -- 5. Demon
+    Page("pet", "Demon (pet)", "Interface\\Icons\\Spell_Shadow_SummonImp")
     IconSection("Demon (pet)", "pet", "Interface\\Icons\\Spell_Shadow_SummonImp", function(get)
         GlowAndSound(get)
         if ns.IsKnown(ns.data.demonicSacrifice) or ns.IsKnown(ns.data.soulLink) then
@@ -658,35 +844,36 @@ local function BuildContent()
     -- 5b. Summon queue
     do
         local su = T("summon")
+        Page("summon", "Summon queue", "Interface\\Icons\\Spell_Shadow_Twilight")
         Header("Summon queue", "Interface\\Icons\\Spell_Shadow_Twilight")
         Check("Enable", function() return su().enabled end, function(v) su().enabled = v end)
         Check("Lock position", function() return su().locked end, function(v) su().locked = v end)
         Slider("Background opacity, %", 0, 100, 5, function() return math.floor(su().bgAlpha * 100 + 0.5) end, function(v) su().bgAlpha = v / 100 end)
         Slider("Remove from the queue after, minutes", 1, 30, 1, function() return su().timeout end, function(v) su().timeout = v end)
-        local kw = Input("Keywords (comma-separated)", 220, function(text) su().keywords = text; Changed() end)
-        refreshers[#refreshers + 1] = function() kw:SetText(su().keywords or "") kw:SetCursorPosition(0) end
+        local sd = ns.defaults.summon
+        TextArea("Keywords (comma-separated)", function() return su().keywords end, function(v) su().keywords = v end,
+            sd.keywords)
         SoundRows(su, "Play sound when someone joins the queue")
         local an = function() return su().announce end
         Check("Announce the summon in group chat", function() return an().group end, function(v) an().group = v end)
-        local g = Input("Group message", 250, function(text) an().groupText = text; Changed() end)
-        refreshers[#refreshers + 1] = function() g:SetText(an().groupText or ""); g:SetCursorPosition(0) end
+        TextArea("Group message", function() return an().groupText end, function(v) an().groupText = v end,
+            sd.announce.groupText, { P_NAME_SUMMON })
         Check("Whisper the player being summoned", function() return an().whisper end, function(v) an().whisper = v end)
-        local w = Input("Whisper", 250, function(text) an().whisperText = text; Changed() end)
-        refreshers[#refreshers + 1] = function() w:SetText(an().whisperText or ""); w:SetCursorPosition(0) end
+        TextArea("Whisper", function() return an().whisperText end, function(v) an().whisperText = v end,
+            sd.announce.whisperText, { P_NAME_SUMMON })
         local cc = function() return su().clickersCall end
         SubHeader("Not enough people at the portal")
         Check("Ask for help when fewer than 2 stand next to you", function() return cc().enabled end, function(v) cc().enabled = v end)
-        local cg = Input("Message to the group", 250, function(text) cc().groupText = text; Changed() end)
-        refreshers[#refreshers + 1] = function() cg:SetText(cc().groupText or ""); cg:SetCursorPosition(0) end
-        local cp = Input("Message for a sold summon", 250, function(text) cc().publicText = text; Changed() end)
-        refreshers[#refreshers + 1] = function() cp:SetText(cc().publicText or ""); cp:SetCursorPosition(0) end
+        TextArea("Message to the group", function() return cc().groupText end, function(v) cc().groupText = v end,
+            sd.clickersCall.groupText, { P_N })
+        TextArea("Message for a sold summon", function() return cc().publicText end, function(v) cc().publicText = v end,
+            sd.clickersCall.publicText, { P_N, P_ZONE, P_PRICE, P_NAME_SUMMON })
         Check("Sold summon: to the party or raid", function() return cc().party end, function(v) cc().party = v end)
         Check("Sold summon: to /say", function() return cc().say end, function(v) cc().say = v end)
         Check("Sold summon: to /yell", function() return cc().yell end, function(v) cc().yell = v end)
         Check("Sold summon: to the ad channel (Trade)", function() return cc().trade end, function(v) cc().trade = v end)
         Note("Sent when you click a player in the queue and fewer than two group members stand next to you, at most " ..
-            "once per 15 seconds. {n} is how many more people you need. Your group's summons ask the group; a summon " ..
-            "you sold asks everyone around too, and its message takes the selling texts' {zone} and {price}.")
+            "once per 15 seconds. Your group's summons ask the group; a summon you sold asks everyone around too.")
         Note("Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
             "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
             "once they're next to you or leave the group. The window shows only while someone is waiting.")
@@ -696,7 +883,8 @@ local function BuildContent()
             local e = Input(label, 250, function(text) set(text); Changed() end)
             refreshers[#refreshers + 1] = function() e:SetText(get() or ""); e:SetCursorPosition(0) end
         end
-        SubHeader("Selling summons")
+        Page("sell", "Selling summons", "Interface\\Icons\\INV_Misc_Coin_01")
+        Header("Selling summons", "Interface\\Icons\\INV_Misc_Coin_01")
         Check("Selling summons (/wu sell)", function() return se().enabled end, function(v) se().enabled = v end)
         Check("Lock position", function() return se().locked end, function(v) se().locked = v end)
         local sell = ns.modules.summonSell
@@ -706,22 +894,28 @@ local function BuildContent()
                 if copper then se().price = copper else ns.Print(L["can't read the price \"%s\"."], v) end
             end)
         Text("Channel for the ad", function() return se().adChannel end, function(v) se().adChannel = v end)
-        Text("Buyer keywords (comma-separated)", function() return se().keywords end, function(v) se().keywords = v end)
-        Text("Offer without a price", function() return se().templates.ask end, function(v) se().templates.ask = v end)
-        Text("Offer with a price", function() return se().templates.priced end, function(v) se().templates.priced = v end)
-        Text("Clickers sentence", function() return se().templates.clickers end, function(v) se().templates.clickers = v end)
-        Text("Ad", function() return se().templates.ad end, function(v) se().templates.ad = v end)
+        local sd = ns.defaults.summonSell
+        TextArea("Buyer keywords (comma-separated)", function() return se().keywords end, function(v) se().keywords = v end,
+            sd.keywords)
+        local function Template(label, key, legend)
+            TextArea(label, function() return se().templates[key] end, function(v) se().templates[key] = v end,
+                sd.templates[key], legend)
+        end
+        Template("Offer without a price", "ask", { P_NAME_BUYER, P_ZONE, P_CLICKERS })
+        Template("Offer with a price", "priced", { P_NAME_BUYER, P_ZONE, P_PRICE, P_CLICKERS })
+        Template("Clickers sentence", "clickers", { P_N })
+        Template("Ad", "ad", { P_ZONE, P_PRICE, P_CLICKERS })
         SoundRows(se, "Play sound when a new buyer shows up")
         Note("Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
             "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
             "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
-            "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
-            "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by.")
+            "sent without your click.")
     end
 
     -- 5c. Enslave Demon timer
     if ns.modules.enslave then
         local en = T("enslave")
+        Page("enslave", "Enslave Demon timer", ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon")
         Header("Enslave Demon timer", ns.SpellTexture(ns.data.enslaveDemon[1]) or "Interface\\Icons\\Spell_Shadow_EnslaveDemon")
         Check("Enable", function() return en().enabled end, function(v) en().enabled = v end)
         Check("Lock position", function() return en().locked end, function(v) en().locked = v end)
@@ -747,6 +941,7 @@ local function BuildContent()
     -- 5d. Trainer
     if ns.modules.trainer then
         local tr = T("trainer")
+        Page("trainer", "New ranks at the trainer", "Interface\\Icons\\INV_Misc_Book_09")
         Header("New ranks at the trainer", "Interface\\Icons\\INV_Misc_Book_09")
         Check("Tell me after a level up what I can learn", function() return tr().enabled end, function(v) tr().enabled = v end)
         SoundRows(tr)
@@ -757,11 +952,12 @@ local function BuildContent()
     -- 6. Grimoires
     if ns.modules.grimoires then
         local gr = T("grimoires")
+        Page("grimoires", "Grimoires", ns.ItemIcon(16302) or "Interface\\Icons\\INV_Misc_Book_06")
         Header("Grimoires", ns.ItemIcon(16302) or "Interface\\Icons\\INV_Misc_Book_06")
         Check("Mark grimoires your demons already know at vendors", function() return gr().merchant end, function(v) gr().merchant = v end)
         Check("Show what your demons know in grimoire tooltips", function() return gr().tooltip end, function(v) gr().tooltip = v end)
         local checked = Label("")
-        checked:SetWidth(440)
+        checked:SetWidth(WIDTH - LEFT - 20)
         checked:SetJustifyH("LEFT")
         refreshers[#refreshers + 1] = function()
             local list, rest = ns.modules.grimoires:CheckedDemons()
@@ -778,7 +974,9 @@ local function BuildContent()
             "that grimoire in your bags.")
     end
 
-    content:SetHeight(-y + 20)
+    FinishPage()
+    BuildNav()
+    ShowPage(currentPage)
 end
 
 function ns.ToggleOptions()

@@ -162,7 +162,6 @@ which new ranks you can learn and what they cost (`/wu trainer` any time). Forev
 | `/wu preview` | Show all icons to position them |
 | `/wu combat` | Toggle combat simulation |
 | `/wu trainer` | Ranks waiting at your class trainer |
-| `/wu reset` | Reset settings |
 | `/wu reset` | Reset the current profile |
 
 ## Minimap button

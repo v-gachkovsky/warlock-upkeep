@@ -193,7 +193,18 @@ ns.LOCALES.ukUA = {
     ["Fill opacity, %"] = "Непрозорість заливки, %",
     ["Lock all"] = "Закріпити все",
     ["Unlock all"] = "Відкріпити все",
-    ["Reset settings"] = "Скинути налаштування",
+    ["Reset all settings"] = "Скинути всі налаштування",
+    ["Reset all settings of the \"%s\" profile to the defaults?"] = "Скинути всі налаштування профілю «%s» до стандартних?",
+    ["Profiles"] = "Профілі",
+    ["Default"] = "Скинути",
+    ["the player with your Soulstone"] = "гравець із вашим Каменем душі",
+    ["the time left (m:ss)"] = "скільки лишилося (хв:сек)",
+    ["the player being summoned"] = "гравець, якого ви призиваєте",
+    ["the buyer"] = "покупець",
+    ["the place typed in the selling window, or your zone"] = "місце з вікна продажу або ваша зона",
+    ["your price, like 1g50s"] = "ваша ціна, наприклад 1g50s",
+    ["the clickers sentence below, left out once two stand by"] = "речення про людей біля порталу (нижче), його немає, коли поруч уже двоє",
+    ["how many more people you need"] = "скільки ще людей потрібно",
     ["Icons: left click performs the action; they are moved as set in \"Move icons with\" (only when unlocked). " ..
         "If a modifier is used for moving, clicks with that modifier do nothing while the icon is unlocked. " ..
         "Labels and the shard counter are moved with left-drag. Changes made in combat apply after combat."] =
@@ -273,21 +284,17 @@ ns.LOCALES.ukUA = {
     ["Sold summon: to /yell"] = "Проданий призив: у /yell",
     ["Sold summon: to the ad channel (Trade)"] = "Проданий призив: у канал оголошень (Trade)",
     ["Sent when you click a player in the queue and fewer than two group members stand next to you, at most " ..
-        "once per 15 seconds. {n} is how many more people you need. Your group's summons ask the group; a summon " ..
-        "you sold asks everyone around too, and its message takes the selling texts' {zone} and {price}."] =
-        "Надсилається, коли ви клікаєте гравця в черзі, а поруч з вами менше двох учасників групи, не частіше ніж " ..
-        "раз на 15 секунд. {n} - скільки ще людей потрібно. Для призиву своєї групи кличе групу; для проданого " ..
-        "кличе ще й усіх довкола, а в його тексті працюють {zone} і {price} із текстів продажу.",
+        "once per 15 seconds. Your group's summons ask the group; a summon you sold asks everyone around too."] =
+        "Надсилається, коли ви клікаєте гравця в черзі, а поруч менше двох учасників групи, і не частіше ніж раз " ..
+        "на 15 секунд. Для своєї групи кличе групу, а для проданого призиву ще й усіх довкола.",
     ["Soulstone messages"] = "Повідомлення про Камінь душі",
     ["Tell the group who has your Soulstone"] = "Писати в групу, на кому ваш Камінь душі",
     ["Whisper the player who got it"] = "Шепнути гравцю, який його отримав",
     ["Tell the group when it's about to run out"] = "Писати в групу, коли він скоро закінчиться",
     ["Seconds before it runs out"] = "За скільки секунд до кінця",
     ["Running-out message"] = "Повідомлення про кінець",
-    ["{name} is the player with the Soulstone, {time} the time left. The messages go to the instance, raid or " ..
-        "party chat, whichever you're in."] =
-        "{name} - гравець із Каменем душі, {time} - скільки лишилось. Повідомлення йдуть у чат підземелля, рейду " ..
-        "або групи, залежно від того, де ви.",
+    ["The messages go to the instance, raid or party chat, whichever you're in."] =
+        "Повідомлення йдуть у чат підземелля, рейду чи групи, залежно від того, де ви.",
     ["Selling summons (/wu sell)"] = "Продаж призиву (/wu sell)",
     ["Price: 5 or 5g, 1g50s, 75s (0 = ask the buyer)"] = "Ціна: 5 або 5g, 1g50s, 75s (0 = спитати покупця)",
     ["can't read the price \"%s\"."] = "не вдалося прочитати ціну \"%s\".",
@@ -300,13 +307,11 @@ ns.LOCALES.ukUA = {
     ["Players outside your group who write a buyer keyword in a public channel, /say, /yell or a whisper are " ..
         "listed while selling is on. Click a buyer to whisper the offer, Shift + click to invite them too; once " ..
         "they join they go on to the summon queue. The Ad button posts the ad to the channel above. Nothing is " ..
-        "sent without your click. In the texts {name} is the buyer, {zone} your zone, {price} the price and " ..
-        "{clickers} the clickers sentence ({n}: how many more people you need), left out when two stand by."] =
+        "sent without your click."] =
         "Поки продаж увімкнено, гравці поза вашою групою, які пишуть слова покупців у публічному каналі, /say, " ..
         "/yell чи шепотом, потрапляють у список. Клік по покупцю шепоче пропозицію, Shift + клік ще й запрошує " ..
         "в групу; коли він приєднається, то перейде в чергу призиву. Кнопка «Оголошення» пише оголошення в канал " ..
-        "вище. Без вашого кліку нічого не надсилається. У текстах {name} - покупець, {zone} - ваша зона, {price} - " ..
-        "ціна, {clickers} - речення про людей біля порталу ({n}: скільки ще людей треба), його немає, коли двоє вже поруч.",
+        "вище. Без вашого кліку нічого не надсилається.",
     ["Group members who write one of the keywords in party, raid or a whisper join the queue. Click a " ..
         "player to target them and cast Ritual of Summoning; right click removes them. Players leave the queue " ..
         "once they're next to you or leave the group. The window shows only while someone is waiting."] =
