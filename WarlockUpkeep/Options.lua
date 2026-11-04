@@ -737,9 +737,8 @@ function BuildContent()
             Select("Stone", { { value = "firestone", text = "Firestone" }, { value = "spellstone", text = "Spellstone" } },
                 function() return get().stone end, function(v) get().stone = v end)
             if ns.FOREVER then
-                Check("Remind while another temporary enchant (an oil) is on the weapon", function() return get().remindOverOther end, function(v) get().remindOverOther = v end)
-                Note("The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
-                    "the stone (from the icon, your bags or a macro).")
+                Note("The stone imbues your main-hand weapon and works together with an oil. The first time you use " ..
+                    "the stone (from the icon, your bags or a macro), the addon learns how the game shows it.")
                 SubHeader("State: stone in bags but not applied to the weapon")
             else
                 Note("The stone works while held in the off-hand: clicking the icon equips it in place of your " ..

@@ -369,11 +369,10 @@ ns.LOCALES.ukUA = {
     ["Shows the icon while a Healthstone is in your bags and off cooldown; a click uses the strongest one."] =
         "Іконка з'являється, якщо Камінь здоров'я є в сумках і не на перезарядці; клік використовує найсильніший.",
     ["Stone"] = "Камінь",
-    ["Remind while another temporary enchant (an oil) is on the weapon"] = "Нагадувати, коли на зброї інше тимчасове зачарування (олія)",
-    ["The stone imbues your main-hand weapon. The addon tells its enchant from an oil's once you use " ..
-        "the stone (from the icon, your bags or a macro)."] =
-        "Камінь зачаровує зброю в основній руці. Його зачарування аддон відрізнить від олії, щойно ви " ..
-        "використаєте камінь (з іконки, із сумки чи макросом).",
+    ["The stone imbues your main-hand weapon and works together with an oil. The first time you use " ..
+        "the stone (from the icon, your bags or a macro), the addon learns how the game shows it."] =
+        "Камінь зачаровує зброю в основній руці й діє разом з олією. Коли ви вперше використаєте камінь (з " ..
+        "іконки, із сумки чи макросом), аддон запам'ятає, як гра його показує.",
     ["The stone works while held in the off-hand: clicking the icon equips it in place of your " ..
         "off-hand item."] =
         "Камінь діє, поки ви тримаєте його в лівій руці: клік по іконці вдягає його замість вашої речі в лівій руці.",

@@ -51,7 +51,6 @@ ns.defaults = {
     -- Firestone or Spellstone (Forever, Classic Era, TBC): only one can be on at a time, so one icon for the chosen.
     weaponStone = Icon(-180, 160, {
         stone = "firestone",
-        remindOverOther = false, -- Forever: remind while another temporary enchant (an oil) is on the weapon
         states = {
             use    = { glow = true, glowColor = { 1, 0.82, 0, 1 }, sound = false, soundName = "READY_CHECK" },
             create = { glow = true, glowColor = { 1, 0.1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
