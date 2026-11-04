@@ -175,10 +175,10 @@ dragging still moves the icon. Not in combat. The stone can also be picked in th
 
 In **Classic Era and TBC** the stone works while held in the off-hand, so "on" means equipped, and the click
 equips it in place of your off-hand item. On **WoW Forever** the stone imbues your main-hand weapon instead, so
-"on" means the weapon has its enchant, and the click uses the stone. If the weapon has another temporary
-enchant, such as a wizard oil, the addon doesn't remind you by default; *Remind while another temporary
-enchant is on the weapon* changes that. The addon tells the stone's enchant from an oil's once you use the
-stone (from the icon, your bags or a macro). Without a main-hand weapon there's no reminder.
+"on" means the weapon carries its imbue, and the click uses the stone. The imbue works together with a wizard
+oil, so an oil on the weapon doesn't stop the reminder. The game may show the imbue as a weapon enchant or as a
+buff on you; the addon learns which the first time you use the stone (from the icon, your bags or a macro).
+Without a main-hand weapon there's no reminder.
 
 With the icon on, the recommended Soul Shards count only the chosen stone of the two.
 

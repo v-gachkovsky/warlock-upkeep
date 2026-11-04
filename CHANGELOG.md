@@ -4,6 +4,15 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- **Firestone / Spellstone on WoW Forever**: the stone's imbue works together with a wizard oil, so an oil on
+  the weapon no longer counts as the stone and no longer stops the reminder (the *Remind while another temporary
+  enchant is on the weapon* option is gone). The addon now finds the imbue whether the game shows it as a weapon
+  enchant or as a buff on you, and learns which from the first use of the stone; an oil already on the weapon or a
+  groupmate's buff landing at the same moment isn't taken for the stone.
+
 ## [1.10.0] - 2026-10-30
 
 ### Added
