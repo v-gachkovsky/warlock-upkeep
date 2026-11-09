@@ -107,6 +107,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
 | 6 | **Demon** | No pet out | Summons the assigned demon |
+| 6 | **Health Funnel** | Your demon's health is low | Casts Health Funnel on it |
 | 7 | **Grimoires** | At vendors and in tooltips | — |
 | 8 | **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
@@ -250,6 +251,12 @@ enslaved, a small movable label shows how long it stays under control (up to 5 m
 has a warning zone (yellow from 60 seconds left) and a critical one (red from 30), each with its own threshold,
 color and optional sound, plus a sound when the timer runs out. In preview the timer runs 30 times faster and
 starts over at 0, so you can see the colors and hear the sounds.
+
+**Health Funnel** (every client). When your demon's health drops into the warning zone (20% or less, yellow by
+default) or the critical one (5% or less, red), a Health Funnel icon shows with the zone's highlight, also in
+combat, and a click heals the demon. Each zone has its own threshold, highlight and optional sound; the critical
+zone wins where they overlap. Until you learn Health Funnel, a movable warning in the zone's color shows on
+screen and in chat instead (each can be turned off).
 
 ### 7. Grimoires
 
@@ -507,6 +514,11 @@ your buffs from the game's own frames, which keep working:
 This covers armor and Grimoire of Sacrifice. Bag items (Healthstone, Soulstone, Soul Shards) and the demon
 are always readable.
 
+**Demon health in combat.** WoW Forever and Retail may hide your demon's health from addons in combat. The
+Health Funnel icon, its highlights and the screen warning still follow it through the game's own curves, but
+sounds and chat messages can't tell the zone then and wait until the health is readable again. Where the game
+has no such curves, the icon keeps the state it had before the health got hidden.
+
 **Soulstone in combat.** On WoW Forever and Retail a Soulstone removed in combat (from yourself or another
 player) is noticed only after the fight; the label and icon update then. A Soulstone can't be dispelled,
 so this matters little: check it before the pull. Out of combat a used or removed Soulstone is noticed when the player is visible.
@@ -534,6 +546,7 @@ WarlockUpkeep/
     ├── WeaponStone.lua
     ├── Soulstone.lua
     ├── Pet.lua
+    ├── HealthFunnel.lua
     ├── Summon.lua
     ├── SummonSell.lua
     └── Grimoires.lua

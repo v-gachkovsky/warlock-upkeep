@@ -2,7 +2,7 @@
 ## Title: WarlockUpkeep!
 ## Notes: Keeps a Warlock ready: reminders with one-click fixes for armor, Healthstone, Soulstone, Soul Shards and your demon. Marks the grimoires your demons already know.
 ## Author: Volodymyr Hachkovsky
-## Version: 1.10.1
+## Version: 1.11.0
 ## SavedVariables: WarlockUpkeepDB
 ## SavedVariablesPerCharacter: WarlockUpkeepCharDB
 ## IconTexture: Interface\AddOns\WarlockUpkeep\Media\logo
@@ -20,6 +20,7 @@ Modules\Healthstone.lua
 Modules\WeaponStone.lua
 Modules\Soulstone.lua
 Modules\Pet.lua
+Modules\HealthFunnel.lua
 Modules\Summon.lua
 Modules\SummonSell.lua
 Modules\Enslave.lua

@@ -80,6 +80,19 @@ ns.defaults = {
             soulLink  = { glow = true, glowColor = { 0.7, 0.3, 1, 1 }, sound = false, soundName = "RAID_WARNING" },
         },
     }),
+    -- Health Funnel: the icon shows when the demon's health is in a zone (percent or less); `crit` wins where
+    -- they overlap. Without the spell, a warning on screen (`text`) and in chat instead.
+    healthFunnel = Icon(0, 205, {
+        states = {
+            warn = { enabled = true, percent = 20, glow = true, glowColor = { 1, 0.82, 0, 1 }, sound = false, soundName = "RAID_WARNING" },
+            crit = { enabled = true, percent = 5, glow = true, glowColor = { 1, 0.1, 0.1, 1 }, sound = false, soundName = "RAID_WARNING" },
+        },
+        text = {
+            enabled = true, chat = true, locked = false,
+            point = { "CENTER", "CENTER", 0, 250 },
+            font = "Fonts\\FRIZQT__.TTF", outline = "OUTLINE", size = 20,
+        },
+    }),
     -- Summon queue window (Ritual of Summoning). Keywords: comma-separated, whole words; timeout in minutes.
     summon = {
         enabled = true, locked = false,
@@ -308,9 +321,10 @@ function ns:TogglePreviewCombat()
 end
 
 function ns:SetAllLocked(locked)
-    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "soulstoneLabel", "shards", "summon", "summonSell", "enslave", "minimap" }) do
+    for _, key in ipairs({ "armor", "healthstone", "weaponStone", "soulstone", "pet", "healthFunnel", "soulstoneLabel", "shards", "summon", "summonSell", "enslave", "minimap" }) do
         self.db[key].locked = locked
     end
+    self.db.healthFunnel.text.locked = locked
     self:ApplyAll()
 end
 

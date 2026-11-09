@@ -443,7 +443,8 @@ function ns.SnapOffset(frame)
     end
 
     for _, o in ipairs(ns.movables) do
-        if o ~= frame and o:IsVisible() and o:GetAlpha() > 0 then
+        local alpha = o ~= frame and o:IsVisible() and o:GetAlpha()
+        if alpha and not ns.IsSecret(alpha) and alpha > 0 then
             local r = Rect(o)
             if r and Near(me, r, dist + gap + 40) then
                 bestX = Try(bestX, r.cx, me.cx)                     -- centers
@@ -685,7 +686,9 @@ function Icon:PrepareForCombat()
 end
 
 local function Icon_OnEnter(self)
-    if self:GetAlpha() == 0 then return end -- invisible in combat: no tooltip
+    -- Invisible in combat: no tooltip. An opacity set from hidden health can't be read, so no tooltip then either.
+    local alpha = self:GetAlpha()
+    if ns.IsSecret(alpha) or alpha == 0 then return end
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     if self.tipItem then
         GameTooltip:SetItemByID(self.tipItem)
