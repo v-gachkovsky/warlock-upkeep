@@ -36,6 +36,8 @@ ns.data = {
     -- 5 minutes, 10 in Retail.
     enslaveDemon = { 1098, 11725, 11726 },
     enslaveDuration = select(4, GetBuildInfo()) >= 100000 and 600 or 300,
+    -- Health Funnel: heals the demon (one rank from Mists on).
+    healthFunnel = { 755, 3698, 3699, 3700, 11693, 11694, 11695, 27259 },
 
     -- The counter shows once Soul Shards can be gained.
     drainSoul = { 1120, 8288, 8289, 11675, 27217 },

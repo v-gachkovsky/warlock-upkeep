@@ -4,6 +4,21 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Health Funnel at low demon health** (every client): when your demon's health drops into the warning zone
+  (20% or less by default, yellow) or the critical one (5% or less, red), a Health Funnel icon shows with the
+  zone's highlight, also in combat, and a click heals the demon. Each zone has its own threshold, highlight and
+  optional sound; the critical zone wins where they overlap. Until Health Funnel is learned, a movable warning in
+  the zone's color shows on screen and in chat instead. On WoW Forever and Retail, where the game may hide the
+  demon's health from addons in combat, the icon, highlights and screen warning follow it through the game's
+  health curves; sounds and chat messages wait until the health is readable again. Settings are on the new
+  *Health Funnel* page.
+
+### Fixed
+- The CurseForge description listed the Soul Shards and Healthstone rows twice.
+
 ## [1.10.1] - 2026-11-04
 
 ### Fixed

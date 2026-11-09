@@ -19,13 +19,12 @@ Soulstone in Mists and Retail, Sayaad and Grimoire of Sacrifice in Retail.
 | Icon | Shown when | Click |
 |------|------------|-------|
 | **Armor** | Demon Skin / Demon Armor is missing | Casts your strongest armor |
-| **Soul Shards** | Always (counter) | — |
-| **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | **Soul Shards** | Always (counter) | Shift + click deletes extra shards |
-| **Healthstone** | No Healthstone in your bags | Creates your strongest Healthstone |
+| **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equips, applies or creates the stone |
 | **Soulstone** | Stone unused or missing | Applies or creates the stone |
 | **Demon** | No pet out | Summons the demon you assigned |
+| **Health Funnel** | Your demon's health is low | Heals your demon |
 | **Grimoires** | At vendors and in tooltips | — |
 | **Summon queue** | Someone in the group asks for a summon | Targets them and casts Ritual of Summoning |
 
@@ -94,6 +93,9 @@ if your demon was out when you set off, since the game dismisses it for a while.
 It also knows your talents: no demon reminder while Demonic Sacrifice is active (optionally, a reminder to
 sacrifice), and a reminder to cast Soul Link when your demon is out without it. An Enslave Demon timer shows how
 long your enslaved demon stays under control.
+
+When your demon's health gets low (20% and 5% by default, each with its own highlight and sound), a Health
+Funnel icon shows to heal it, also in combat. Before you learn the spell, a warning shows on screen and in chat.
 
 ### Grimoires
 

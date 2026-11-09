@@ -39,6 +39,12 @@ ns.LOCALES.ukUA = {
     ["Missing Demon Skin / Demon Armor / Fel Armor. Click to cast."] = "Немає Демонічної шкіри, Демонічної броні чи Броні скверни. Клік: накласти.",
     ["No Healthstone in bags. Click to create the strongest one."] = "У сумках немає Каменя здоров'я. Клік: створити найсильніший.",
     ["Low health. Click to use your Healthstone."] = "Мало здоров'я. Клік: використати Камінь здоров'я.",
+    ["Health Funnel"] = "Канал здоров'я",
+    ["Your demon's health is low. Click to cast Health Funnel."] = "У демона мало здоров'я. Клік: підлікувати його.",
+    ["Your demon's health is low: %d%%."] = "У демона мало здоров'я: %d%%.",
+    ["Your demon's health is low!"] = "У демона мало здоров'я!",
+    ["Your demon is about to die: %d%%."] = "Демон ось-ось загине: %d%%.",
+    ["Your demon is about to die!"] = "Демон ось-ось загине!",
     ["No Soulstone in bags. Click to create the strongest one."] = "У сумках немає Каменя душі. Клік: створити найсильніший.",
     ["No %s in bags. Click to create the strongest one."] = "У сумках немає такого каменя (%s). Клік: створити найсильніший.",
     ["%s is not applied to your weapon. Click to apply it."] = "%s не накладено на зброю. Клік: накласти.",
@@ -407,6 +413,24 @@ ns.LOCALES.ukUA = {
     -- Settings: demon
     ["Demon (pet)"] = "Демон",
     ["Demon for each click and modifier"] = "Який демон на клік і з модифікаторами",
+
+    -- Settings: Health Funnel
+    ["Demon health: warning zone"] = "Здоров'я демона: зона попередження",
+    ["Demon health: critical zone"] = "Здоров'я демона: критична зона",
+    ["Demon health at or below, %"] = "Здоров'я демона не більше, %",
+    ["Until Health Funnel is learned"] = "Поки не вивчено Канал здоров'я",
+    ["Warning on screen"] = "Попередження на екрані",
+    ["Warning in chat"] = "Попередження в чаті",
+    ["The icon shows when your demon's health drops into a zone; a click casts Health Funnel. The critical " ..
+        "zone wins where the zones overlap. Until you learn the spell, a warning in the zone's highlight " ..
+        "color shows on screen and in chat instead."] =
+        "Іконка з'являється, коли здоров'я демона опускається в одну із зон; клік накладає Канал здоров'я. " ..
+        "Де зони перетинаються, діє критична. Поки заклинання не вивчено, замість іконки на екрані й у чаті " ..
+        "з'являється попередження кольором підсвітки зони.",
+    ["In combat the game may hide your demon's health from addons. The icon, its highlights and the " ..
+        "screen warning still follow it, but sounds and chat messages wait until the health can be read again."] =
+        "У бою гра може приховувати від аддонів здоров'я демона. Іконка, її підсвітка й попередження на екрані " ..
+        "все одно на нього реагують, а звуки й повідомлення в чаті чекають, доки здоров'я знову можна прочитати.",
 
     -- Settings: grimoires
     ["Grimoires"] = "Гримуари",

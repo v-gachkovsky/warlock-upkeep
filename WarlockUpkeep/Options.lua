@@ -365,7 +365,7 @@ end
 local pages, navButtons = {}, {}
 local currentPage
 local ORDER = { "general", "profiles", "armor", "shards", "reagents", "healthstone", "weaponStone", "soulstone", "pet",
-    "enslave", "summon", "sell", "trainer", "grimoires", "sounds" }
+    "healthFunnel", "enslave", "summon", "sell", "trainer", "grimoires", "sounds" }
 
 local function FinishPage()
     if content then content:SetHeight(-y + 20) end
@@ -840,6 +840,35 @@ function BuildContent()
             end
         end
     end)
+
+    -- 5a. Health Funnel
+    if ns.modules.healthFunnel then
+        local hfTitle = ns.SpellName(ns.data.healthFunnel[1]) or "Health Funnel"
+        local hfIcon = ns.SpellTexture(ns.data.healthFunnel[1]) or "Interface\\Icons\\Spell_Shadow_LifeDrain"
+        Page("healthFunnel", hfTitle, hfIcon)
+        IconSection(hfTitle, "healthFunnel", hfIcon, function(get)
+            for _, z in ipairs({ { "warn", "Demon health: warning zone" }, { "crit", "Demon health: critical zone" } }) do
+                local zc = function() return get().states[z[1]] end
+                SubHeader(z[2])
+                Check("Enable", function() return zc().enabled end, function(v) zc().enabled = v end)
+                Slider("Demon health at or below, %", 1, 90, 1, function() return zc().percent end, function(v) zc().percent = v end)
+                GlowAndSound(zc, nil, "Play sound when the zone starts")
+            end
+            local tx = function() return get().text end
+            SubHeader("Until Health Funnel is learned")
+            Check("Warning on screen", function() return tx().enabled end, function(v) tx().enabled = v end)
+            Check("Warning in chat", function() return tx().chat end, function(v) tx().chat = v end)
+            Check("Lock position", function() return tx().locked end, function(v) tx().locked = v end)
+            FontRows(tx, { { "Font size", "size" } })
+            Note("The icon shows when your demon's health drops into a zone; a click casts Health Funnel. The critical " ..
+                "zone wins where the zones overlap. Until you learn the spell, a warning in the zone's highlight " ..
+                "color shows on screen and in chat instead.")
+            if ns.SECRET_AURAS then
+                Note("In combat the game may hide your demon's health from addons. The icon, its highlights and the " ..
+                    "screen warning still follow it, but sounds and chat messages wait until the health can be read again.")
+            end
+        end)
+    end
 
     -- 5b. Summon queue
     do
