@@ -167,11 +167,14 @@ local function MerchantButton(i)
         b.wuMark:SetSize(18, 18)
         b.wuMark:SetPoint("TOPRIGHT", 4, 4)
         -- A bag in the other corner: you already have this grimoire with you. The vendor's sack
-        -- from the gossip menu: its own shape, so it doesn't look like a square button.
+        -- from the gossip menu: its own shape, so it doesn't look like a square button. Tinted green:
+        -- the brown sack is hard to see on the brown grimoire icons.
         b.wuBag = b:CreateTexture(nil, "OVERLAY", nil, 7)
         b.wuBag:SetSize(18, 18)
         b.wuBag:SetPoint("TOPLEFT", -4, 4)
         b.wuBag:SetTexture("Interface\\GossipFrame\\VendorGossipIcon")
+        b.wuBag:SetDesaturated(true)
+        b.wuBag:SetVertexColor(0.3, 1, 0.3)
     end
     return b
 end
