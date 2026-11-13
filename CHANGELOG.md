@@ -4,7 +4,7 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.12.0] - 2026-11-13
 
 ### Changed
 - **New logo**: a grimoire and a soul shard in a gold ring. The minimap button shows it whole, with its own ring
