@@ -7,6 +7,8 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- **New logo**: a grimoire and a soul shard in a gold ring. The minimap button shows it whole, with its own ring
+  instead of the usual minimap border; it's also the addon's icon in the addon list and the settings.
 - **Grimoires**: the sack mark on grimoires already in your bags is green now; the brown one was hard to see on
   the brown grimoire icons.
 
