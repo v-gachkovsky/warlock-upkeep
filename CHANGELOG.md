@@ -4,6 +4,19 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.12.0] - 2026-11-13
+
+### Changed
+- **New logo**: a grimoire and a soul shard in a gold ring. The minimap button shows it whole, with its own ring
+  instead of the usual minimap border; it's also the addon's icon in the addon list and the settings.
+- **Grimoires**: the sack mark on grimoires already in your bags is green now; the brown one was hard to see on
+  the brown grimoire icons.
+
+### Fixed
+- **Soulstone on cooldown**: the icon stays hidden while the Soulstone is on cooldown (the stone on Classic Era,
+  TBC and Forever, the spell on Mists and Retail) and shows again once it's over. Only the red "create" reminder
+  still shows then if *Remind to create a new Soulstone while one is applied* is on.
+
 ## [1.11.0] - 2026-11-09
 
 ### Added

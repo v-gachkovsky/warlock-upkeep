@@ -100,7 +100,7 @@ Funnel icon shows to heal it, also in combat. Before you learn the spell, a warn
 ### Grimoires
 
 At a grimoire vendor, see **which books your demons already know, for all of them at once**, without summoning
-each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are dark grey with a red cross), books already in your bags get a bag icon, and the tooltip tells per demon what it knows
+each one: learned grimoires get a check mark and turn grey (books for demons you can't summon yet are dark grey with a red cross), books already in your bags get a green bag icon, and the tooltip tells per demon what it knows
 (also in your bags). Summon each demon once so the addon can read its spells; after that it remembers them and
 keeps them up to date. WoW Forever, Classic Era and TBC.
 

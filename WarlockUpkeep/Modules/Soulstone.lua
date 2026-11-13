@@ -430,6 +430,13 @@ function M:ApplySettings()
     self.needScan = true
 end
 
+-- A Soulstone on cooldown can't be used: no reminder until it's ready. Unreadable: the last known.
+function M:OnCooldown(cd)
+    if cd == nil then cd = self.lastCooldown end
+    self.lastCooldown = cd
+    return cd
+end
+
 function M:Update()
     local b = self.button
     if not ns.db.soulstone.enabled then
@@ -502,7 +509,7 @@ function M:Update()
         local name = ns.SpellName(D.soulstoneSpell)
         local macro = string.format("/cast [help,nodead] %s; [@player] %s", name, name)
         b:SetAction({ type1 = "macro", macrotext1 = macro }, ns.SpellTexture(D.soulstoneSpell), D.soulstoneSpell)
-        b:SetState(not applied and "use" or nil)
+        b:SetState(not applied and not self:OnCooldown(ns.SpellOnCooldown(D.soulstoneSpell)) and "use" or nil)
         return
     end
 
@@ -518,7 +525,7 @@ function M:Update()
     if item then
         local macro = string.format("/use [help,nodead] item:%d; [@player] item:%d", item, item)
         b:SetAction({ type1 = "macro", macrotext1 = macro }, ns.ItemIcon(item), nil, item)
-        b:SetState(not applied and "use" or nil)
+        b:SetState(not applied and not self:OnCooldown(ns.ItemOnCooldown(item)) and "use" or nil)
         return
     end
 
@@ -526,7 +533,9 @@ function M:Update()
     local spell, rank = ns.HighestKnown(ranks)
     if spell then
         b:SetSpell(spell, ns.ItemIcon(ranks[rank].items[1]))
-        b:SetState((not applied or ns.db.soulstone.createWhileApplied) and "create" or nil)
+        -- Also no new stone while the last one's cooldown runs (shared by all ranks), unless spares are wanted.
+        local cd = self:OnCooldown(ns.ItemOnCooldown(ranks[rank].items[1]))
+        b:SetState(((not applied and not cd) or ns.db.soulstone.createWhileApplied) and "create" or nil)
     elseif ns.SHARD_ITEMS then
         local sample = ranks[1].items[1]
         b:SetUnlearned(ns.ItemIcon(sample), nil, sample)

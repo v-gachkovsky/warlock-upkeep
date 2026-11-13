@@ -190,6 +190,9 @@ With the icon on, the recommended Soul Shards count only the chosen stone of the
 | 🟡 Yellow | Stone is in your bags but not applied | Use it on a friendly target (or yourself) |
 | 🔴 Red | No stone in your bags | Create a stone |
 
+While the Soulstone is on cooldown, the icon stays hidden: a stone couldn't be used yet. With *Remind to create a
+new Soulstone while one is applied* on, the red reminder still shows.
+
 **Soulstone on another player.** A movable label appears under the icon:
 
 - the player's name in their class color;
@@ -267,7 +270,7 @@ your demons knows, and marks the grimoires at vendors for all demons at once, wh
 - ⏳ a question mark: that demon hasn't been checked yet;
 - ❌ a red cross and a dark grey icon: you can't summon that demon yet;
 - no mark: the demon doesn't know it yet;
-- 🎒 a bag in the other corner: you already have this grimoire in your bags.
+- 🎒 a green bag in the other corner: you already have this grimoire in your bags.
 
 The grimoire's tooltip says the same per demon (e.g. *Imp: already knows Firebolt (Rank 7)*), also in your bags.
 

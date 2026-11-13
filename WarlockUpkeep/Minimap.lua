@@ -28,21 +28,10 @@ function M:Init()
     b:RegisterForDrag("LeftButton")
     b:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
 
-    local bg = b:CreateTexture(nil, "BACKGROUND")
-    bg:SetSize(24, 24)
-    bg:SetPoint("CENTER")
-    bg:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
-
+    -- The logo is a round badge with its own gold ring: shown whole, without the usual minimap border.
     local icon = b:CreateTexture(nil, "ARTWORK")
-    icon:SetSize(18, 18)
-    icon:SetPoint("CENTER")
+    icon:SetAllPoints()
     icon:SetTexture(ns.LOGO)
-    icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-
-    local border = b:CreateTexture(nil, "OVERLAY")
-    border:SetSize(50, 50)
-    border:SetPoint("TOPLEFT")
-    border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 
     b:SetScript("OnClick", function(_, mouse)
         if mouse == "RightButton" and IsShiftKeyDown() then
