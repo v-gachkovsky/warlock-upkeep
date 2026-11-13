@@ -4,6 +4,12 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- **Soulstone on cooldown**: the icon no longer asks to use the Soulstone while it's on cooldown (the stone in your
+  bags on Classic Era, TBC and Forever, the spell on Mists and Retail); it shows again once the cooldown is over.
+
 ## [1.11.0] - 2026-11-09
 
 ### Added
