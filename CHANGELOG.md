@@ -12,6 +12,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - **Grimoires**: the sack mark on grimoires already in your bags is green now; the brown one was hard to see on
   the brown grimoire icons.
 
+### Fixed
+- **Soulstone on cooldown**: the icon stays hidden while the Soulstone is on cooldown (the stone on Classic Era,
+  TBC and Forever, the spell on Mists and Retail) and shows again once it's over. Only the red "create" reminder
+  still shows then if *Remind to create a new Soulstone while one is applied* is on.
+
 ## [1.11.0] - 2026-11-09
 
 ### Added

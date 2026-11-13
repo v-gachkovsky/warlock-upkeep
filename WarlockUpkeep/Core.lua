@@ -391,6 +391,30 @@ function ns.ItemCount(id)
     if ok and type(n) == "number" and not ns.IsSecret(n) then return n end
 end
 
+-- From (pcall ok, start, duration): on its own cooldown (the global cooldown doesn't count); nil when secret.
+local function CooldownActive(ok, start, duration)
+    if not ok or ns.IsSecret(start) or ns.IsSecret(duration) then return nil end
+    if not start or start == 0 or not duration then return false end
+    return duration > 1.5 and start + duration > GetTime()
+end
+
+-- Whether an item or a spell is on cooldown; nil when unreadable (secret in combat on newer clients).
+function ns.ItemOnCooldown(id)
+    local f = (C_Container and C_Container.GetItemCooldown) or GetItemCooldown
+    if not f then return false end
+    return CooldownActive(pcall(f, id))
+end
+
+function ns.SpellOnCooldown(id)
+    if C_Spell and C_Spell.GetSpellCooldown then
+        local ok, info = pcall(C_Spell.GetSpellCooldown, id)
+        if not ok or ns.IsSecret(info) or type(info) ~= "table" then return nil end
+        return CooldownActive(true, info.startTime, info.duration)
+    end
+    if not GetSpellCooldown then return false end
+    return CooldownActive(pcall(GetSpellCooldown, id))
+end
+
 -- true / false from fn(...), or nil when it fails or returns a secret value.
 function ns.Bool(fn, ...)
     local ok, v = pcall(fn, ...)

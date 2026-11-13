@@ -17,16 +17,6 @@ local function HealthPercent()
     return hp / max * 100
 end
 
--- A Healthstone on cooldown can't be used anyway: no "low health" reminder then.
-local function OnCooldown(item)
-    local f = (C_Container and C_Container.GetItemCooldown) or GetItemCooldown
-    if not f then return false end
-    local ok, start, duration = pcall(f, item)
-    if not ok or ns.IsSecret(start) or ns.IsSecret(duration) or not start or start == 0 then return false end
-    -- The global cooldown isn't the stone's own.
-    return duration > 1.5 and start + duration > GetTime()
-end
-
 function M:Init()
     self.button = ns.CreateActionIcon("healthstone", "Healthstone")
     self.button.hint = function(tt)
@@ -74,6 +64,6 @@ function M:Update()
     local pct = HealthPercent()
     if pct == nil then pct = self.lastPct end
     self.lastPct = pct
-    local isLow = low.enabled and pct ~= nil and pct < low.percent and not OnCooldown(have)
+    local isLow = low.enabled and pct ~= nil and pct < low.percent and not ns.ItemOnCooldown(have) -- on cooldown it can't be used anyway
     b:SetState(isLow and "low" or nil)
 end

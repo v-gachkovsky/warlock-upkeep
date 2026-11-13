@@ -190,6 +190,9 @@ With the icon on, the recommended Soul Shards count only the chosen stone of the
 | 🟡 Yellow | Stone is in your bags but not applied | Use it on a friendly target (or yourself) |
 | 🔴 Red | No stone in your bags | Create a stone |
 
+While the Soulstone is on cooldown, the icon stays hidden: a stone couldn't be used yet. With *Remind to create a
+new Soulstone while one is applied* on, the red reminder still shows.
+
 **Soulstone on another player.** A movable label appears under the icon:
 
 - the player's name in their class color;
