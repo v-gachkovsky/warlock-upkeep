@@ -7,8 +7,9 @@ and the project uses [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Fixed
-- **Soulstone on cooldown**: the icon no longer asks to use the Soulstone while it's on cooldown (the stone in your
-  bags on Classic Era, TBC and Forever, the spell on Mists and Retail); it shows again once the cooldown is over.
+- **Soulstone on cooldown**: the icon stays hidden while the Soulstone is on cooldown (the stone on Classic Era,
+  TBC and Forever, the spell on Mists and Retail) and shows again once it's over. Only the red "create" reminder
+  still shows then if *Remind to create a new Soulstone while one is applied* is on.
 
 ## [1.11.0] - 2026-11-09
 

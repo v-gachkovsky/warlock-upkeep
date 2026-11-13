@@ -430,7 +430,7 @@ function M:ApplySettings()
     self.needScan = true
 end
 
--- A Soulstone on cooldown can't be used: no "use" reminder until it's ready. Unreadable: the last known.
+-- A Soulstone on cooldown can't be used: no reminder until it's ready. Unreadable: the last known.
 function M:OnCooldown(cd)
     if cd == nil then cd = self.lastCooldown end
     self.lastCooldown = cd
@@ -533,7 +533,9 @@ function M:Update()
     local spell, rank = ns.HighestKnown(ranks)
     if spell then
         b:SetSpell(spell, ns.ItemIcon(ranks[rank].items[1]))
-        b:SetState((not applied or ns.db.soulstone.createWhileApplied) and "create" or nil)
+        -- Also no new stone while the last one's cooldown runs (shared by all ranks), unless spares are wanted.
+        local cd = self:OnCooldown(ns.ItemOnCooldown(ranks[rank].items[1]))
+        b:SetState(((not applied and not cd) or ns.db.soulstone.createWhileApplied) and "create" or nil)
     elseif ns.SHARD_ITEMS then
         local sample = ranks[1].items[1]
         b:SetUnlearned(ns.ItemIcon(sample), nil, sample)
