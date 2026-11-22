@@ -283,13 +283,28 @@ ns.LOCALES.ukUA = {
     ["Text color at the threshold"] = "Колір тексту на порозі",
     ["Text color when low"] = "Колір тексту при нестачі",
     ["Low shards alert"] = "Сповіщення про нестачу уламків",
-    ["Extra shards"] = "Зайві уламки",
+    ["Deleting extra shards"] = "Видалення зайвих уламків",
     ["Maximum shards (0 = no limit)"] = "Максимум уламків (0 = без ліміту)",
     ["Text color above the maximum"] = "Колір тексту понад максимум",
     ["Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
-        "Soul Pouch keeps its shards. Not in combat."] =
-        "Shift + клік по лічильнику видаляє уламки понад максимум: спершу зі звичайних сумок, тож Soul Pouch " ..
+        "Soul Bag keeps its shards. Not in combat."] =
+        "Shift + клік по лічильнику видаляє уламки понад максимум: спершу зі звичайних сумок, тож Soul Bag " ..
         "зберігає свої. Не в бою.",
+    ["Auto-delete shards"] = "Автовидалення уламків",
+    ["Off"] = "Вимкнено",
+    ["Above the maximum"] = "Понад максимум",
+    ["All outside Soul Bags"] = "Усі поза Soul Bag",
+    ["Deleting is permanent and happens on your next click or key press after a bag change, out of combat " ..
+        "(the game only lets addons delete items on your input). 'Above the maximum' uses Maximum shards and " ..
+        "deletes from ordinary bags first. 'All outside Soul Bags' ignores the maximum and works only while a " ..
+        "Soul Bag is equipped."] =
+        "Видалення безповоротне і відбувається при наступному кліку чи натисканні клавіші після зміни в сумках, " ..
+        "поза боєм (гра дозволяє аддонам видаляти предмети лише за вашою дією). 'Понад максимум' використовує " ..
+        "Максимум уламків і спершу видаляє зі звичайних сумок. 'Усі поза Soul Bag' ігнорує максимум і працює, " ..
+        "лише поки у вас є Soul Bag.",
+    ["deleted 1 extra Soul Shard."] = "видалено зайвих уламків душ: 1.",
+    ["deleted 1 Soul Shard automatically."] = "автоматично видалено уламків душ: 1.",
+    ["deleted %d Soul Shards automatically."] = "автоматично видалено уламків душ: %d.",
     ["Full bags"] = "Повні сумки",
     ["Highlight when a new shard has no room in the bags"] = "Підсвічувати, коли новому уламку нема місця в сумках",
     ["Drop players from the queue after, minutes"] = "Прибирати гравців із черги через, хв",

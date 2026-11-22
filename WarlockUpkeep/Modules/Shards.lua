@@ -39,9 +39,10 @@ local NumSlots = C.GetContainerNumSlots or GetContainerNumSlots
 local NumFree = C.GetContainerNumFreeSlots or GetContainerNumFreeSlots
 local ItemID = C.GetContainerItemID or GetContainerItemID
 local Pickup = C.PickupContainerItem or PickupContainerItem
-local BAGS = NUM_BAG_SLOTS or 4
+-- The last bag index: the reagent bag slot comes after the four bag slots, and a Soul Bag can sit there.
+local BAGS = (NUM_BAG_SLOTS or 4) + (NUM_REAGENTBAG_SLOTS or 0)
 
--- Bag family bits a Soul Shard fits in (Soul Pouch and the like), besides ordinary bags.
+-- Bag family bits a Soul Shard fits in (Soul Bags), besides ordinary bags.
 local function ShardFamily()
     local f = (C_Item and C_Item.GetItemFamily) or GetItemFamily
     local ok, fam = pcall(f, D.SOUL_SHARD)
@@ -67,12 +68,8 @@ function M:Extra(count)
     return math.max(0, count - max)
 end
 
--- Deletes `n` shards: from ordinary bags first (shard bags keep theirs), from the last slots.
--- Runs from a click (the game lets addons delete items only on a player's action), not in combat.
-function M:DeleteExtra(n)
-    if n <= 0 or not (NumSlots and ItemID and Pickup and DeleteCursorItem) then return end
-    if InCombatLockdown() then ns.Print(ns.L["can't delete Soul Shards in combat."]); return end
-    if CursorHasItem and CursorHasItem() then return end
+-- Shard slots: ordinary bags first (last slots first), then Soul Bags.
+local function ShardSlots()
     local ordinary, shardBags = {}, {}
     for bag = BAGS, 0, -1 do
         local okFree, _, bagFam = pcall(NumFree, bag)
@@ -81,20 +78,91 @@ function M:DeleteExtra(n)
             if ItemID(bag, slot) == D.SOUL_SHARD then list[#list + 1] = { bag, slot } end
         end
     end
-    local slots = ordinary
-    for _, s in ipairs(shardBags) do slots[#slots + 1] = s end
+    return ordinary, shardBags
+end
+
+-- Deletes up to `n` shards from `slots`; returns how many went, and true when the game refused a delete.
+local function DeleteFrom(slots, n)
     local deleted = 0
     for _, s in ipairs(slots) do
         if deleted >= n then break end
         ClearCursor()
         Pickup(s[1], s[2])
         if CursorHasItem and CursorHasItem() then
-            DeleteCursorItem()
+            -- Still on the cursor afterwards: the game ignored the call (not a real input). Put it back.
+            local ok = pcall(DeleteCursorItem)
+            if not ok or (CursorHasItem and CursorHasItem()) then ClearCursor(); return deleted, true end
             deleted = deleted + 1
         end
     end
     ClearCursor()
-    if deleted > 0 then ns.Print(ns.L["deleted %d extra Soul Shards."], deleted) end
+    return deleted
+end
+
+-- "deleted 1 extra Soul Shard." / "deleted 3 extra Soul Shards."; `extra` picks the wording.
+local function PrintDeleted(n, extra)
+    local L = ns.L
+    if n == 1 then
+        ns.Print(extra and L["deleted 1 extra Soul Shard."] or L["deleted 1 Soul Shard automatically."])
+    else
+        ns.Print(extra and L["deleted %d extra Soul Shards."] or L["deleted %d Soul Shards automatically."], n)
+    end
+end
+
+local function CanDelete()
+    return NumSlots and ItemID and Pickup and DeleteCursorItem and not (CursorHasItem and CursorHasItem())
+end
+
+-- Deletes `n` shards: from ordinary bags first (Soul Bags keep theirs), from the last slots.
+-- Runs from a click (the game lets addons delete items only on a player's action), not in combat.
+function M:DeleteExtra(n)
+    if n <= 0 or not CanDelete() then return end
+    if InCombatLockdown() then ns.Print(ns.L["can't delete Soul Shards in combat."]); return end
+    local ordinary, shardBags = ShardSlots()
+    local slots = ordinary
+    for _, s in ipairs(shardBags) do slots[#slots + 1] = s end
+    local deleted = DeleteFrom(slots, n)
+    if deleted > 0 then PrintDeleted(deleted, true) end
+end
+
+-- Automatic cleanup, one mode at a time. "over": the shards above the maximum, what Shift + click on the counter
+-- does. "loose": every shard outside the Soul Bags, ignoring the maximum, and only with a Soul Bag equipped, or
+-- no shard would be kept. Returns the slots to delete.
+local function Plan()
+    local mode = Cfg().autoDelete
+    if mode ~= "over" and mode ~= "loose" then return {} end
+    local ordinary, soulBags = ShardSlots()
+    if mode == "loose" then return #soulBags > 0 and ordinary or {} end
+    local del, pool = {}, ordinary
+    for _, s in ipairs(soulBags) do pool[#pool + 1] = s end
+    for i = 1, M:Extra(#pool) do del[#del + 1] = pool[i] end
+    return del
+end
+
+-- The game lets addons delete items only on a player's input (a click or a key press). A bag change that
+-- leaves shards to delete only marks them pending and shows an invisible full-screen frame that passes clicks
+-- and keys through; the next input does the deleting. The game also sends key events no player made (a key
+-- already held when the frame appears) and blocks the delete on them, so input right after the frame appears is
+-- skipped, and a blocked delete leaves the shards pending for the next input.
+local function Run()
+    if not M.pending or InCombatLockdown() or not CanDelete() then return end
+    if GetTime() - (M.shownAt or 0) < 0.3 then return end
+    local del = Plan()
+    if #del > 0 then
+        local deleted, blocked = DeleteFrom(del, #del)
+        if deleted > 0 then PrintDeleted(deleted, false) end
+        if blocked then return end -- stays pending: the next real input tries again
+    end
+    M.pending = false
+    M.input:Hide()
+end
+
+function M:AutoClean()
+    if not ns.active or not M.input or M.pending then return end
+    if #Plan() == 0 then return end
+    M.pending = true
+    M.shownAt = GetTime()
+    M.input:Show()
 end
 
 function M:Threshold()
@@ -147,6 +215,26 @@ function M:Init()
         GameTooltip:Show()
     end)
     f:SetScript("OnLeave", GameTooltip_Hide)
+    local input = CreateFrame("Frame", "WarlockUpkeep_ShardsInput", UIParent)
+    input:SetAllPoints(UIParent)
+    input:SetFrameStrata("BACKGROUND")
+    input:EnableMouse(false)
+    if input.SetMouseClickEnabled then input:SetMouseClickEnabled(true) end
+    if input.SetMouseMotionEnabled then input:SetMouseMotionEnabled(false) end
+    if input.SetPassThroughButtons then input:SetPassThroughButtons("LeftButton", "RightButton", "MiddleButton") end
+    input:SetScript("OnMouseDown", Run)
+    input:SetScript("OnMouseUp", Run)
+    input:EnableKeyboard(true)
+    input:SetPropagateKeyboardInput(true)
+    input:SetScript("OnKeyDown", Run)
+    -- A click on the 3D world reaches WorldFrame; hook it too in case the frame above doesn't see it.
+    if WorldFrame and WorldFrame.HookScript then
+        WorldFrame:HookScript("OnMouseDown", Run)
+    end
+    input:Hide()
+    self.input = input
+    ns:RegisterEvent("BAG_UPDATE_DELAYED", function() M:AutoClean() end)
+    ns:RegisterEvent("PLAYER_REGEN_ENABLED", function() M:AutoClean() end)
     f:SetScript("OnMouseUp", function(self, button)
         if button ~= "LeftButton" or self.moving or not IsShiftKeyDown() then return end
         M:DeleteExtra(M:Extra(ns.ItemCount(D.SOUL_SHARD) or 0))
@@ -166,6 +254,7 @@ function M:ApplySettings()
         f.text:SetPoint("LEFT", f, "LEFT", 2, 0)
     end
     ns.ApplyPoint(f, cfg.point)
+    self:AutoClean() -- also covers a new option choice, login and the end of combat
 end
 
 function M:Update()

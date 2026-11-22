@@ -102,7 +102,7 @@ ln -s "$PWD/WarlockUpkeep" "/Applications/World of Warcraft/_forever_/Interface/
 | # | Feature | Shown when | Click |
 |---|---------|------------|-------|
 | 1 | **Armor** | No Demon Skin / Demon Armor | Casts your strongest armor |
-| 2 | **Soul Shards** | Always (counter) | Shift + click deletes shards above the maximum |
+| 2 | **Soul Shards** | Always (counter) | Shift + click or *Auto-delete shards* deletes shards above the maximum |
 | 3 | **Healthstone** | No Healthstone in your bags, or low health | Creates or uses your strongest Healthstone |
 | 4 | **Firestone / Spellstone** | Stone not equipped (applied on Forever) or missing | Equip, apply or create the stone |
 | 5 | **Soulstone** | Stone not applied or missing | Use or create the stone |
@@ -145,8 +145,16 @@ items (Forever, Classic Era, TBC); in Mists and Retail shards are a resource sho
 The highlight threshold equals the recommended amount by default, but you can set it manually.
 
 **Extra shards.** Set *Maximum shards* (0 by default, no limit) and the count turns light blue above it.
-**Shift + click** on the counter then deletes the extra shards: from ordinary bags first, so a Soul Pouch
+**Shift + click** on the counter then deletes the extra shards: from ordinary bags first, so a Soul Bag
 keeps its own. Not in combat.
+
+**Auto-delete shards.** Off by default. Deletes shards without the Shift + click, in one of two modes:
+- *Above the maximum* deletes the shards above *Maximum shards*, from ordinary bags first.
+- *All outside Soul Bags* deletes every shard in an ordinary bag and ignores the maximum. It works only while a
+  Soul Bag is equipped, so it never deletes every shard you have.
+
+The game lets addons delete items only on your input, so the deletion happens on your next click or key press after
+a bag change, never in combat. Deletion is permanent.
 
 **Full bags.** When a new shard has no free slot in your bags (Drain Soul would lose it), the counter lights up
 orange (on by default; color and sound in the settings).

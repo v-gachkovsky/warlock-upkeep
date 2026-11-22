@@ -4,6 +4,19 @@ All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **Automatic shard deletion**: *Auto-delete shards* under *Deleting extra shards* does what Shift + click on the
+  counter does, on your next click or key press after a bag change, out of combat (the game only lets addons delete
+  items on your input). *Above the maximum* deletes the shards above *Maximum shards*, ordinary bags first. *All
+  outside Soul Bags* ignores the maximum and deletes every shard outside the Soul Bags while a Soul Bag is
+  equipped. Off by default. Contributed by Jason Sirota.
+
+### Fixed
+- **Soul Bag in the reagent bag slot**: shards in a bag in the reagent slot were not counted for Shift + click
+  deletion or the full bags highlight, so a full Soul Bag there showed no warning. Contributed by Jason Sirota.
+
 ## [1.15.0] - 2026-11-19
 
 ### Added

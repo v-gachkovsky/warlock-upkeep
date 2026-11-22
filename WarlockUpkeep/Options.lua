@@ -348,6 +348,12 @@ local COMBAT_MODES = {
     { value = "hide", text = "Hide" },
 }
 
+local AUTO_DELETE_MODES = {
+    { value = "off", text = "Off" },
+    { value = "over", text = "Above the maximum" },
+    { value = "loose", text = "All outside Soul Bags" },
+}
+
 local function IconSection(title, key, icon, extra)
     local get = T(key)
     Header(title, icon)
@@ -699,11 +705,16 @@ function BuildContent()
         SubHeader("Low shards alert")
         GlowAndSound(sh)
         Color("Highlight color at the threshold", function() return sh().edgeGlowColor end, function(v) sh().edgeGlowColor = v end)
-        SubHeader("Extra shards")
+        SubHeader("Deleting extra shards")
         Slider("Maximum shards (0 = no limit)", 0, 40, 1, function() return sh().maxShards end, function(v) sh().maxShards = v end)
         Color("Text color above the maximum", function() return sh().overColor end, function(v) sh().overColor = v end)
         Note("Shift + click on the counter deletes the shards above the maximum: from ordinary bags first, so a " ..
-            "Soul Pouch keeps its shards. Not in combat.")
+            "Soul Bag keeps its shards. Not in combat.")
+        Select("Auto-delete shards", AUTO_DELETE_MODES, function() return sh().autoDelete end, function(v) sh().autoDelete = v end)
+        Note("Deleting is permanent and happens on your next click or key press after a bag change, out of combat " ..
+            "(the game only lets addons delete items on your input). 'Above the maximum' uses Maximum shards and " ..
+            "deletes from ordinary bags first. 'All outside Soul Bags' ignores the maximum and works only while a " ..
+            "Soul Bag is equipped.")
         SubHeader("Full bags")
         Check("Highlight when a new shard has no room in the bags", function() return sh().fullWarn end, function(v) sh().fullWarn = v end)
         Color("Highlight color", function() return sh().fullGlowColor end, function(v) sh().fullGlowColor = v end)
