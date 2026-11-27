@@ -204,8 +204,9 @@ function M:Update()
     if room == nil then room = self.lastRoom end
     self.lastRoom = room
     local full = cfg.fullWarn and room == false
-    local glowColor = full and cfg.fullGlowColor or edge and cfg.edgeGlowColor or cfg.glowColor
-    f.glow:SetGlow((full or ((low or edge) and cfg.glow)) and cfg.showIcon, glowColor, cfg.iconSize)
+    local edgeAlert = edge and cfg.edgeGlow
+    local glowColor = full and cfg.fullGlowColor or edgeAlert and cfg.edgeGlowColor or cfg.glowColor
+    f.glow:SetGlow((full or ((low or edgeAlert) and cfg.glow)) and cfg.showIcon, glowColor, cfg.iconSize)
 
     if low and not self.low and ns.ready and cfg.sound then ns.PlaySound(cfg.soundName) end
     self.low = low

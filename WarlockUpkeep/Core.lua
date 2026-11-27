@@ -186,6 +186,7 @@ ns.defaults = {
         keepOnTravel = true, -- stays on screen when hideOnTaxi / hideOnMount hide the rest
         autoThreshold = true, threshold = 3,
         spare = 1, includeRitual = false,
+        edgeGlow = true, -- Preserve the existing at-threshold highlight unless disabled.
         glow = true, glowColor = { 1, 0.2, 0.2, 1 }, edgeGlowColor = { 1, 0.82, 0, 1 },
         sound = false, soundName = "RAID_WARNING",
         maxShards = 0, overColor = { 0.6, 0.8, 1, 1 }, -- limit for Shift + click cleanup; 0 = no limit
